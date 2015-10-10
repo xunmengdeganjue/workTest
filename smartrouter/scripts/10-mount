@@ -1,0 +1,198 @@
+#!/bin/sh
+# Copyright (C) 2011 OpenWrt.org
+
+blkdev=`dirname $DEVPATH`
+list_name=""
+space=" "
+temp=""
+
+clear() {
+	umount /mnt/*
+	enable=`uci get devices.@printer[0].enable`
+	rm -rf /etc/config/devices
+	rm -rf /mnt/*
+	touch /etc/config/devices
+	uci add devices printer
+	uci set devices.@printer[0].enable=$enable
+	uci commit
+}
+
+getLabel() {
+	k=`grep -rn "config automount" /etc/config/devices -c`
+	let j=k-1
+	while [ $j -ge 0 ]; do
+		label_exit=`uci get devices.@automount[$j].label`
+		list_name=$list_name$space$label_exit
+		let j--
+	done
+}
+
+checkname() {
+	start=$1
+	end=$2
+	num=$3
+	
+	for value in $list_name
+	do
+		flag=1
+		if [ $end == $value ];then
+			end=$start"($num)"
+			let num++
+			checkname $start $end $num
+			flag=0
+		fi
+	done
+	if [ $flag==1 ]; then
+		temp=$end
+	fi
+		
+}
+
+if [ `basename $blkdev` != "block" ]; then
+	if [ -f /tmp/devices ]; then
+		touch /tmp/devices
+	else
+		clear
+		touch /tmp/devices
+	fi
+	device=`basename $DEVPATH`
+	case "$ACTION" in
+		add)		
+			echo "The dest device is:[$device]" >> /etc/mount.log
+			# vfat & ntfs-3g check
+			if [ `which fdisk` ]; then
+				isntfs=`fdisk -l | grep $device | grep NTFS`
+				isvfat=`fdisk -l | grep $device | grep FAT`
+				isfuse=`lsmod | grep fuse`
+				isntfs3g=`which ntfs-3g`
+			else
+				isntfs=""
+				isvfat=""
+			fi
+			label=`blkid -o value -s LABEL /dev/$device`
+			if [ "$isvfat" ]; then
+				label=`/usr/sbin/covert $label`
+			fi
+			if [ -z $label ]; then
+                		label="UNTITLED"
+            		fi
+			key=1
+			start=$label
+			getLabel
+			checkname $start $start $key
+			label_real=$temp
+			
+			mkdir -p /mnt/$label_real
+			isfat=0
+			# mount with ntfs-3g if possible, else with default mount
+			if [ "$isntfs" -a "$isfuse" -a "$isntfs3g" ]; then
+				ntfs-3g -o nls=utf8 /dev/$device /mnt/$label_real
+			elif [ "$isvfat" ]; then
+		#		mount -t vfat -o umask=000,iocharset=utf8,quiet /dev/$device /mnt/$label_real
+				mount -t vfat -o umask=000,utf8,quiet /dev/$device /mnt/$label_real
+				isfat=1
+			else
+				mount -t ext4 /dev/$device /mnt/$label_real -o rw,sync
+			fi
+			
+			# check device type
+			
+			#get the device information
+			info=`df -h /dev/$device | grep /dev/$device`
+			loop=0
+			for value in $info
+			do
+				# device total size 
+				if [ 1 -eq $loop ]; then
+					totalsize=$value
+				fi
+				# device free size 
+				if [ 3 -eq $loop ]; then
+					freesize=$value
+				fi
+				let loop++
+			done
+			
+			# 
+			m=`grep -rn "config automount" /etc/config/devices -c`
+			#
+			extsys=0
+			if [ -f /mnt/$label_real/.extsys ]; then
+				extsys=3
+			fi
+			UUID=`blkid -o value -s UUID /dev/$device`
+			uuid=`cat /etc/config/uuid`
+			if [ $UUID == $uuid ]; then
+					extsys=1
+			fi
+			
+			u=`dirname $blkdev | grep usb -c`
+			sd=`dirname $blkdev | grep mmc -c`
+			vendor=`cat /sys/$blkdev/device/vendor`
+			model=`cat /sys/$blkdev/device/model`
+			model=`echo $model`
+			name_sd=`cat /sys/$blkdev/device/name`
+			#charge the device
+			if [ $totalsize ]; then 
+				if [ -d "/proc/scsi/usb-storage" -a 1 -eq $u ] ;then
+					uci add devices automount
+					uci set devices.@automount[$m].name="$vendor""$model"
+					uci set devices.@automount[$m].label=$label_real
+					uci set devices.@automount[$m].path=/mnt/$label_real
+					uci set devices.@automount[$m].type=0
+					uci set devices.@automount[$m].device=$device
+					uci set devices.@automount[$m].totalsize=$totalsize
+					uci set devices.@automount[$m].freesize=$freesize
+					uci set devices.@automount[$m].extsys=$extsys
+					uci set devices.@automount[$m].isfat=$isfat
+					uci set devices.@automount[$m].uuid=$UUID
+				elif [ ${device:0:3} == "mmc" -o 1 -eq $sd ]; then
+					uci add devices automount		
+					uci set devices.@automount[$m].name=$name_sd
+					uci set devices.@automount[$m].label=$label_real
+					uci set devices.@automount[$m].path=/mnt/$label_real
+					uci set devices.@automount[$m].type=1
+					uci set devices.@automount[$m].device=$device
+					uci set devices.@automount[$m].totalsize=$totalsize
+					uci set devices.@automount[$m].freesize=$freesize
+					uci set devices.@automount[$m].extsys=$extsys
+					uci set devices.@automount[$m].isfat=$isfat
+					uci set devices.@automount[$m].uuid=$UUID
+				elif [ $vendor == "ATA" ] || [ 0 -eq $u -a 0 -eq $sd ]; then
+					uci add devices automount		
+					uci set devices.@automount[$m].name="$vendor""$model"
+					uci set devices.@automount[$m].label=$label_real
+					uci set devices.@automount[$m].path=/mnt/$label_real
+					uci set devices.@automount[$m].type=2
+					uci set devices.@automount[$m].device=$device
+					uci set devices.@automount[$m].totalsize=$totalsize
+					uci set devices.@automount[$m].freesize=$freesize
+					uci set devices.@automount[$m].extsys=$extsys
+					uci set devices.@automount[$m].isfat=$isfat
+					uci set devices.@automount[$m].uuid=$UUID
+				fi
+			fi
+			chmod 777 -R /mnt/$label_real
+			uci commit
+			echo $UUID > /tmp/devices
+		;;
+		remove)
+			fuser -km /dev/$device
+			umount -l /dev/$device
+			n=`grep -rn "config automount" /etc/config/devices -c`
+			let i=n-1
+			while [ $i -ge 0 ]; do
+				device_del=`uci get devices.@automount[$i].device`
+				if [ $device_del == $device ]; then
+					label_del=`uci get devices.@automount[$i].label`
+					device_del=`uci get devices.@automount[$i].device`
+					uci delete devices.@automount[$i]
+					uci commit
+					rm -rf /mnt/$label_del
+					rm -rf /dev/$device_del
+				fi
+				let i--
+			done
+		;;
+	esac
+fi

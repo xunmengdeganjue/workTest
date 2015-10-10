@@ -1,0 +1,9433 @@
+#include "tr69_handler_ext.h"
+#include "tr69_handler_table.h"
+
+int get_I_DeviceSummary(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_I_LANDeviceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_I_WANDeviceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ICP_DownloadTransports(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ICP_UploadTransports(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_Manufacturer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_ManufacturerOUI(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_ModelName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_Description(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_ProductClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_SerialNumber(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_HardwareVersion(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_SoftwareVersion(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_ModemFirmwareVersion(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_EnabledOptions(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_AdditionalHardwareVersion(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_AdditionalSoftwareVersion(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_SpecVersion(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_ProvisioningCode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ID_ProvisioningCode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_X_WKS_Key(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_UpTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_FirstUseDate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_DeviceLog(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_VendorConfigFileNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IDV1_Name(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IDV1_Version(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IDV1_Date(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IDV1_Description(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_PersistentData(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ID_PersistentData(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_ConfigFile(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ID_ConfigFile(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_EnableCWMP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_EnableCWMP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_URL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_URL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_Username(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_Username(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_Password(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_Password(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_PeriodicInformEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_PeriodicInformEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_PeriodicInformInterval(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_PeriodicInformInterval(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_PeriodicInformTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_PeriodicInformTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_ParameterKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_ConnectionRequestURL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_ConnectionRequestUsername(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_ConnectionRequestUsername(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_ConnectionRequestPassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_ConnectionRequestPassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_UpgradesManaged(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_UpgradesManaged(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_KickURL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_DownloadProgressURL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_DefaultActiveNotificationThrottle(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_DefaultActiveNotificationThrottle(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_UDPConnectionRequestAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_UDPConnectionRequestAddressNotificationLimit(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_UDPConnectionRequestAddressNotificationLimit(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_STUNEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_STUNEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_STUNServerAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_STUNServerAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_STUNServerPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_STUNServerPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_STUNUsername(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_STUNUsername(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_STUNPassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_STUNPassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_STUNMaximumKeepAlivePeriod(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_STUNMaximumKeepAlivePeriod(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_STUNMinimumKeepAlivePeriod(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_STUNMinimumKeepAlivePeriod(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_NATDetected(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_ManageableDeviceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IM_ManageableDeviceNotificationLimit(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IM_ManageableDeviceNotificationLimit(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IMM1_ManufacturerOUI(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IMM1_SerialNumber(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IMM1_ProductClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IMM1_Host(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_Status(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_NTPServer1(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_NTPServer1(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_NTPServer2(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_NTPServer2(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_NTPServer3(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_NTPServer3(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_NTPServer4(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_NTPServer4(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_NTPServer5(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_NTPServer5(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_CurrentLocalTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_LocalTimeZone(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_LocalTimeZone(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_LocalTimeZoneName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_LocalTimeZoneName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_DaylightSavingsUsed(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_DaylightSavingsUsed(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_DaylightSavingsStart(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_DaylightSavingsStart(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_DaylightSavingsEnd(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_DaylightSavingsEnd(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_UserDatabaseSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_SharedPassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_SharedPassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_PasswordRequired(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_PasswordRequired(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_PasswordUserSelectable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_PasswordUserSelectable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_UpgradeAvailable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_UpgradeAvailable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_WarrantyDate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_WarrantyDate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ISPName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ISPName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ISPHelpDesk(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ISPHelpDesk(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ISPHomePage(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ISPHomePage(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ISPHelpPage(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ISPHelpPage(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ISPLogo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ISPLogo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ISPLogoSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ISPLogoSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ISPMailServer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ISPMailServer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ISPNewsServer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ISPNewsServer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_TextColor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_TextColor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_BackgroundColor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_BackgroundColor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ButtonColor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ButtonColor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ButtonTextColor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ButtonTextColor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_AutoUpdateServer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_AutoUpdateServer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_UserUpdateServer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_UserUpdateServer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ExampleLogin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ExampleLogin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ExamplePassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_ExamplePassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_AvailableLanguages(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_CurrentLanguage(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_CurrentLanguage(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IC_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IC_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IC_Status(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IC_AllowedList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IC_AllowedList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IC_CaptivePortalURL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IC_CaptivePortalURL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_DefaultConnectionService(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IL_DefaultConnectionService(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_ForwardNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_Status(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_StaticRoute(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_Type(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_Type(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestSubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestSubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceSubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceSubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_ForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_ForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_GatewayIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_GatewayIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_ForwardingMetric(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_ForwardingMetric(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_MTU(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_MTU(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_MaxBridgeEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_MaxDBridgeEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_MaxQBridgeEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_MaxVLANEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_MaxFilterEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_MaxMarkingEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_BridgeNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_FilterNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_MarkingNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_AvailableInterfaceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBt_BridgeKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBt_BridgeStandard(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBt_BridgeStandard(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBt_BridgeEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBt_BridgeEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBt_BridgeStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBt_BridgeName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBt_BridgeName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBt_VLANID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBt_VLANID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBt_PortNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBt_VLANNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBtPt_PortEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBtPt_PortEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBtPt_PortInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBtPt_PortInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBtPt_PortState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBtPt_PVID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBtPt_PVID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBtPt_AcceptableFrameTypes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBtPt_AcceptableFrameTypes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBtPt_IngressFiltering(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBtPt_IngressFiltering(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBtVt_VLANEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBtVt_VLANEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBtVt_VLANName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBtVt_VLANName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILBtVt_VLANID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILBtVt_VLANID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_FilterKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_FilterEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_FilterEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_FilterStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_FilterBridgeReference(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_FilterBridgeReference(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_ExclusivityOrder(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_ExclusivityOrder(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_FilterInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_FilterInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_VLANIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_VLANIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_AdmitOnlyVLANTagged(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_AdmitOnlyVLANTagged(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_EthertypeFilterList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_EthertypeFilterList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_EthertypeFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_EthertypeFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceMACAddressFilterList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceMACAddressFilterList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceMACAddressFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceMACAddressFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestMACAddressFilterList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestMACAddressFilterList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestMACAddressFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestMACAddressFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceMACFromVendorClassIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceMACFromVendorClassIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceMACFromVendorClassIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceMACFromVendorClassIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceMACFromVendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceMACFromVendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestMACFromVendorClassIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestMACFromVendorClassIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestMACFromVendorClassIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestMACFromVendorClassIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestMACFromVendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestMACFromVendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceMACFromClientIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceMACFromClientIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceMACFromClientIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceMACFromClientIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestMACFromClientIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestMACFromClientIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestMACFromClientIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestMACFromClientIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceMACFromUserClassIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceMACFromUserClassIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_SourceMACFromUserClassIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_SourceMACFromUserClassIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestMACFromUserClassIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestMACFromUserClassIDFilter(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILFt_DestMACFromUserClassIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILFt_DestMACFromUserClassIDFilterExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_MarkingKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_MarkingEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILMt_MarkingEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_MarkingStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_MarkingBridgeReference(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILMt_MarkingBridgeReference(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_MarkingInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILMt_MarkingInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_VLANIDUntag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILMt_VLANIDUntag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_VLANIDMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILMt_VLANIDMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_VLANIDMarkOverride(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILMt_VLANIDMarkOverride(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_EthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILMt_EthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILMt_EthernetPriorityOverride(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILMt_EthernetPriorityOverride(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILA1_AvailableInterfaceKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILA1_InterfaceType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILA1_InterfaceReference(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQ_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_MaxQueues(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_MaxClassificationEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_ClassificationNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_MaxAppEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_AppNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_MaxFlowEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_FlowNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_MaxPolicerEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_PolicerNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_MaxQueueEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_QueueNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_QueueStatsNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_DefaultForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQ_DefaultForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_DefaultTrafficClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQ_DefaultTrafficClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_DefaultPolicer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQ_DefaultPolicer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_DefaultQueue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQ_DefaultQueue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_DefaultDSCPMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQ_DefaultDSCPMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_DefaultEthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQ_DefaultEthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQ_AvailableAppList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ClassificationKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ClassificationEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_ClassificationEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ClassificationStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ClassificationOrder(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_ClassificationOrder(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ClassInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_ClassInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestIP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestIP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestIPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestIPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceIP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceIP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceIPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceIPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_Protocol(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_Protocol(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ProtocolExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_ProtocolExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestPortRangeMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestPortRangeMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestPortExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestPortExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourcePort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourcePort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourcePortRangeMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourcePortRangeMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourcePortExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourcePortExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceMACMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceMACMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceMACExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceMACExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestMACMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestMACMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestMACExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestMACExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_Ethertype(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_Ethertype(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_EthertypeExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_EthertypeExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SSAP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SSAP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SSAPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SSAPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DSAP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DSAP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DSAPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DSAPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_LLCControl(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_LLCControl(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_LLCControlExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_LLCControlExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SNAPOUI(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SNAPOUI(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SNAPOUIExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SNAPOUIExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceVendorClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceVendorClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceVendorClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceVendorClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceVendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceVendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestVendorClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestVendorClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestVendorClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestVendorClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestVendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestVendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceClientID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceClientID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceClientIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceClientIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestClientID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestClientID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestClientIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestClientIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceUserClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceUserClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceUserClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceUserClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestUserClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestUserClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestUserClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestUserClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceVendorSpecificInfo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceVendorSpecificInfo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceVendorSpecificInfoExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceVendorSpecificInfoExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceVendorSpecificInfoEnterprise(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceVendorSpecificInfoEnterprise(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceVendorSpecificInfoSubOption(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceVendorSpecificInfoSubOption(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_SourceVendorSpecificInfoMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_SourceVendorSpecificInfoMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestVendorSpecificInfo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestVendorSpecificInfo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestVendorSpecificInfoExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestVendorSpecificInfoExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestVendorSpecificInfoEnterprise(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestVendorSpecificInfoEnterprise(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestVendorSpecificInfoSubOption(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestVendorSpecificInfoSubOption(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DestVendorSpecificInfoMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DestVendorSpecificInfoMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_TCPACK(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_TCPACK(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_TCPACKExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_TCPACKExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_IPLengthMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_IPLengthMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_IPLengthMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_IPLengthMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_IPLengthExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_IPLengthExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DSCPCheck(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DSCPCheck(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DSCPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DSCPExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_DSCPMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_DSCPMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_EthernetPriorityCheck(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_EthernetPriorityCheck(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_EthernetPriorityExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_EthernetPriorityExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_EthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_EthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_VLANIDCheck(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_VLANIDCheck(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_VLANIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_VLANIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_OutOfBandInfo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_OutOfBandInfo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_ForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_TrafficClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_TrafficClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ClassPolicer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_ClassPolicer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ClassQueue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_ClassQueue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQCt_ClassApp(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQCt_ClassApp(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQAt_AppEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_ProtocolIdentifier(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQAt_ProtocolIdentifier(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQAt_AppName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppDefaultForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQAt_AppDefaultForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppDefaultTrafficClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQAt_AppDefaultTrafficClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppDefaultPolicer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQAt_AppDefaultPolicer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppDefaultQueue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQAt_AppDefaultQueue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppDefaultDSCPMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQAt_AppDefaultDSCPMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQAt_AppDefaultEthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQAt_AppDefaultEthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowTypeParameters(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowTypeParameters(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_AppIdentifier(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_AppIdentifier(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowForwardingPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowTrafficClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowTrafficClass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowPolicer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowPolicer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowQueue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowQueue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowDSCPMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowDSCPMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQFt_FlowEthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQFt_FlowEthernetPriorityMark(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_PolicerKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_PolicerEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_PolicerEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_PolicerStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_CommittedRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_CommittedRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_CommittedBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_CommittedBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_ExcessBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_ExcessBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_PeakRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_PeakRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_PeakBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_PeakBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_MeterType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_MeterType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_PossibleMeterTypes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_ConformingAction(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_ConformingAction(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_PartialConformingAction(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_PartialConformingAction(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_NonConformingAction(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQPt_NonConformingAction(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_CountedPackets(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_CountedBytes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_TotalCountedPackets(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_TotalCountedBytes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_ConformingCountedPackets(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_ConformingCountedBytes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_PartiallyConformingCountedPackets(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_PartiallyConformingCountedBytes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_NonConformingCountedPackets(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQPt_NonConformingCountedBytes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_QueueKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_QueueEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_QueueEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_QueueStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_TrafficClasses(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_TrafficClasses(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_QueueInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_QueueInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_QueueBufferLength(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_QueueWeight(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_QueueWeight(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_QueuePrecedence(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_QueuePrecedence(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_REDThreshold(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_REDThreshold(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_REDPercentage(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_REDPercentage(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_DropAlgorithm(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_DropAlgorithm(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_SchedulerAlgorithm(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_SchedulerAlgorithm(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_ShapingRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_ShapingRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_ShapingBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_ShapingBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_Status(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_Queue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_Queue(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IQQt_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_OutputPackets(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_OutputBytes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_DroppedPackets(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_DroppedBytes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_QueueOccupancyPackets(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IQQt_QueueOccupancyPercentage(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_ConfigPassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IL_ConfigPassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_II_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_II_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_Host(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_II_Host(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_NumberOfRepetitions(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_II_NumberOfRepetitions(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_Timeout(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_II_Timeout(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_DataBlockSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_II_DataBlockSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_DSCP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_II_DSCP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_SuccessCount(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_FailureCount(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_AverageResponseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_MinimumResponseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_II_MaximumResponseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_Host(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_Host(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_NumberOfTries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_NumberOfTries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_Timeout(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_Timeout(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_DataBlockSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_DataBlockSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_DSCP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_DSCP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_MaxHopCount(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IT_MaxHopCount(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_ResponseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IT_RouteHopsNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ITR1_HopHost(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ITR1_HopHostAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ITR1_HopErrorCode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ITR1_HopRTTimes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ID_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ID_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_DownloadURL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ID_DownloadURL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_DSCP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ID_DSCP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_EthernetPriority(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ID_EthernetPriority(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_ROMTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_BOMTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_EOMTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_TestBytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_TotalBytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_TCPOpenRequestTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ID_TCPOpenResponseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_UploadURL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_UploadURL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_DSCP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_DSCP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_EthernetPriority(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_EthernetPriority(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_TestFileLength(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_TestFileLength(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_ROMTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_BOMTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_EOMTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_TotalBytesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_TCPOpenRequestTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_TCPOpenResponseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_Interface_678(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_Interface_678(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_SourceIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_SourceIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_UDPPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_UDPPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_EchoPlusEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IU_EchoPlusEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_EchoPlusSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_PacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_PacketsResponded(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_BytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_BytesResponded(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_TimeFirstPacketReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IU_TimeLastPacketReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILt_LANEthernetInterfaceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILt_LANUSBInterfaceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILt_LANWLANConfigurationNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_MACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_DHCPServerConfigurable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_DHCPServerConfigurable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_DHCPServerEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_DHCPServerEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_DHCPRelay(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_MinAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_MinAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_MaxAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_MaxAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_ReservedAddresses(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_ReservedAddresses(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_SubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_SubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_DNSServers(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_DNSServers(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_DomainName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_DomainName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_IPRouters(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_IPRouters(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_DHCPLeaseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_DHCPLeaseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_UseAllocatedWAN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_UseAllocatedWAN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_AssociatedConnection(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_AssociatedConnection(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_PassthroughLease(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_PassthroughLease(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_PassthroughMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_PassthroughMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_AllowedMACAddresses(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL_AllowedMACAddresses(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_IPInterfaceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_DHCPStaticAddressNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_DHCPOptionNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL_DHCPConditionalPoolNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLIt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLIt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLIt_IPInterfaceIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLIt_IPInterfaceIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLIt_IPInterfaceSubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLIt_IPInterfaceSubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLIt_IPInterfaceAddressingType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLIt_IPInterfaceAddressingType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_Chaddr(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_Chaddr(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_Yiaddr(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_Yiaddr(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_Enable_746(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_Enable_746(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_Tag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_Tag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_Value(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_Value(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_Enable_752(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_Enable_752(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_PoolOrder(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_PoolOrder(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_SourceInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_SourceInterface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_VendorClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_VendorClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_VendorClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_VendorClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_VendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_VendorClassIDMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_ClientID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_ClientID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_ClientIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_ClientIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_UserClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_UserClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_UserClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_UserClassIDExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_Chaddr_772(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_Chaddr_772(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_ChaddrMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_ChaddrMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_ChaddrExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_ChaddrExclude(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_LocallyServed(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_LocallyServed(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_MinAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_MinAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_MaxAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_MaxAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_ReservedAddresses(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_ReservedAddresses(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_SubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_SubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_DNSServers(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_DNSServers(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_DomainName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_DomainName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_IPRouters(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_IPRouters(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_DHCPLeaseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_DHCPLeaseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_UseAllocatedWAN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_UseAllocatedWAN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_AssociatedConnection(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_AssociatedConnection(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_DHCPServerIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDt_DHCPServerIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_DHCPStaticAddressNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDt_DHCPOptionNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDtDt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDtDt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDtDt_Chaddr(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDtDt_Chaddr(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDtDt_Yiaddr(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDtDt_Yiaddr(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDtDt_Enable_810(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDtDt_Enable_810(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDtDt_Tag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDtDt_Tag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtLDtDt_Value(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtLDtDt_Value(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Status(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Name(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_MACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_MACAddressControlEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL1_MACAddressControlEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL1_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_DuplexMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL1_DuplexMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_BytesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_BytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_PacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_PacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_ErrorsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_ErrorsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_UnicastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_UnicastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_DiscardPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_DiscardPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_MulticastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_MulticastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_BroadcastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_BroadcastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_UnknownProtoPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Enable_842(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL1_Enable_842(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Status_844(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Name_845(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_MACAddress_846(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_MACAddressControlEnabled_847(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtL1_MACAddressControlEnabled_847(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Standard(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Type(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Rate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1_Power(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_BytesSent_853(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_BytesReceived_854(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_CellsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_CellsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_ErrorsSent_857(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_ErrorsReceived_858(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_UnicastPacketsSent_859(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_UnicastPacketsReceived_860(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_DiscardPacketsSent_861(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_DiscardPacketsReceived_862(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_MulticastPacketsSent_863(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_MulticastPacketsReceived_864(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_BroadcastPacketsSent_865(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_BroadcastPacketsReceived_866(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtL1S_UnknownProtoPacketsReceived_867(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_Status(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_Name(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_BSSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_Channel(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_Channel(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_AutoChannelEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_AutoChannelEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_SSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_SSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_BeaconType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_BeaconType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_MACAddressControlEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_MACAddressControlEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_Standard(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_WEPKeyIndex(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_WEPKeyIndex(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_KeyPassphrase(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_KeyPassphrase(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_WEPEncryptionLevel(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_BasicEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_BasicEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_BasicAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_BasicAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_WPAEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_WPAEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_WPAAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_WPAAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_IEEE11iEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_IEEE11iEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_IEEE11iAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_IEEE11iAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_PossibleChannels(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_BasicDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_BasicDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_OperationalDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_OperationalDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_PossibleDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_InsecureOOBAccessEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_InsecureOOBAccessEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_BeaconAdvertisementEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_BeaconAdvertisementEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_SSIDAdvertisementEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_SSIDAdvertisementEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_RadioEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_RadioEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_TransmitPowerSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_TransmitPower(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_TransmitPower(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_AutoRateFallBackEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_AutoRateFallBackEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_LocationDescription(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_LocationDescription(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_RegulatoryDomain(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_RegulatoryDomain(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_TotalPSKFailures(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_TotalIntegrityFailures(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_ChannelsInUse(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_DeviceOperationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_DeviceOperationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_DistanceFromRoot(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_DistanceFromRoot(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_PeerBSSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_PeerBSSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_AuthenticationServiceMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_AuthenticationServiceMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_WMMSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_UAPSDSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_WMMEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_WMMEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_UAPSDEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1_UAPSDEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_TotalBytesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_TotalBytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_TotalPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_TotalPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1_TotalAssociations(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_ErrorsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_ErrorsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_UnicastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_UnicastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_DiscardPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_DiscardPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_MulticastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_MulticastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_BroadcastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_BroadcastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S_UnknownProtoPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1W_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_DeviceName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_DevicePassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1W_DevicePassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_UUID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_Version(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_ConfigMethodsSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_ConfigMethodsEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1W_ConfigMethodsEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_SetupLockedState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_SetupLock(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1W_SetupLock(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_ConfigurationState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_LastConfigurationError(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_RegistrarNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W_RegistrarEstablished(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1WR1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1WR1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1WR1_UUID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1WR1_DeviceName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_AssociatedDeviceMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_AssociatedDeviceIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_AssociatedDeviceAuthenticationState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_LastRequestedUnicastCipher(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_LastRequestedMulticastCipher(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_LastPMKId(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_LastDataTransmitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1W1_WEPKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1W1_WEPKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1P1_PreSharedKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1P1_PreSharedKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1P1_KeyPassphrase(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1P1_KeyPassphrase(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1P1_AssociatedDeviceMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1P1_AssociatedDeviceMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A1_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A1_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A1_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A1_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A1_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A1_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A2_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A2_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A2_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A2_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A2_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A2_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A2_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A2_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A2_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A2_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A3_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A3_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A3_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A3_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A3_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A3_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A3_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A3_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A3_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A3_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A4_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A4_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A4_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A4_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A4_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A4_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A4_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A4_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1A4_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1A4_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S1_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S1_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S1_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S1_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S1_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S1_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S1_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S1_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S1_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S1_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S2_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S2_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S2_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S2_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S2_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S2_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S2_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S2_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S2_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S2_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S3_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S3_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S3_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S3_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S3_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S3_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S3_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S3_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S3_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S3_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S4_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S4_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S4_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S4_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S4_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S4_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S4_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S4_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtW1S4_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILtW1S4_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtH_HostNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_IPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_AddressSource(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_LeaseTimeRemaining(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_MACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_Layer2Interface(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_VendorClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_ClientID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_UserClassID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_HostName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_InterfaceType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILtHH1_Active(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_LANEthernetInterfaceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_LANUSBInterfaceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IL_LANWLANConfigurationNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILL1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Status(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Name(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_MACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_MACAddressControlEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILL1_MACAddressControlEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILL1_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_DuplexMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILL1_DuplexMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_BytesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_BytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_PacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_PacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_ErrorsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_ErrorsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_UnicastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_UnicastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_DiscardPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_DiscardPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_MulticastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_MulticastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_BroadcastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_BroadcastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_UnknownProtoPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Enable_1116(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILL1_Enable_1116(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Status_1118(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Name_1119(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_MACAddress_1120(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_MACAddressControlEnabled_1121(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILL1_MACAddressControlEnabled_1121(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Standard(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Type(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Rate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1_Power(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_BytesSent_1127(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_BytesReceived_1128(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_CellsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_CellsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_ErrorsSent_1131(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_ErrorsReceived_1132(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_UnicastPacketsSent_1133(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_UnicastPacketsReceived_1134(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_DiscardPacketsSent_1135(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_DiscardPacketsReceived_1136(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_MulticastPacketsSent_1137(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_MulticastPacketsReceived_1138(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_BroadcastPacketsSent_1139(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_BroadcastPacketsReceived_1140(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILL1S_UnknownProtoPacketsReceived_1141(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_Status(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_Name(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_BSSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_Channel(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_Channel(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_AutoChannelEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_AutoChannelEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_SSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_SSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_BeaconType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_BeaconType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_MACAddressControlEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_MACAddressControlEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_Standard(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_WEPKeyIndex(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_WEPKeyIndex(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_KeyPassphrase(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_KeyPassphrase(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_WEPEncryptionLevel(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_BasicEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_BasicEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_BasicAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_BasicAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_WPAEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_WPAEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_WPAAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_WPAAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_IEEE11iEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_IEEE11iEncryptionModes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_IEEE11iAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_IEEE11iAuthenticationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_PossibleChannels(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_BasicDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_BasicDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_OperationalDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_OperationalDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_PossibleDataTransmitRates(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_InsecureOOBAccessEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_InsecureOOBAccessEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_BeaconAdvertisementEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_BeaconAdvertisementEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_SSIDAdvertisementEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_SSIDAdvertisementEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_RadioEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_RadioEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_TransmitPowerSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_TransmitPower(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_TransmitPower(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_AutoRateFallBackEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_AutoRateFallBackEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_LocationDescription(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_LocationDescription(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_RegulatoryDomain(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_RegulatoryDomain(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_TotalPSKFailures(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_TotalIntegrityFailures(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_ChannelsInUse(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_DeviceOperationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_DeviceOperationMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_DistanceFromRoot(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_DistanceFromRoot(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_PeerBSSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_PeerBSSID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_AuthenticationServiceMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_AuthenticationServiceMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_WMMSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_UAPSDSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_WMMEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_WMMEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_UAPSDEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1_UAPSDEnable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_TotalBytesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_TotalBytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_TotalPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_TotalPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1_TotalAssociations(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_ErrorsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_ErrorsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_UnicastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_UnicastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_DiscardPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_DiscardPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_MulticastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_MulticastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_BroadcastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_BroadcastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S_UnknownProtoPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1W_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_DeviceName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_DevicePassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1W_DevicePassword(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_UUID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_Version(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_ConfigMethodsSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_ConfigMethodsEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1W_ConfigMethodsEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_SetupLockedState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_SetupLock(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1W_SetupLock(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_ConfigurationState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_LastConfigurationError(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_RegistrarNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W_RegistrarEstablished(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1WR1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1WR1_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1WR1_UUID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1WR1_DeviceName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_AssociatedDeviceMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_AssociatedDeviceIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_AssociatedDeviceAuthenticationState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_LastRequestedUnicastCipher(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_LastRequestedMulticastCipher(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_LastPMKId(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_LastDataTransmitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1W1_WEPKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1W1_WEPKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1P1_PreSharedKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1P1_PreSharedKey(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1P1_KeyPassphrase(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1P1_KeyPassphrase(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1P1_AssociatedDeviceMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1P1_AssociatedDeviceMACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A1_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A1_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A1_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A1_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A1_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A1_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A2_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A2_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A2_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A2_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A2_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A2_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A2_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A2_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A2_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A2_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A3_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A3_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A3_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A3_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A3_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A3_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A3_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A3_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A3_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A3_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A4_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A4_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A4_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A4_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A4_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A4_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A4_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A4_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1A4_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1A4_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S1_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S1_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S1_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S1_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S1_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S1_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S1_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S1_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S1_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S1_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S2_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S2_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S2_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S2_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S2_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S2_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S2_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S2_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S2_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S2_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S3_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S3_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S3_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S3_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S3_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S3_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S3_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S3_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S3_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S3_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S4_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S4_AIFSN(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S4_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S4_ECWMin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S4_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S4_ECWMax(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S4_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S4_TXOP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_ILW1S4_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_ILW1S4_AckPolicy(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1_WANConnectionNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_EnabledForInternet(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1W_EnabledForInternet(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_WANAccessType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_Layer1UpstreamMaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_Layer1DownstreamMaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_PhysicalLinkStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_WANAccessProvider(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_TotalBytesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_TotalBytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_TotalPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_TotalPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_MaximumActiveConnections(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_NumberOfActiveConnections(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WC1_ActiveConnectionDeviceContainer(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WC1_ActiveConnectionServiceID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1W_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_Status(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LinkEncapsulationSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LinkEncapsulationRequested(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1W_LinkEncapsulationRequested(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LinkEncapsulationUsed(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ModulationType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_StandardsSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_StandardUsed(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LineEncoding(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_AllowedProfiles(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_CurrentProfile(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_PowerManagementState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SuccessFailureCause(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LastStateTransmittedDownstream(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LastStateTransmittedUpstream(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_UPBOKLE(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_MREFPSDds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_MREFPSDus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LIMITMASK(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_US0MASK(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_DataPath(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_InterleaveDepth(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LPATH(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_INTLVDEPTH(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_INTLVBLOCK(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ActualInterleavingDelay(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ACTINP(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_INPREPORT(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_NFEC(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_RFEC(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LSYMB(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_TRELLISds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_TRELLISus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ACTSNRMODEds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ACTSNRMODEus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_VirtualNoisePSDds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_VirtualNoisePSDus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ACTUALCE(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LineNumber(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_UpstreamCurrRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_DownstreamCurrRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_UpstreamMaxRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_DownstreamMaxRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_UpstreamNoiseMargin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_DownstreamNoiseMargin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SNRMpbus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SNRMpbds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_INMIATOds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_INMIATSds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_INMCCds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_INMINPEQMODEds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_UpstreamAttenuation(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_DownstreamAttenuation(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_UpstreamPower(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_DownstreamPower(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ATURVendor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ATURCountry(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ATURANSIStd(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ATURANSIRev(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ATUCVendor(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ATUCCountry(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ATUCANSIStd(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ATUCANSIRev(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_TotalStart(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ShowtimeStart(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LastShowtimeStart(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_CurrentDayStart(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_QuarterHourStart(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_HLOGGds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_HLOGGus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_HLOGpsds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_HLOGpsus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_HLOGMTds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_HLOGMTus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_QLNGds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_QLNGus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_QLNpsds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_QLNpsus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_QLNMTds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_QLNMTus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_SNRGds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_SNRGus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_SNRpsds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_SNRpsus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_SNRMTds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_SNRMTus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_LATNds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_LATNus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_SATNds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WT_SATNus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_ReceiveBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_TransmitBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_CellDelin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_LinkRetrain(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_InitErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_LInit(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_InitTimeouts(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_LossOfFraming(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_LOF(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_ErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_ATUCErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_SeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_ATUCSeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_FECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_ATUCFECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_HECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_ATUCHECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_CRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WST_ATUCCRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_ReceiveBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_TransmitBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_CellDelin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_LinkRetrain(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_InitErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_LInit(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_InitTimeouts(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_LossOfFraming(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_LOF(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_ErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_ATUCErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_SeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_ATUCSeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_FECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_ATUCFECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_HECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_ATUCHECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_CRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSS_ATUCCRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_ReceiveBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_TransmitBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_CellDelin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_LinkRetrain(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_InitErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_LInit(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_InitTimeouts(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_LossOfFraming(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_LOF(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_ErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_ATUCErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_SeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_ATUCSeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_FECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_ATUCFECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_HECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_ATUCHECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_CRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSL_ATUCCRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_ReceiveBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_TransmitBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_CellDelin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_LinkRetrain(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_InitErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_LInit(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_InitTimeouts(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_LossOfFraming(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_LOF(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_ErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_ATUCErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_SeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_ATUCSeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_FECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_ATUCFECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_HECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_ATUCHECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_CRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSC_ATUCCRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_ReceiveBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_TransmitBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_CellDelin(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_LinkRetrain(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_InitErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_LInit(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_InitTimeouts(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_LossOfFraming(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_LOF(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_ErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_ATUCErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_SeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_ATUCSeverelyErroredSecs(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_FECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_ATUCFECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_HECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_ATUCHECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_CRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WSQ_ATUCCRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_Enable_1552(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1W_Enable_1552(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_Status_1554(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_MACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1W_MaxBitRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_DuplexMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1W_DuplexMode(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ShapingRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1W_ShapingRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ShapingBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1W_ShapingBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WS_BytesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WS_BytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WS_PacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WS_PacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ConnectionServiceNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WC1_WANConnectionDevice(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WC1_WANConnectionService(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WC1_DestinationAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WC1_LinkType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WC1_ConnectionType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WC1_Name(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LoopDiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1W_LoopDiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ACTPSDds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ACTPSDus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ACTATPds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_ACTATPus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLINSCds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLINSCus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLINGds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLINGus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLOGGds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLOGGus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLOGpsds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLOGpsus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLOGMTds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLOGMTus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LATNpbds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_LATNpbus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SATNds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SATNus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLINpsds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_HLINpsus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_QLNGds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_QLNGus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_QLNpsds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_QLNpsus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_QLNMTds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_QLNMTus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SNRGds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SNRGus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SNRpsds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SNRpsus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SNRMTds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_SNRMTus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_BITSpsds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_BITSpsus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1W_GAINSpsds(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1Wt_WANIPConnectionNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1Wt_WANPPPConnectionNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_LinkStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_LinkType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_LinkType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_AutoConfig(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ModulationType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_DestinationAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_DestinationAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMEncapsulation(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_ATMEncapsulation(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_FCSPreserved(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_FCSPreserved(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_VCSearchList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_VCSearchList(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMAAL(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMTransmittedBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMReceivedBlocks(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMQoS(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_ATMQoS(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMPeakCellRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_ATMPeakCellRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMMaximumBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_ATMMaximumBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMSustainableCellRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_ATMSustainableCellRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_AAL5CRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMCRCErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ATMHECErrors(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_DiagnosticsState(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_NumberOfRepetitions(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_NumberOfRepetitions(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_Timeout(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_Timeout(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_SuccessCount(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_FailureCount(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_AverageResponseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_MinimumResponseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_MaximumResponseTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_Enable_1654(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_Enable_1654(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_LinkStatus_1656(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_MACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_BytesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_BytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_FramesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_FramesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_OOSNearEnd(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_OOSFarEnd(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_ErrorsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_ErrorsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_UnicastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_UnicastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_DiscardPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_DiscardPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_MulticastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_MulticastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_BroadcastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_BroadcastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWS_UnknownProtoPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_EthernetLinkStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_Enable_1676(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_Enable_1676(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_LinkStatus_1678(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ISPPhoneNumber(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_ISPPhoneNumber(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_ISPInfo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_ISPInfo(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_LinkType_1683(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_LinkType_1683(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_NumberOfRetries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_NumberOfRetries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_DelayBetweenRetries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtW_DelayBetweenRetries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_Fclass(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_DataModulationSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_DataProtocol(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_DataCompression(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtW_PlusVTRCommandSupported(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Reset(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_Reset(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ConnectionStatus(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PossibleConnectionTypes(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ConnectionType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_ConnectionType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Name(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_Name(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Uptime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_LastConnectionError(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_AutoDisconnectTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_AutoDisconnectTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_IdleDisconnectTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_IdleDisconnectTime(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_WarnDisconnectDelay(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_WarnDisconnectDelay(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_RSIPAvailable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_NATEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_NATEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_AddressingType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_AddressingType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ExternalIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_ExternalIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_SubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_SubnetMask(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_DefaultGateway(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_DefaultGateway(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_DNSEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_DNSEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_DNSOverrideAllowed(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_DNSOverrideAllowed(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_DNSServers(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_DNSServers(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_MaxMTUSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_MaxMTUSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_MACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_MACAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_MACAddressOverride(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_MACAddressOverride(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ConnectionTrigger(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_ConnectionTrigger(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_RouteProtocolRx(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_RouteProtocolRx(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ShapingRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_ShapingRate(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ShapingBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_ShapingBurstSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PortMappingNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtD_SentDHCPOptionNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtD_ReqDHCPOptionNumberOfEntries(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtDSt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtDSt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtDSt_Tag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtDSt_Tag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtDSt_Value(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtDSt_Value(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtDRt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtDRt_Enable(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtDRt_Order(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtDRt_Order(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtDRt_Tag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtDRt_Tag(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtDRt_Value(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_PortMappingEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_PortMappingEnabled(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_PortMappingLeaseDuration(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_PortMappingLeaseDuration(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_RemoteHost(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_RemoteHost(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_ExternalPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_ExternalPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_ExternalPortEndRange(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_ExternalPortEndRange(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_InternalPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_InternalPort(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_PortMappingProtocol(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_PortMappingProtocol(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_InternalClient(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_InternalClient(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_PortMappingDescription(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_PortMappingDescription(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetBytesSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetBytesReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetErrorsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetErrorsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetUnicastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetUnicastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetDiscardPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetDiscardPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetMulticastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetMulticastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetBroadcastPacketsSent(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetBroadcastPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetUnknownProtoPacketsReceived(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Enable_1792(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_Enable_1792(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Reset_1794(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_Reset_1794(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ConnectionStatus_1796(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PossibleConnectionTypes_1797(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ConnectionType_1798(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_ConnectionType_1798(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PPPoESessionID(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_DefaultGateway_1801(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Name_1802(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_Name_1802(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Uptime_1804(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_LastConnectionError_1805(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_AutoDisconnectTime_1806(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_AutoDisconnectTime_1806(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_IdleDisconnectTime_1808(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_IdleDisconnectTime_1808(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_WarnDisconnectDelay_1810(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_WarnDisconnectDelay_1810(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_RSIPAvailable_1812(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_NATEnabled_1813(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_NATEnabled_1813(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Username(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_Username(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_Password(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_Password(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PPPEncryptionProtocol(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PPPCompressionProtocol(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PPPAuthenticationProtocol(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ExternalIPAddress_1822(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_RemoteIPAddress(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_MaxMRUSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_MaxMRUSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_CurrentMRUSize(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_DNSEnabled_1827(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_DNSEnabled_1827(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_DNSOverrideAllowed_1829(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_DNSOverrideAllowed_1829(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_DNSServers_1831(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_DNSServers_1831(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_MACAddress_1833(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_MACAddress_1833(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_MACAddressOverride_1835(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_MACAddressOverride_1835(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_TransportType(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PPPoEACName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_PPPoEACName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PPPoEServiceName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_PPPoEServiceName(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ConnectionTrigger_1842(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_ConnectionTrigger_1842(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_RouteProtocolRx_1844(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_RouteProtocolRx_1844(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PPPLCPEcho(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PPPLCPEchoRetry(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ShapingRate_1848(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_ShapingRate_1848(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_ShapingBurstSize_1850(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWt_ShapingBurstSize_1850(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWt_PortMappingNumberOfEntries_1852(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_PortMappingEnabled_1853(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_PortMappingEnabled_1853(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_PortMappingLeaseDuration_1855(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_PortMappingLeaseDuration_1855(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_RemoteHost_1857(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_RemoteHost_1857(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_ExternalPort_1859(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_ExternalPort_1859(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_ExternalPortEndRange_1861(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_ExternalPortEndRange_1861(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_InternalPort_1863(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_InternalPort_1863(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_PortMappingProtocol_1865(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_PortMappingProtocol_1865(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_InternalClient_1867(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_InternalClient_1867(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtPt_PortMappingDescription_1869(char * path_name, char *value)
+{
+	return(0);
+}
+
+int set_IW1WtWtPt_PortMappingDescription_1869(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetBytesSent_1871(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetBytesReceived_1872(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetPacketsSent_1873(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetPacketsReceived_1874(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetErrorsSent_1875(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetErrorsReceived_1876(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetUnicastPacketsSent_1877(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetUnicastPacketsReceived_1878(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetDiscardPacketsSent_1879(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetDiscardPacketsReceived_1880(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetMulticastPacketsSent_1881(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetMulticastPacketsReceived_1882(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetBroadcastPacketsSent_1883(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetBroadcastPacketsReceived_1884(char * path_name, char *value)
+{
+	return(0);
+}
+
+int get_IW1WtWtS_EthernetUnknownProtoPacketsReceived_1885(char * path_name, char *value)
+{
+	return(0);
+}
+
