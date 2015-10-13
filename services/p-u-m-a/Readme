@@ -1,0 +1,5 @@
+
+1.proftpd.init
+2.samba.init
+3.proftpd.init_new:使proftpd可以添加一级目录作为共享目录
+4.proftpd.init1013:对proftpd.init_new的优化
