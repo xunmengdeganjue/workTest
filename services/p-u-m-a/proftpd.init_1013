@@ -144,7 +144,8 @@ addLocalShare() {
         local anon_auth
         local ro_list
         local rw_list
-		echo -e  "[$DATE]-\033[31m addLocalShare \033[0m" >> $LOG
+		echo >> $LOG
+		echo -e  "[$DATE]-\033[33m addLocalShare \033[0m" >> $LOG
 		
         config_get path $1 path
         config_get anon_auth $1 anon_auth
@@ -388,7 +389,10 @@ addAnonShare() {
         then
                 return
         fi
+		
         echo  >> $LOG
+		echo -e  "[$DATE]-\033[33m  addAnonShare  \033[0m" >> $LOG
+		
         ##if the path last char is "/", delete it
 		echo -e  "[$DATE]-The origianl path is :\033[32m $path \033[0m" >> $LOG
 		dir_layer_count=`expr $(echo $path|awk -F "/" '{print NF}') - 1`
