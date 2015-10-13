@@ -1,0 +1,451 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2010 OpenWrt.org
+
+START=99
+
+ENABLE=1
+BIN=/usr/sbin/proftpd
+CONF_FILE=/etc/proftpd.conf
+HOME=/home/ftp
+PID_F=/var/proftpd.pid
+RUN_USER=ftp
+RUN_GROUP=ftp
+DEFAULT_ROOT=/mnt
+local SECOND_CLASS_DIRS
+local ALLOW_USERS
+
+DATE=`date +%F_%H:%M:%S`
+LOG="/tmp/ftp.log"
+
+getRoList(){ 
+        ro_list="$ro_list $1"
+}
+
+getRwList(){
+        rw_list="$rw_list $1"
+}
+
+isServerEnable() {
+        config_get ENABLE $1 enable
+}
+
+dealWithFolder(){
+
+##check if there are same foler that is not exists,and if there
+##is any shared folder that has no user access,we should delete
+##these sharing section.
+
+	local loop_sum
+	n=`cat /etc/config/proftpd |grep "config share" -c`
+	let loop_sum=n-1
+	while [ $loop_sum -ge 0 ]
+	do
+		shared_folder=`uci get proftpd.@share[$loop_sum].path`
+		if [ ! -d "$shared_folder" ];then
+			echo -e "[$DATE]-\033[33m Delete the none accessed shared folder! \033[0m" >> $LOG
+			uci del proftpd.@share[$loop_sum]
+		else
+			#check if the shared folder is not allow guest access and allow no user
+			#access,if it is then delete the shared folder section.
+			anon_auth=`uci get proftpd.@share[$loop_sum].anon_auth`
+			if [ $anon_auth -eq 0 ];then
+				#ro_list=`uci get proftpd.@share[$loop_sum].ro_list`
+				#rw_list=`uci get proftpd.@share[$loop_sum].rw_list`
+				local ro_list=""
+				local rw_list=""
+				uci get proftpd.@share[$loop_sum].ro_list
+				[ $? -eq 0 ] && ro_list=`uci get proftpd.@share[$loop_sum].ro_list`
+				
+				uci get proftpd.@share[$loop_sum].rw_list
+				[ $? -eq 0 ] && rw_list=`uci get proftpd.@share[$loop_sum].rw_list`
+				
+				echo -e "[$DATE]-\033[34m rolist [$ro_list] \033[0m" >> $LOG
+				echo -e "[$DATE]-\033[34m rwlist [$rw_list] \033[0m" >> $LOG
+				
+				if [ -z "$ro_list" -a -z "$rw_list" ];then
+					echo -e "[$DATE]-\033[31m Delete the none accessed shared folder! \033[0m" >> $LOG
+					uci del proftpd.@share[$loop_sum]
+				fi
+			fi
+		fi
+		let loop_sum--
+	done	
+	uci commit proftpd
+}
+
+addGloble() {
+        local ServerName
+        local ServerType
+        local DefaultServer
+        local RequireValidShell
+        local Port
+        local UseIPv6
+        local Umask
+        local MaxInstances
+        local AllowOverwrite
+        local AllowStoreRestart
+        local ServerIdent
+        local PassivePorts
+        
+        config_get ServerName $1 ServerName
+        config_get ServerType $1 ServerType
+        config_get DefaultServer $1 DefaultServer
+        config_get RequireValidShell $1 RequireValidShell
+        config_get Port $1 Port
+        config_get UseIPv6 $1 UseIPv6
+        config_get Umask $1 Umask
+        config_get MaxInstances $1 MaxInstances
+        config_get RUN_USER $1 User
+        config_get RUN_GROUP $1 Group
+        config_get DEFAULT_ROOT $1 DefaultRoot
+        config_get AllowOverwrite $1 AllowOverwrite
+        config_get AllowStoreRestart $1 AllowStoreRestart
+        config_get ServerIdent $1 ServerIdent
+        config_get PassivePorts $1 PassivePorts
+        
+        ##if the DefaultRoot is not system root "/" and the DefaultRoot last char is "/", remove it
+        default_root_len=${#DEFAULT_ROOT}
+        default_root_len=`expr $default_root_len - 1`
+        if [ $DEFAULT_ROOT !=  "/" -a ${DEFAULT_ROOT:$default_root_len:1} = "/" ]
+        then
+                DEFAULT_ROOT=${DEFAULT_ROOT%/}
+        fi
+        
+        cat /dev/null > $CONF_FILE
+        [ -n "$ServerName" ]            && echo -e "ServerName\t\t\"$ServerName\"" >> $CONF_FILE
+        [ -n "$ServerType" ]            && echo -e "ServerType\t\t$ServerType" >> $CONF_FILE 
+        [ -n "$DefaultServer" ]         && echo -e "DefaultServer\t\t$DefaultServer" >> $CONF_FILE 
+        [ -n "$RequireValidShell" ]     && echo -e "RequireValidShell\t$RequireValidShell" >> $CONF_FILE 
+        [ -n "$Port" ]                  && echo -e "Port\t\t\t$Port" >> $CONF_FILE
+        [ -n "$UseIPv6" ]               && echo -e "UseIPv6\t\t\t$UseIPv6" >> $CONF_FILE
+        [ -n "$Umask" ]                 && echo -e "Umask\t\t\t$Umask" >> $CONF_FILE 
+        [ -n "$MaxInstances" ]          && echo -e "MaxInstances\t\t$MaxInstances" >> $CONF_FILE
+        [ -n "$AllowOverwrite" ]        && echo -e "AllowOverwrite\t\t$AllowOverwrite" >> $CONF_FILE
+        [ -n "$AllowStoreRestart" ]     && echo -e "AllowStoreRestart\t$AllowStoreRestart" >> $CONF_FILE 
+        [ -n "$ServerIdent" ]           && echo -e "ServerIdent\t\t$ServerIdent" >> $CONF_FILE 
+        [ -n "$PassivePorts" ]          && echo -e "PassivePorts\t\t$PassivePorts" >> $CONF_FILE
+        [ -n "$RUN_USER" ]              && echo -e "User\t\t\t$RUN_USER" >> $CONF_FILE 
+        [ -n "$RUN_GROUP" ]             && echo -e "Group\t\t\t$RUN_GROUP" >> $CONF_FILE 
+        [ -d "$DEFAULT_ROOT" ]          && echo -e "DefaultRoot\t\t$DEFAULT_ROOT" >> $CONF_FILE
+        
+        echo -e "\n<Limit SITE_CHMOD>\n\tDenyAll\n</Limit>" >> $CONF_FILE
+        echo -e "\n<Directory />\n\tAllowOverwrite\ton\n</Directory>" >> $CONF_FILE
+        echo -e "\n<Directory $DEFAULT_ROOT/*>\n\t<Limit ALL>\n\t\tDenyAll\n\t</Limit>\n</Directory>" >> $CONF_FILE                    
+}
+
+addLocalShare() {
+        local path
+        local anon_auth
+        local ro_list
+        local rw_list
+        
+        config_get path $1 path
+        config_get anon_auth $1 anon_auth
+        config_list_foreach $1 ro_list getRoList
+        config_list_foreach $1 rw_list getRwList
+        
+        [ -z "$path" ] && return
+        
+        #if path is not exist, remove the config section from the configuration file
+        if [ ! -d "$path" ]
+        then
+                results=`uci show proftpd | grep "$path" | cut -d "=" -f 1`
+                for result in $results
+                do
+                        path_temp=`uci get $result`
+                        if [ "$path_temp" = "$path" ]
+                        then
+                                result=${result%.*}
+                                uci delete $result
+                                uci commit proftpd
+                                return
+                        fi  
+                done
+                return
+        fi
+        
+        ##if the path last char is "/", remove it
+        path_len=${#path}
+        path_len=`expr $path_len - 1`
+        if [ ${path:$path_len:1} = "/" ]
+        then
+                path=${path%/}
+        fi
+        
+        
+        second_class_dir=${path%/*}
+        first_class_dir=${second_class_dir%/*}
+        
+        ##check if the path is in DefaultRoot
+        if [ -d "$path" -a $first_class_dir != $DEFAULT_ROOT ]
+        then
+                echo return
+                return
+        fi
+        
+        local flag=0
+        for dirs in $SECOND_CLASS_DIRS
+        do
+                if [ $dirs = $second_class_dir ]
+                then
+                        flag=1
+                fi
+        done
+        
+        if [ $flag = 0 ]
+        then 
+                SECOND_CLASS_DIRS="$SECOND_CLASS_DIRS $second_class_dir"
+                echo -e "\n<Directory $second_class_dir>\n\t<Limit ALL>\n\t\tAllowAll\n\t</Limit>\n\n\t<Limit WRITE>\n\t\tDenyAll\n\t</Limit>\n</Directory>" >> $CONF_FILE
+                echo -e "\n<Directory $second_class_dir/*>\n\t<Limit ALL>\n\t\tDenyAll\n\t</Limit>\n</Directory>" >> $CONF_FILE      
+        fi
+        
+        echo -e "\n<Directory \"$path\">" >> $CONF_FILE
+        echo -e "\t<Limit ALL>\n\t\tDenyAll\n\t</Limit>" >>$CONF_FILE
+        
+        echo -e "\n\t<Limit ALL>" >> $CONF_FILE     
+        for user in $ro_list $rw_list
+        do
+                echo -e "\t\tAllowUser\t$user" >> $CONF_FILE
+        done
+        echo -e "\t\tDenyAll" >> $CONF_FILE
+        echo -e "\t</Limit>" >> $CONF_FILE
+        
+        echo -e "\n\t<Limit APPE MKD RNTO STOR STOU XMKD>" >> $CONF_FILE
+        for user in $rw_list
+        do
+                echo -e "\t\tAllowUser\t$user" >> $CONF_FILE
+        done
+        echo -e "\t\tDenyAll" >> $CONF_FILE
+        echo -e "\t</Limit>" >> $CONF_FILE
+        
+        echo -e "</Directory>" >> $CONF_FILE
+       
+        echo -e "\n<Directory \"$path/*\">" >> $CONF_FILE
+        echo -e "\n\t<Limit WRITE>" >> $CONF_FILE
+        for user in $rw_list
+        do
+                echo -e "\t\tAllowUser\t$user" >> $CONF_FILE
+        done
+        echo -e "\t\tDenyAll" >> $CONF_FILE
+        echo -e "\t</Limit>" >> $CONF_FILE
+        echo -e "</Directory>" >> $CONF_FILE
+         
+        local user
+        local allow_user
+        for user in $ro_list
+        do
+                flag=0
+                for allow_user in $ALLOW_USERS
+                do      
+                        if [ $user = $allow_user ]
+                        then
+                                flag=1
+                        fi
+                done
+                
+                if [ $flag = 0 ]
+                then
+                        ALLOW_USERS="$ALLOW_USERS $user"
+                fi
+        done
+        
+        for user in $rw_list
+        do
+                flag=0
+                for allow_user in $ALLOW_USERS
+                do      
+                        if [ $user = $allow_user ]
+                        then
+                                flag=1
+                        fi
+                done
+                
+                if [ $flag = 0 ]
+                then
+                        ALLOW_USERS="$ALLOW_USERS $user"
+                fi
+        done                 
+}
+
+addAnonShare() {
+        local path
+        local anon_auth
+        
+        config_get path $1 path
+        config_get anon_auth $1 anon_auth
+        
+        [ -z "$path" ] && return 
+        
+        if [ $anon_auth = 0 ]
+        then
+                return
+        fi
+        
+        ##if the path last char is "/", remove it
+        path_len=${#path}
+        path_len=`expr $path_len - 1`
+        if [ ${path:$path_len:1} = "/" ]
+        then
+                path=${path%/}
+        fi
+        
+        
+        second_class_dir=${path%/*}
+        first_class_dir=${second_class_dir%/*}
+        second_class_dir=${second_class_dir##*/}
+        
+        ##check if the path is in DefaultRoot
+        if [ -d "$path" -a $first_class_dir != $DEFAULT_ROOT ]
+        then
+                return
+        fi
+        
+        local flag=0
+        for dirs in $SECOND_CLASS_DIRS
+        do
+                if [ "$dirs" = "$second_class_dir" ]
+                then
+                        flag=1
+                fi
+        done
+        
+        if [ $flag = 0 ]
+        then 
+                SECOND_CLASS_DIRS="$SECOND_CLASS_DIRS $second_class_dir"
+                echo -e "\n<Directory $second_class_dir>\n\t<Limit ALL>\n\t\tAllowAll\n\t</Limit>\n\n\t<Limit WRITE>\n\t\tDenyAll\n\t</Limit>\n</Directory>" >> $CONF_FILE
+                echo -e "\n\t<Directory $second_class_dir/*>\n\t\t<Limit ALL>\n\t\t\tDenyAll\n\t\t</Limit>\n\t</Directory>" >> $CONF_FILE  
+                
+        fi
+        
+        path=${path#*/}
+        path=${path#*/}
+        echo -e "\n\t<Directory \"$path\">" >> $CONF_FILE
+        echo -e "\t\t<Limit ALL>\n\t\t\tAllowAll\n\t\t</Limit>" >>$CONF_FILE
+        if [ $anon_auth = 2 ]
+        then
+                echo -e "\n\t\t<Limit APPE MKD RNTO STOR STOU XMKD>\n\t\t\tAllowAll\n\t\t</Limit>" >> $CONF_FILE
+        else
+                echo -e "\n\t\t<Limit WRITE>\n\t\t\tDenyAll\n\t\t</Limit>" >> $CONF_FILE
+        fi
+        echo -e "\t</Directory>" >> $CONF_FILE
+        
+        if [ $anon_auth = 2 ]
+        then
+                echo -e "\n\t<Directory \"$path/*\">" >> $CONF_FILE
+                echo -e "\t\t<Limit WRITE>\n\t\t\tAllowAll\n\t\t</Limit>" >> $CONF_FILE
+                echo -e "\t</Directory>" >> $CONF_FILE
+        fi                  
+}
+
+
+addHostName() {
+        local hostname
+        local hosts
+        config_get hostname $1 hostname
+        
+        if [ -z $hostname ]
+        then
+                return
+        fi
+        
+        hosts=`cat "/etc/hosts"  | cut -d ' ' -f 2`
+        local flag=0
+        for host in $hosts
+        do
+                if [ $host = $hostname ]
+                then
+                        flag=1
+                fi
+        done
+        
+        #if hostname haven't added to /etc/hosts, add it
+        if [ $flag = 0 ]
+        then
+                echo "127.0.0.1 $hostname" >> /etc/hosts
+        fi
+}
+diskCheck(){
+##if the disk has not mounted ,then can't do any operation.
+	if [ -f "/tmp/devices" ];then
+		discovery_disk=`cat /tmp/devices`
+		#echo "content $discovery_disk"
+		if [ -n "$discovery_disk" ];then
+			echo -e  "[$DATE]-\033[32m The usb-storage is ready\033[0m" >> $LOG
+		else 
+			echo -e  "[$DATE]-\033[31m The usb-storage is not ready\n \tPlease make it be ready firstly!\033[0m" >> $LOG
+			echo -e  "[$DATE]-\033[31m So now i must set the proftpd to be disabled to avoid any error!\033[0m" >> $LOG
+			uci set proftpd.@global[0].enable="0"
+			uci commit proftpd
+			exit	
+		fi
+	else
+		
+		echo -e  "[$DATE]-\033[31m The usb-storage is not ready\n \tPlease make it be ready firstly!\033[0m" >> $LOG
+		echo -e  "[$DATE]-\033[31m So now i must set the proftpd to be disabled to avoid any error!\033[0m" >> $LOG
+		uci set proftpd.@global[0].enable="0"
+		uci commit proftpd
+		exit	
+	fi
+
+}
+start() {
+
+	diskCheck
+	
+        dealWithFolder > /dev/null 2>&1
+      
+        config_load proftpd
+       
+       
+        #if server no enabled, stop server and return
+        config_foreach isServerEnable global
+        if [ $ENABLE != 1 ]
+        then
+                [ -f $PID_F ] && kill $(cat $PID_F)
+                return   
+        fi
+        
+        #add globle configuration
+        config_foreach addGloble global
+        
+        #add local share configuration
+        config_foreach addLocalShare  share
+        
+        #add anomymous share header
+        SECOND_CLASS_DIRS=""
+        echo -e "\n<Anonymous $DEFAULT_ROOT>" >> $CONF_FILE
+        echo -e "\tUser\t$RUN_USER" >> $CONF_FILE
+        echo -e "\tGroup\t$RUN_GROUP" >> $CONF_FILE
+        echo -e "\tUserAlias\tanonymous $RUN_USER" >> $CONF_FILE
+        echo -e "\tMaxClients\t10" >> $CONF_FILE
+        echo -e "\n\t<Directory */>\n\t\t<Limit ALL>\n\t\t\tDenyAll\n\t\t</Limit>\n\t</Directory>" >> $CONF_FILE
+        
+        #add anomymous share
+        config_foreach addAnonShare  share
+        
+        #add anomymous share tail
+        echo -e "</Anonymous>" >> $CONF_FILE
+        
+        #add login limit configuration
+        ALLOW_USERS="$ALLOW_USERS $RUN_USER"
+        echo -e "\n<Limit LOGIN>" >> $CONF_FILE
+        for allow_user in $ALLOW_USERS
+        do
+                echo -e "\tAllowUser\t$allow_user" >> $CONF_FILE
+        done
+        echo -e "\tDenyAll" >> $CONF_FILE
+        echo -e "</Limit>" >> $CONF_FILE
+        
+        config_load system
+        config_foreach addHostName system
+        
+        [ -d $HOME ] || ( mkdir -p $HOME && chown $RUN_USER:$RUN_GROUP $HOME )
+
+        [ ! -f $PID_F ] && $BIN
+}
+
+stop() {
+        [ -f $PID_F ] && kill $(cat $PID_F)
+        sleep 1
+}
+
