@@ -242,24 +242,40 @@ addUser(){
         smbpasswd $name $passwd
 }
 diskCheck(){
+	
 ##if the disk has not mounted,then we can't do any operation.
+	
+	uci get samba.@print[0].printer > /dev/null 2>&1
+	if [ $? -eq 0 ];then
+		local printer=`uci get samba.@print[0].printer`
+	else
+		local printer=""
+	fi
 	if [ -f "/tmp/devices" ];then
 		discovery_disk=`cat /tmp/devices`
 		if [ -n "$discovery_disk" ];then
 			echo -e  "[$DATE]-\033[32m The usb-storage is ready\033[0m" >> $LOG
 		else
-			echo -e  "[$DATE]-\033[31m The usb-storage is not ready\n \tPlease make it be ready firstly!\033[0m" >> $LOG
-			echo -e  "[$DATE]-\033[31m So now i must set the samba to be disabled to avoid any error!\033[0m" >> $LOG
-			uci set samba.@global[0].enable="0"
-			uci commit samba
-			exit
+			if [ -n "$printer" ];then
+				echo -e  "[$DATE]-\033[32m There is no external usb-storage,so just samba-print service is going to work! \033[0m" >> $LOG
+			else
+				echo -e  "[$DATE]-\033[31m The usb-storage is not ready\n \tPlease make it be ready firstly!\033[0m" >> $LOG
+				echo -e  "[$DATE]-\033[31m So now i must set the samba server to be disabled to avoid any error!\033[0m" >> $LOG
+				uci set samba.@global[0].enable="0"
+				uci commit samba
+				exit
+			fi
 		fi
 	else
-		 echo -e  "[$DATE]-\033[31m The usb-storage is not ready\n \tPlease make it be ready firstly!\033[0m" >> $LOG
-		 echo -e  "[$DATE]-\033[31m So now i must set the samba to be disabled to avoid any error!\033[0m" >> $LOG
-		 uci set samba.@global[0].enable="0"
-		 uci commit samba
-		 exit
+		 if [ -n "$printer" ];then             
+		 	echo -e  "[$DATE]-\033[32m There is no external usb-storage,so just samba-print service is going to work! \033[0m" >> $LOG
+		 else 
+		 	echo -e  "[$DATE]-\033[31m The usb-storage is not ready\n \tPlease make it be ready firstly!\033[0m" >> $LOG
+		 	echo -e  "[$DATE]-\033[31m So now i must set the samba to be disabled to avoid any error!\033[0m" >> $LOG
+		 	uci set samba.@global[0].enable="0"
+		 	uci commit samba
+		 	exit
+		 fi
 		                                                                                                 	
 	fi
 
