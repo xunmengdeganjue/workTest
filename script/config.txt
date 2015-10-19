@@ -1,0 +1,10 @@
+	; core variables
+           [core]
+                   ; Don't trust file modes
+                   filemode = false
+
+           ; user identity
+           [user]
+                   name = "xunmengdeganjue"
+                   email = "542873805@qq.com"
+
