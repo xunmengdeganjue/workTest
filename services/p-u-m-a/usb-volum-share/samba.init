@@ -295,10 +295,10 @@ shareCheck(){
 			if [ $anon_auth -eq 0 ];then
 				local ro_list=""
 				local rw_list=""
-				uci get samba.@share[$count].ro_list
+				uci get samba.@share[$count].ro_list > /dev/null 2>&1
 				[ $? -eq 0 ] && ro_list=`uci get samba.@share[$count].ro_list`
 				
-				uci get samba.@share[$count].rw_list
+				uci get samba.@share[$count].rw_list > /dev/null 2>&1
 				[ $? -eq 0 ] && rw_list=`uci get samba.@share[$count].rw_list`
 				if [ -z "$ro_list" -a -z "$rw_list" ];then
 					uci del samba.@share[$count]
