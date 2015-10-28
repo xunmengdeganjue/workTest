@@ -10,7 +10,7 @@ HOME=/home/ftp
 PID_F=/var/proftpd.pid
 RUN_USER=ftp
 RUN_GROUP=ftp
-DEFAULT_ROOT="/mnt"
+DEFAULT_ROOT=/mnt
 local SECOND_CLASS_DIRS
 local ALLOW_USERS
 
