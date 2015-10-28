@@ -10,7 +10,7 @@ HOME=/home/ftp
 PID_F=/var/proftpd.pid
 RUN_USER=ftp
 RUN_GROUP=ftp
-DEFAULT_ROOT=/mnt
+DEFAULT_ROOT="/mnt"
 local SECOND_CLASS_DIRS
 local ALLOW_USERS
 
@@ -220,7 +220,7 @@ addLocalShare() {
         for dirs in $SECOND_CLASS_DIRS
         do
                 echo -e  "[$DATE]-The dirs is :\033[31m $dirs \033[0m" >> $LOG
-				if [ $dirs = $second_class_dir -o $dirs = $last_class_dir ]
+				if [ "$dirs" = "$second_class_dir" -o "$dirs" = "$last_class_dir" ]
                 then
                         echo -e  "[$DATE]-\033[31m set flag = 1 \033[0m" >> $LOG
 						flag=1
@@ -239,6 +239,7 @@ addLocalShare() {
 			else
 				echo -e "$DATE \033[31m share the partition directly!\033[0m " >> $LOG
 			fi
+		fi
 				echo -e "\n<Directory \"$path\">" >> $CONF_FILE
 				echo -e "\t<Limit ALL>\n\t\tDenyAll\n\t</Limit>" >>$CONF_FILE
 				
@@ -311,7 +312,7 @@ addLocalShare() {
 				done   
 			#fi
 				
-		fi
+		#fi
 }
 
 addAnonShare() {
