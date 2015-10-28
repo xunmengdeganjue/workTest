@@ -88,19 +88,26 @@ int dealwithpath(const char *path,char *service){
 		memset(opt_value,0x00,sizeof(opt_value));
 		ret = do_uci_get(dest_option,opt_value);
 		if(!ret){
+			cgi_dbg(" the [ %d] time , opt_value is %s\n",i,opt_value);
 			if(!strcmp(opt_value,path)){/*the dest option-path is same as the path*/
-				//continue;
+				
 				do_uci_delete(dest_share,NULL);/*delete the dest shared path*/
+				cgi_dbg("delete the share config %s\n",dest_share);
+				continue;
 			}else if(strstr(opt_value,path)){
 				do_uci_delete(dest_share,NULL);/*delete the dest shared path*/
+				cgi_dbg("the path [%s] is include the %s ,so delete the share config %s\n",path,opt_value,dest_share);
+				continue;
 			}
 		}else{
+			cgi_dbg("arrive the tail of the share section!\n");
 			break;
 		}
 		
 		i++;
 		
 	}
+	
 	if(part_flag){
 		ret = 1;
 	}
@@ -2466,7 +2473,13 @@ int getftppermission(tcm_session *session, char *name, char *val, char *list)
 	if(sub_obj){
 		strcpy(dest_dir,json_object_get_string(sub_obj));
 	}
-	sprintf(linebuffer,"/mnt/%s/%s",dest_part,dest_dir);/*organize the path of the dest folder*/
+	if(dest_dir[0] != 0){
+		sprintf(linebuffer,"/mnt/%s/%s",dest_part,dest_dir);/*organize the path of the dest folder*/
+	}else{
+		sprintf(linebuffer,"/mnt/%s",dest_part);/*organize the path of the dest folder*/
+	}
+	
+	
 	cgi_trace_line();
 	for(j = 0;j < 30; j ++){
 		cgi_trace_line();
@@ -2636,8 +2649,13 @@ int setftppermission(tcm_session *session, char *name, char *val, char *list)
 	}
 	
 	json_object_object_get_ex(i_obj, "Accounts", &accountinfo);
+	if(dest_dir[0] != 0){
+		sprintf(linebuffer,"/mnt/%s/%s",dest_part,dest_dir);/*organize the path of the dest folder*/
+	}else{
+		sprintf(linebuffer,"/mnt/%s",dest_part);/*organize the path of the dest folder*/
+	}
 	
-	sprintf(linebuffer,"/mnt/%s/%s",dest_part,dest_dir);/*organize the path of the dest folder*/
+	
 	/*get the ro_list and the rw_list*/
 	json_object_object_get_ex(i_obj, "Accounts", &accountinfo);
 	
@@ -2686,6 +2704,43 @@ int setftppermission(tcm_session *session, char *name, char *val, char *list)
 	q = NULL;
 	cgi_dbg("ro_list:%s\n",ro_list);
 	cgi_dbg("rw_list:%s\n",rw_list);
+	
+	/*deal with the shared path*/
+	ret = dealwithpath(linebuffer,"proftpd");
+	if(ret == -1){
+		cgi_dbg("the dealwithpath return -1\n");
+		goto error;
+	}else if(ret == 1){/*add the partition to be shared*/
+		cgi_dbg("the dealwithpath return 1\n");
+		ret = do_uci_add("proftpd","share",sec_name);//add the share section
+
+		memset(sec_tmp, 0x00, sizeof(sec_tmp));
+		sprintf(sec_tmp,"proftpd.%s.path",sec_name);
+		ret = do_uci_set(sec_tmp,linebuffer);//set the option path
+		
+		memset(sec_tmp, 0x00, sizeof(sec_tmp));
+		sprintf(sec_tmp,"proftpd.%s.anon_auth",sec_name);				
+		ret  = do_uci_set(sec_tmp,allowgest);//set the option anon_auth 
+		
+		if(ro_list[0] !=0){
+			memset(sec_tmp, 0x00, sizeof(sec_tmp));
+			sprintf(sec_tmp,"proftpd.%s.ro_list",sec_name);
+			ret = do_uci_add_list(sec_tmp, ro_list);//set the ro_list
+		}
+		if(rw_list[0] != 0){
+			memset(sec_tmp, 0x00, sizeof(sec_tmp));
+			sprintf(sec_tmp,"proftpd.%s.rw_list",sec_name);
+			ret = do_uci_add_list(sec_tmp, rw_list);//set the rw_list
+		}
+		add_share_flag=1;
+		ret = 0;
+		goto error;
+	}else{/*the layer_count=3*/
+		
+		cgi_dbg("The dest path is the sub folder of a partition!\n");
+	}
+
+
 
 	/*set the ro_list and the rw_list to the dest shared folder*/	
 	for(i = 0;i < 30; i++){
@@ -2868,6 +2923,9 @@ int anonymftpshare(tcm_session *session, char *name, char *val, char *list)
 		strcpy(dest_path_tmp,json_object_get_string(sub_obj));
 	}
 	sprintf(dest_path,"/mnt%s",dest_path_tmp);
+	
+	/*delete all of the shared path if the layer_count is 2*/
+	dealwithpath(dest_path,"proftpd");
 	
 	cgi_dbg("the dest sharing path is %s\n",dest_path);
 	
@@ -3299,7 +3357,7 @@ int partsharecheck(tcm_session *session, char *name, char *val, char *list){
 	
 	if(!strcmp(service,"samba")){/*samba*/
 		;
-	}else if(!strcmp(service,"ftp")){/*ftp*/
+	}else if(!strcmp(service,"proftpd")){/*ftp*/
 		;
 	}else if (!strcmp(service,"dlna")){/*dlna*/
 		;
