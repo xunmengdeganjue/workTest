@@ -1,0 +1,103 @@
+# lighttpd configuration file
+server.modules = ( 
+	"mod_alias",
+	"mod_access",
+	"mod_auth",
+	"mod_cgi",
+	"mod_webdav",
+	"mod_evasive",
+	"mod_expire"
+)
+server.network-backend = "write"
+server.document-root = "/www"
+
+index-file.names = ( "index.html", "default.html", "index.htm", "default.htm" )
+mimetype.assign = (  
+	".pdf"   => "application/pdf",
+	".class" => "application/octet-stream",
+	".pac"   => "application/x-ns-proxy-autoconfig",
+	".swf"   => "application/x-shockwave-flash",
+	".wav"   => "audio/x-wav",
+	".gif"   => "image/gif",
+	".jpg"   => "image/jpeg",
+	".jpeg"  => "image/jpeg",
+	".png"   => "image/png",
+	".css"   => "text/css",
+	".html"  => "text/html",
+	".htm"   => "text/html",
+	".js"    => "text/javascript",
+	".txt"   => "text/plain",
+	".dtd"   => "text/xml",
+	".xml"   => "text/xml",
+	".mp3"   => "audio/mpeg",
+	".wma"   => "audio/x-ms-wma",
+	".avi"   => "video/x-msvideo",
+	".mpeg"  => "video/mpeg",
+   	".mpg"   => "video/mpeg",
+	".mov"   => "video/quicktime",
+	".bz2"   => "application/x-bzip",
+	".tbz"   => "application/x-bzip-compressed-tar",
+	".tar.bz2"  => "application/x-bzip-compressed-tar",
+	".wmv"	 => "video/x-ms-wmv",
+	".flv"  =>"video/x-flv",
+	
+	".doc"	=> "application/msword",
+	".docm" => "application/vnd.ms-word.document.macroEnabled.12",
+	".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+	".xlsx" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+	".xls"  => "application/vnd.ms-excel",
+	".xlt"  => "application/vnd.ms-excel",
+	".ppt"  => "application/vnd.ms-powerpoint",
+	".pptm" => "application/vnd.ms-powerpoint.presentation.macroEnabled.12",
+	".pptx" =>"application/vnd.openxmlformats-officedocument.presentationml.presentation",
+	
+	".aif"  => "audio/x-aiff",
+	".aifc" => "audio/aiff",
+	".aiff" => "audio/aiff",
+	
+	
+	" "	=> "application/octet-stream"
+	 
+		
+ )
+
+$HTTP["url"] =~ "\.pdf$" {
+	server.range-requests = "disable"
+}
+static-file.exclude-extensions = ( ".php", ".pl", ".fcgi" )
+server.port = 80
+server.pid-file = "/var/run/lighttpd.pid"
+server.chroot = "/"
+server.upload-dirs = ( "/tmp" )
+
+##optimized0328
+server.max-fds = 2048
+server.event-handler = "linux-sysepoll"
+server.max-keep-alive-requests = 5
+server.max-keep-alive-idle = 2
+
+#the server.max-worker coursed the webgui restart failed
+#if don't set it the problem will disappear
+server.max-worker = 3
+
+server.use-noatime = "enable"
+server.max-stat-threads = 4 
+server.max-read-threads = 64 #(2-4 per disk is good.)
+
+
+
+dir-listing.activate = "enable"
+#### CGI module
+#cgi.assign = ( ".pl"  => "/usr/bin/perl", ".cgi" => "/usr/bin/perl" )
+cgi.assign = ( "luci" => "/usr/bin/lua" )
+
+evasive.max-conns-per-ip = 20
+expire.url = ("/luci-static/" => "access 3 months")
+#### webdav
+$HTTP["url"] =~ "^/serversManager($|/)"{ 
+  webdav.activate = "enable"
+  webdav.is-readonly = "enable"
+	alias.url +=(
+		"/serversManager" => "/tmp/serversManager"
+	)
+}

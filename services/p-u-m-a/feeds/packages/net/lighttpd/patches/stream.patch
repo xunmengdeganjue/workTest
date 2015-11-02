@@ -1,0 +1,15 @@
+--- a/src/stream.c	2010-08-17 17:04:38.000000000 +0800
++++ b/src/stream.c	2013-03-08 09:31:00.696240092 +0800
+@@ -29,6 +29,12 @@
+ 
+ 	f->size = st.st_size;
+ 
++	//djnakata
++	if(f->size <= 0)
++	{
++		return 0;
++	}
++
+ #ifdef HAVE_MMAP
+ 	if (-1 == (fd = open(fn->ptr, O_RDONLY | O_BINARY))) {
+ 		return -1;

@@ -1,0 +1,10 @@
+--- a/src/base.h	2010-08-07 20:44:17.000000000 +0800
++++ b/src/base.h	2013-03-08 09:30:58.187240061 +0800
+@@ -206,6 +206,7 @@
+ 	buffer *rel_path;
+ 
+ 	buffer *etag;
++	buffer *key; //djnakata
+ } physical;
+ 
+ typedef struct {
