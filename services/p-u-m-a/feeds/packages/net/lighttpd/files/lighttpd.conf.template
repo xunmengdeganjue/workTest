@@ -65,7 +65,7 @@ $HTTP["url"] =~ "\.pdf$" {
 	server.range-requests = "disable"
 }
 static-file.exclude-extensions = ( ".php", ".pl", ".fcgi" )
-server.port = 81
+server.port = |ACCPORT|
 server.pid-file = "/var/run/lighttpd.pid"
 server.chroot = "/"
 server.upload-dirs = ( "/tmp" )
@@ -89,7 +89,7 @@ dir-listing.activate = "enable"
 #cgi.assign = ( ".pl"  => "/usr/bin/perl", ".cgi" => "/usr/bin/perl" )
 cgi.assign = ( "luci" => "/usr/bin/lua" )
 
-$SERVER["socket"] ==":443"{
+$SERVER["socket"] ==":444"{
 	ssl.engine = "enable"
 	ssl.pemfile = "mmc.pem"
 }
