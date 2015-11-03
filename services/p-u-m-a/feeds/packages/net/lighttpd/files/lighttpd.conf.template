@@ -65,7 +65,7 @@ $HTTP["url"] =~ "\.pdf$" {
 	server.range-requests = "disable"
 }
 static-file.exclude-extensions = ( ".php", ".pl", ".fcgi" )
-server.port = 80
+server.port = 81
 server.pid-file = "/var/run/lighttpd.pid"
 server.chroot = "/"
 server.upload-dirs = ( "/tmp" )
