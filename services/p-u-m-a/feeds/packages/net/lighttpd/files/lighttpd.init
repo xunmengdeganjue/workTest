@@ -21,12 +21,16 @@ ENABLE=0
 global()
 {
 
-	local access_port
+	local http_access_port
+	local https_access_port
+	
 	config_get ENABLE $1 enable
-	#get the option port
-	config_get access_port $1 port
-	echo "the port is $access_port" 
-	sed -i "s#|ACCPORT|#$access_port#g"  /etc/lighttpd/lighttpd.conf
+	#get the option http_access_port/https_access_port
+	config_get http_access_port $1 http_port
+	config_get https_access_port $1 https_port
+
+	sed -i "s#|HTTPACCPORT|#$http_access_port#g"  /etc/lighttpd/lighttpd.conf
+	sed -i "s#|HTTPSACCPORT|#$https_access_port#g"  /etc/lighttpd/lighttpd.conf
 			
 }
 addShare(){
