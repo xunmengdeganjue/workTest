@@ -18,8 +18,16 @@ start=""
 
 ENABLE=0
 
-global(){
-    	config_get ENABLE $1 enable       
+global()
+{
+
+	local access_port
+	config_get ENABLE $1 enable
+	#get the option port
+	config_get access_port $1 port
+	echo "the port is $access_port" 
+	sed -i "s#|ACCPORT|#$access_port#g"  /etc/lighttpd/lighttpd.conf
+			
 }
 addShare(){
 	
@@ -91,7 +99,7 @@ addShare(){
 			echo "empty:" $userlist
 			return
 			#echo "  webdav.activate = \"disable\"" >> /etc/lighttpd/lighttpd.conf
-           	fi
+        fi
            	
            	echo "  webdav.is-readonly = \"$readonly\"" >> /etc/lighttpd/lighttpd.conf
             	echo "  alias.url +=(" >>/etc/lighttpd/lighttpd.conf
