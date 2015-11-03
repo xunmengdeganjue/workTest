@@ -84,12 +84,15 @@ server.use-noatime = "enable"
 server.max-stat-threads = 4 
 server.max-read-threads = 64 #(2-4 per disk is good.)
 
-
-
 dir-listing.activate = "enable"
 #### CGI module
 #cgi.assign = ( ".pl"  => "/usr/bin/perl", ".cgi" => "/usr/bin/perl" )
 cgi.assign = ( "luci" => "/usr/bin/lua" )
+
+$SERVER["socket"] ==":443"{
+	ssl.engine = "enable"
+	ssl.pemfile = "mmc.pem"
+}
 
 evasive.max-conns-per-ip = 20
 expire.url = ("/luci-static/" => "access 3 months")
