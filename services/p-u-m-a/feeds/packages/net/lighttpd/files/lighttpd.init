@@ -14,6 +14,9 @@ key=1
 temp=""
 start=""
 
+
+
+
 . /etc/functions.sh
 
 ENABLE=0
@@ -117,18 +120,18 @@ addShare(){
 		##############################################################################
 		i=1
 		if [ -n "$userlist" ];then
-			len=`echo $userlist | awk -F" " '{ print length($0)}'`
+			len=`echo $userlist | awk -F"," '{ print length($0)}'`
 
 			while [ $i -le $len ]
 			do 
-				user_tmpa=`echo $userlist | awk '{ print $'$i' }'`
+				user_tmpa=`echo $userlist | awk -F"," '{ print $'$i' }'`
 	
 				i=`expr $i + 1`
-				user_tmpb=`echo $userlist | awk  '{ print $'$i' }'`
+				user_tmpb=`echo $userlist | awk -F","  '{ print $'$i' }'`
 	
 				if [ -z "$user_tmpb" ];then
 					user_list=`printf "%s%s%s%s" "$user_list" "user=" "$user_tmpa"`
-				break
+				    break
 				else 
 					user_list=`printf "%s%s%s%s" "$user_list" "user=" "$user_tmpa" "|"`
 				fi
@@ -183,9 +186,37 @@ backend()
 	config_get passwd $1 passwd	
 	
 	[ -z "$user" ]&&[ -z "$passwd" ] || echo "$user:$passwd" >> /etc/lighttpd/.lighttpd.user	
+}
+shareCheck(){
+
+	local share_count
+	local loop
+	local guestAccess
+	local accessUser
+	
+	share_count=`cat /etc/config/lighttpd |grep "config share" -c`
+
+
+	loop=`expr $share_count - 1`
+	
+	
+	while [ $loop -ge 0 ]
+	do
+		guestAccess=`uci get lighttpd.@share[$loop].anon_auth`
+		accessUsers=`uci get lighttpd.@share[$loop].user`
+		if [ $guestAccess -eq 0 -a  -z "$accessUsers" ];then
+			uci del lighttpd.@share[$loop]
+		fi
+		let loop--		
+	done
+	uci commit lighttpd
+
 }     
 
 start() {
+	
+	shareCheck
+	
 	[ ! -d /tmp/serversManager ] && mkdir -p /tmp/serversManager
 	
 	cat /etc/lighttpd/lighttpd.conf.template > /etc/lighttpd/lighttpd.conf
