@@ -91,7 +91,7 @@ cgi.assign = ( "luci" => "/usr/bin/lua" )
 
 $SERVER["socket"] ==":|HTTPSACCPORT|"{
 	ssl.engine = "enable"
-	ssl.pemfile = "mmc.pem"
+	ssl.pemfile = "/etc/lighttpd/mmc.pem"
 }
 
 evasive.max-conns-per-ip = 20
