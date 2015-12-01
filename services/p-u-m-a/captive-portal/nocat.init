@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# start/stop splashd super server.
+case "$1" in
+	start)
+		echo -n "Starting NoCat splash server:"
+		echo -n " splashd" ;
+		/usr/sbin/splashd -D &
+		echo "."
+	;;
+	stop)
+		echo -n "Stopping NoCat splash server:"
+		echo -n " splashd" ;
+		killall splashd
+		echo "."
+	;;
+	restart)
+		echo -n "Restarting NoCat splash server:"
+		echo -n " splashd"
+		$0 stop
+		$0 start
+		echo "."
+	;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+	;;
+esac
+
+exit 0

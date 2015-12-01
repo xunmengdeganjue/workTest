@@ -1,0 +1,13 @@
+#! /bin/bash
+
+LOG="/tmp/mountecho.log"
+DATE=`date "+%F-%H:%M:%S"`
+if [ -f $LOG ];then
+	refer=`cat $LOG | tail -n 1 |cut -d " " -f2`
+	echo "[ $DATE ] the last record is [$refer]" >> /dev/console
+	refer=`expr $refer + 1`
+	echo "$DATE $refer"  >> $LOG
+else
+	echo 0 > $LOG
+fi
+
