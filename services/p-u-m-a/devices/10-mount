@@ -463,11 +463,28 @@ if [ ${base:0:2} == "sd" ]; then
 #			usb_addinfo $device $blkdev
 					
 			echo "The dest device is:[$device]" >> /tmp/mount.log
+			
 			# vfat & ntfs-3g check
+			if [ `which blkid` ];then
+				
+:<<EOF
 			if [ `which fdisk` ]; then
 				isntfs=`fdisk -l | grep $device | grep NTFS |grep -v exFAT`
 				isvfat=`fdisk -l | grep $device | grep FAT |grep -v exFAT`
 				isexfat=`fdisk -l | grep $device | grep exFAT`
+EOF
+				filetype=`blkid /dev/$device |cut -d" " -f4|cut -d"=" -f2|cut -d"\"" -f2`
+				if [ $filetype = "vfat" ];then
+					isvfat=$filetype
+				elif [ $filetype = "ntfs" ];then
+					isntfs=$filetype
+				elif [ $filetype = "exfat" ];then
+					isexfat=$filetype
+				else
+					isvfat=""
+					isntfs=""
+					isexfat=""
+				fi
 				echo "the isexfat is [$isexfat]" >> $LOG
 				isfuse=`lsmod | grep fuse`
 				isntfs3g=`which ntfs-3g`
