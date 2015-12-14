@@ -1,0 +1,44 @@
+#!/bin/sh
+
+# Copyright (C) 2009 OpenWrt.org
+
+DATE=`date "+%F --- %H:%M:%S"`
+LOG="/dev/console"
+
+blkdev=`dirname $DEVPATH`
+echo "[$DATE] Printer:the blkdev is $blkdev" >> $LOG
+
+cupsd=`ps | grep cupsd.conf`
+if [ -z "$cupsd" ]; then
+    /etc/init.d/cupsd start
+fi
+
+enable=0
+
+case "$ACTION" in
+		add)
+			printer=`/usr/lib/cups/backend/usb |grep direct`
+			if [ -z $printer ];then
+				exit
+			fi
+			cupsd=`ps | grep cupsd.conf`
+			if [ "$cupsd" ]; then
+				if [ "$printer" ]; then
+						uci set devices.@printer[0].enable=1
+						uci commit devices
+				fi
+			fi
+			echo "[$DATE] ----PRINTER ADD OVER" >> $LOG
+			;;
+		remove)
+			if [ -f /etc/config/devices ]; then
+				enable=`uci get devices.@printer[0].enable`
+			fi
+			printer=`/usr/lib/cups/backend/usb`
+			if [ 1 -eq $enable ] && [ -z "$printer" ]; then
+					uci set devices.@printer[0].enable=0
+					uci commit devices
+			fi
+			echo "[$DATE] ----PRINTER REMOVE OVER" >> $LOG
+			;;
+esac
