@@ -31,7 +31,7 @@ disk_name_deal(){
 	local TMP=""
 	local refer_name=""
 	local tmp_name=$1
-	echo "FUNC:disk_name_deal:the orginal disk_name is $tmp_name" >> $LOG
+	#echo "FUNC:disk_name_deal:the orginal disk_name is $tmp_name" >> $LOG
 	#######################################################
 	#use the "_" to replace the "space" of the tmp_name.
 	#######################################################
@@ -43,10 +43,6 @@ disk_name_deal(){
 	done
 	##delete the last '_' of the tmp_name
 	tmp_name=${TMP%*_}
-	#######################################################
-	
-	echo "FUNC:disk_name_deal:the tmp name  is $tmp_name" >> $LOG
-	
 	#######################################################
 	#use the "_" to replace the "." of the tmp_name.
 	#######################################################
@@ -62,13 +58,14 @@ disk_name_deal(){
 	######################################################
 	
 	disk_name=$tmp_name
-	echo "FUNC:disk_name_deal:the disk_name is $disk_name" >> $LOG
+	#echo "FUNC:disk_name_deal:the disk_name is $disk_name" >> $LOG
 	
 	###
 	#check if there is a same diskname exists already.
 	###
 	if [ $multypart_flag -eq 1 ];then
 		echo "FUNC:disk_name_deal:#####the multypart_flag = 1" >> $LOG
+
 	else
 		cat /etc/config/devices |grep usb-storage 
 		n=`grep -rn "config automount" /etc/config/devices -c`
@@ -85,7 +82,7 @@ disk_name_deal(){
 		done
 		echo "FUNC:disk_name_deal:#####the multypart_flag = 0" >> $LOG
 	fi
-	echo "FUNC:disk_name_deal:the disk_name is $disk_name" >> $LOG
+#	echo "FUNC:disk_name_deal:the disk_name is $disk_name" >> $LOG
 }
 
 storageinfowrite(){
@@ -117,10 +114,10 @@ usb_addinfo(){
 	usb_num=0
 	port_exit=0
 	
-	echo "FUNC:usb_addinfo:disk is [$disk]" >> $LOG
+	#echo "FUNC:usb_addinfo:disk is [$disk]" >> $LOG
 	disk=${disk/[0-9]/}
-	echo " " >> $LOG
-	echo "FUNC:usb_addinfo:now disk is [$disk]" >> $LOG
+	#echo " " >> $LOG
+	#echo "FUNC:usb_addinfo:now disk is [$disk]" >> $LOG
 	disk_totalsize=`fdisk -l |grep  -w /dev/$disk |awk -F " " '{print $3}'`
 	size_unit=`fdisk -l |grep -w /dev/$disk |awk -F" " '{print $4}'`
 	if [ $disk_totalsize ];then
@@ -135,21 +132,21 @@ usb_addinfo(){
 		part_info=`fdisk -l /dev/$disk|grep ^/dev/*|awk '{print $1}'`
 		time=0
 		part_info=`echo $part_info`
-		echo "FUNC:usb_addinfo:the part_info is $part_info" >> $LOG
+		#echo "FUNC:usb_addinfo:the part_info is $part_info" >> $LOG
 		for i in $part_info
 		do
-			echo "FUNC:usb_addinfo:the time is $time [[[[the disk is $i]]]]]" >> $LOG
+			#echo "FUNC:usb_addinfo:the time is $time [[[[the disk is $i]]]]]" >> $LOG
 			if [ $time -eq 0 ];then
 				disk_freesize=`df -h $i |grep $i |awk '{print $4}'`
 				disk_freesize=${disk_freesize/[A-Z]/}
-				echo "FUNC:usb_addinfo:the first free size is $disk_freesize" >> $LOG
+				#echo "FUNC:usb_addinfo:the first free size is $disk_freesize" >> $LOG
 			else
 				multypart_flag=1
 				tmpsize=`df -h $i |grep $i |awk '{print $4}'`
 				if [ ! -z $tmpsize ];then
-					echo "FUNC:usb_addinfo:the orginal tmpsize is $tmpsize" >> $LOG
+					#echo "FUNC:usb_addinfo:the orginal tmpsize is $tmpsize" >> $LOG
 					tmpsize=${tmpsize/[A-Z]/}
-					echo "FUNC:usb_addinfo:the temp size is $tmpsize" >> $LOG
+					#echo "FUNC:usb_addinfo:the temp size is $tmpsize" >> $LOG
 					disk_freesize=`awk 'BEGIN{printf '$disk_freesize'+'$tmpsize'}'`
 				fi
 			fi
@@ -158,7 +155,7 @@ usb_addinfo(){
 			##sleep 1
 		done
 		disk_freesize="$disk_freesize""G"
-		echo "FUNC:usb_addinfo:the freesize is $disk_freesize" >> $LOG
+		#echo "FUNC:usb_addinfo:the freesize is $disk_freesize" >> $LOG
 		#get the free size end
 		
 		##write the total information to the usb-storage config section
@@ -166,9 +163,9 @@ usb_addinfo(){
 		
 	fi
 	uci commit devices
-	echo "restart the usb led init programe" >> $LOG
+	#echo "restart the usb led init programe" >> $LOG
 	#/etc/init.d/led restart 
-	echo "writhe the config-devices over!"  >> $LOG
+	#echo "writhe the config-devices over!"  >> $LOG
 
 }
 clear() {
@@ -215,11 +212,11 @@ checkname() {
 		
 }
 base=`basename $blkdev`
-echo "[$DATE]the basename of the blkdev is [$base]" >> $LOG
+#echo "[$DATE]the basename of the blkdev is [$base]" >> $LOG
 #if [ `basename $blkdev` != "block" -a ${base:0:8} != "mtdblock" -a ${base:0:3} != "mtd" ]; then
 
 if [ ${base:0:2} == "sd" ] ; then
-	echo "[$DATE]--------the dest blkdev is $blkdev" >> $LOG
+	#echo "[$DATE]--------the dest blkdev is $blkdev" >> $LOG
 	if [ -f /tmp/devices ]; then
 		touch /tmp/devices
 	else
@@ -227,20 +224,23 @@ if [ ${base:0:2} == "sd" ] ; then
 		touch /tmp/devices
 	fi
 	device=`basename $DEVPATH`
-	echo "[$DATE]=========the device is [$device] " >> $LOG
+	#echo "[$DATE]=========the device is [$device] " >> $LOG
 	case "$ACTION" in
 		add)					
-			echo "[$DATE] The dest device is:[$device]" >> $LOG			
+			#echo "[$DATE] The dest device is:[$device]" >> $LOG			
 			# vfat & ntfs-3g check
 			if [ `which blkid` ];then
-				formattype=`blkid /dev/$device |cut -d" " -f4|cut -d"=" -f2|cut -d"\"" -f2`
+				formattype=`blkid -o value -s TYPE /dev/$device`
+				if [ -z $formattype ];then
+					formattype=`blkid /dev/$device |cut -d" " -f4|cut -d"=" -f2|cut -d"\"" -f2`
+				fi
 				if [ $formattype = "vfat" ];then
 					isvfat=$formattype
 				elif [ $formattype = "ntfs" ];then
 					isntfs=$formattype
 				elif [ $formattype = "exfat" ];then
 					isexfat=$formattype
-					echo "[$DATE]****************the formattype is [$isexfat]" >> $LOG
+					#echo "[$DATE]****************the formattype is [$isexfat]" >> $LOG
 				else
 					isvfat=""
 					isntfs=""
@@ -253,8 +253,8 @@ if [ ${base:0:2} == "sd" ] ; then
 				isvfat=""
 			fi
 			label=`blkid -o value -s LABEL /dev/$device`
-			echo " [$DATE] The first first lable is:[$label]" >> $LOG
-			echo " [$DATE] The first first lable is:[$label]" >> $LOG
+			#echo " [$DATE] The first first lable is:[$label]" >> $LOG
+			#echo " [$DATE] The first first lable is:[$label]" >> $LOG
 			if [ -z $label ]; then
                 		label="UNTITLED"
             fi
@@ -268,16 +268,16 @@ if [ ${base:0:2} == "sd" ] ; then
 			isfat=0
 			# mount with ntfs-3g if possible, else with default mount
 			if [ "$isntfs" -a "$isfuse" -a "$isntfs3g" ]; then
-				echo "[$DATE] mount the disk with ntfs-3g format" >> $LOG
+				#echo "[$DATE] mount the disk with ntfs-3g format" >> $LOG
 				ntfs-3g -o nls=utf8 /dev/$device /mnt/$label_real
 			elif [ "$isvfat" ]; then
-				echo "[$DATE] mount the disk with vfat format" >> $LOG
+				#echo "[$DATE] mount the disk with vfat format" >> $LOG
 		#		mount -t vfat -o umask=000,iocharset=utf8,quiet /dev/$device /mnt/$label_real
 				mount -t vfat -o umask=000,utf8,quiet /dev/$device /mnt/$label_real
 				isfat=1
 			elif [ "$isexfat" ]; then
-				echo "[$DATE] mount the disk with exfat format" >> $LOG
-				echo -e "`date "+%F-%H:%M:%S"` \033[31m mount the exfat to the /mnt/$label_real \033[0m " >> $LOG
+				#echo "[$DATE] mount the disk with exfat format" >> $LOG
+				#echo -e "`date "+%F-%H:%M:%S"` \033[31m mount the exfat to the /mnt/$label_real \033[0m " >> $LOG
 				mount -t exfat -o umask=000 /dev/$device /mnt/$label_real
 				#isexfat=1
 			else
