@@ -233,6 +233,7 @@ if [ ${base:0:2} == "sd" ] ; then
 				formattype=`blkid -o value -s TYPE /dev/$device`
 				if [ -z $formattype ];then
 					formattype=`blkid /dev/$device |cut -d" " -f4|cut -d"=" -f2|cut -d"\"" -f2`
+					
 				fi
 				if [ $formattype = "vfat" ];then
 					isvfat=$formattype
@@ -253,9 +254,10 @@ if [ ${base:0:2} == "sd" ] ; then
 				isvfat=""
 			fi
 			label=`blkid -o value -s LABEL /dev/$device`
+			uuid_flag=`blkid -o value -s UUID /dev/$device`
 			#echo " [$DATE] The first first lable is:[$label]" >> $LOG
 			#echo " [$DATE] The first first lable is:[$label]" >> $LOG
-			if [ -z $label ]; then
+			if [ -z $label -o -z $uuid_flag ]; then
                 		label="UNTITLED"
             fi
 			key=1
@@ -305,7 +307,10 @@ if [ ${base:0:2} == "sd" ] ; then
 			
 			# 
 			m=`grep -rn "config automount" /etc/config/devices -c`
-			UUID=`blkid -o value -s UUID /dev/$device`		
+			UUID=`blkid -o value -s UUID /dev/$device`
+			if [ -z $UUID ];then
+				UUID="THE DISK IS NOT NORMAL ONE"
+			fi		
 			u=`dirname $blkdev | grep usb -c`
 			vendor=`cat /sys/$blkdev/device/vendor`
 			vendor=`echo $vendor`
