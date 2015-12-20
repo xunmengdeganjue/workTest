@@ -120,17 +120,10 @@
 
 /* $Id: ncat_core.c 35432 2015-11-15 14:08:02Z dmiller $ */
 
-#include "ncat.h"
-#include "util.h"
-#include "sys_wrap.h"
+//#include "ncat.h"
+#include "utils.h"
+//#include "sys_wrap.h"
 
-#ifndef WIN32
-#include <unistd.h>
-#include <netdb.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#endif
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -154,6 +147,12 @@ struct options o;
 
 /* The time the program was started, for exit statistics in connect mode. */
 struct timeval start_time;
+
+void zmem(void *mem, size_t n)
+{
+    memset(mem, 0, n);
+}
+
 
 /* Initializes global options to their default values. */
 void options_init(void)
@@ -201,14 +200,6 @@ void options_init(void)
     o.proxy_auth = NULL;
     o.proxytype = NULL;
 
-#ifdef HAVE_OPENSSL
-    o.ssl = 0;
-    o.sslcert = NULL;
-    o.sslkey = NULL;
-    o.sslverify = 0;
-    o.ssltrustfile = NULL;
-    o.sslciphers = NULL;
-#endif
 }
 
 /* Internal helper for resolve and resolve_numeric. addl_flags is ored into

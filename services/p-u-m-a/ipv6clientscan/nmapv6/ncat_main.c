@@ -4,10 +4,10 @@
  ***************************************************************************/
 
 
-#include "nsock.h"
-#include "ncat.h"
-#include "util.h"
-#include "sys_wrap.h"
+//#include "nsock.h"
+//#include "ncat.h"
+#include "utils.h"
+//#include "sys_wrap.h"
 #include <string.h>
 #include <getopt.h>
 
@@ -20,21 +20,6 @@
 
 static int ncat_connect_mode(void);
 static int ncat_listen_mode(void);
-
-/* adds newline for you */
-void bye(const char *fmt, ...)
-{
-    va_list ap;
-
-    fprintf(stderr, "%s: ", NCAT_NAME);
-    va_start(ap, fmt);
-    vfprintf(stderr, fmt, ap);
-    va_end(ap);
-    fprintf(stderr, " QUITTING.\n");
-    fflush(stderr);
-
-    exit(2);
-}
 
 /* Determines if it's parsing HTTP or SOCKS by looking at defport */
 static size_t parseproxy(char *str, struct sockaddr_storage *ss,

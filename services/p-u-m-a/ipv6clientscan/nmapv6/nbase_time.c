@@ -123,15 +123,13 @@
 
 /* $Id: nbase_time.c 34574 2015-06-03 13:01:29Z dmiller $ */
 
-#include "nbase.h"
+#include "utils.h"
+
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 #include <time.h>
-#ifdef WIN32
-#include <sys/timeb.h>
-#include <winsock2.h>
-#endif
+
 
 #ifndef HAVE_USLEEP
 void usleep(unsigned long usec) {
