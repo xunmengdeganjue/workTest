@@ -1,0 +1,261 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006 OpenWrt.org
+START=80
+
+BIN=lighttpd
+DEFAULT=/etc/default/$BIN
+LOG_D=/var/log/$BIN
+RUN_D=/var/run
+PID_F=$RUN_D/$BIN.pid
+
+list_name=""
+space=" "
+key=1
+temp=""
+start=""
+
+
+
+
+. /etc/functions.sh
+
+ENABLE=0
+
+global()
+{
+
+	local http_access_port
+	local https_access_port
+	
+	config_get ENABLE $1 enable
+	#get the option http_access_port/https_access_port
+	config_get http_access_port $1 http_port
+	config_get https_access_port $1 https_port
+
+	sed -i "s#|HTTPACCPORT|#$http_access_port#g"  /etc/lighttpd/lighttpd.conf
+	sed -i "s#|HTTPSACCPORT|#$https_access_port#g"  /etc/lighttpd/lighttpd.conf
+			
+}
+addShare(){
+	
+	local path
+	local readonly
+	local anon_auth
+	local userlist
+	local user_list
+	local path1
+	local share_name
+	config_get path $1 path	
+	config_get anon_auth $1 anon_auth
+	config_get readonly $1 readonly
+	config_get userlist $1 user
+	config_get share_name $1 share_name
+	
+	[ -z "$path" ] && exit
+	#if path is not exist, remove the config section from the configuration file
+	if [ ! -d "$path" ]
+	then
+		results=`uci show lighttpd | grep "$path" | cut -d "=" -f 1`
+		for result in $results
+		do 
+			path_temp=`uci get $result`
+			if [ "$path_temp" = "$path" ]
+			then
+				result=${result%.*}
+				uci delete $result
+				uci commit lighttpd
+				return
+			fi
+		done
+		return
+	fi
+	
+	start=${path##*/}
+	num=1
+	checkName "$start" "$start" $num
+	name=$temp
+	#echo "share name is $share_name" 
+	if [ "$share_name" ];then
+		if [ "$name" != "$share_name" ];then
+			name=$share_name
+		fi
+	fi
+	#echo "the temp is $temp"
+	#list_name=$list_name'|'$temp
+	list_name=$list_name'|'$name
+	
+#	len1=`echo $list_name | awk -F"|" '{ print NF }'`
+
+#the "user_list" is just to contain the result of the deal of the users that get
+#from the lighttpd.config
+	
+#if user have not set the share directory ,so exit
+	
+	if [ $readonly = 0 ];then
+		readonly="disable"
+	else
+		readonly="enable"
+	fi 
+		
+	if [ $anon_auth = 1 ];then
+		echo "\$HTTP[\"url\"] =~ \"^/$name($|/)\"{ " >> /etc/lighttpd/lighttpd.conf
+		echo "  webdav.activate = \"enable\"" >> /etc/lighttpd/lighttpd.conf
+		echo "  webdav.is-readonly = \"$readonly\"" >> /etc/lighttpd/lighttpd.conf		
+		echo "	alias.url +=(" >>/etc/lighttpd/lighttpd.conf
+		echo "		\"/$name\" => \"$path\"">>/etc/lighttpd/lighttpd.conf
+		echo "	)" >>/etc/lighttpd/lighttpd.conf
+		echo "}" >>/etc/lighttpd/lighttpd.conf
+	elif [ $anon_auth = 0 ];then
+		#echo "\$HTTP[\"url\"] =~ \"^/$name($|/)\"{ " >> /etc/lighttpd/lighttpd.conf
+		
+		if [ -n "$userlist" ];then
+			#echo "not empty:" $userlist	
+			echo "\$HTTP[\"url\"] =~ \"^/$name($|/)\"{ " >> /etc/lighttpd/lighttpd.conf
+			echo "  webdav.activate = \"enable\"" >> /etc/lighttpd/lighttpd.conf	
+		else
+			echo "empty:" $userlist
+			return
+			#echo "  webdav.activate = \"disable\"" >> /etc/lighttpd/lighttpd.conf
+        fi
+           	
+           	echo "  webdav.is-readonly = \"$readonly\"" >> /etc/lighttpd/lighttpd.conf
+            	echo "  alias.url +=(" >>/etc/lighttpd/lighttpd.conf
+            	echo "          \"/$name\" => \"$path\"">>/etc/lighttpd/lighttpd.conf
+		echo "  )">>/etc/lighttpd/lighttpd.conf
+
+
+		##############################################################################
+		#the code bellow is to get the username from the lighttpd.config and write the 
+		#username and the passwd to the /etc/lighttpd/.lighttpd.user 
+		##############################################################################
+		i=1
+		if [ -n "$userlist" ];then
+			len=`echo $userlist | awk -F"," '{ print length($0)}'`
+
+			while [ $i -le $len ]
+			do 
+				user_tmpa=`echo $userlist | awk -F"," '{ print $'$i' }'`
+	
+				i=`expr $i + 1`
+				user_tmpb=`echo $userlist | awk -F","  '{ print $'$i' }'`
+	
+				if [ -z "$user_tmpb" ];then
+					user_list=`printf "%s%s%s%s" "$user_list" "user=" "$user_tmpa"`
+				    break
+				else 
+					user_list=`printf "%s%s%s%s" "$user_list" "user=" "$user_tmpa" "|"`
+				fi
+	
+			done
+	
+			echo "  auth.backend = \"plain\"" >> /etc/lighttpd/lighttpd.conf
+			echo "  auth.backend.plain.userfile = \"/etc/lighttpd/.lighttpd.user\"" >> /etc/lighttpd/lighttpd.conf
+			echo "  auth.require = (\"$subpath\" => ( " >> /etc/lighttpd/lighttpd.conf
+			echo "                  \"method\"  => \"basic\"," >> /etc/lighttpd/lighttpd.conf
+			echo "                  \"realm\"   => \"hello \"," >> /etc/lighttpd/lighttpd.conf
+			echo "                  \"require\" => \"$user_list\"" >> /etc/lighttpd/lighttpd.conf
+			echo "  )" >> /etc/lighttpd/lighttpd.conf
+			echo " )" >> /etc/lighttpd/lighttpd.conf
+			echo "}" >> /etc/lighttpd/lighttpd.conf
+	
+		else
+            		echo "}" >> /etc/lighttpd/lighttpd.conf 
+        fi
+    fi 
+}
+checkName(){
+        start=$1
+       	end=$2
+        key=$3
+        
+        len2=`echo $list_name | awk -F"|" '{ print NF }'`
+       	j=1
+        while [ $j -le $len2 ]
+        do
+                local val=`echo $list_name | awk -F"|" '{ print $ '$j' }'`
+                flag=1
+                if [ "$(echo "$end" | tr [a-z] [A-Z])" == "$(echo "$val" |tr [a-z] [A-Z])" ]
+                then
+                        end=$start"$num"
+                        let num++
+                        checkName "$start" "$end" $num
+                        flag=0
+                fi
+             	j=`expr $j + 1`
+        done
+        if [ $flag==1 ];then
+                temp=$end
+        fi
+}
+     
+backend()
+{
+	local user
+	local passwd
+	config_get user $1 name
+	config_get passwd $1 passwd	
+	
+	[ -z "$user" ]&&[ -z "$passwd" ] || echo "$user:$passwd" >> /etc/lighttpd/.lighttpd.user	
+}
+shareCheck(){
+
+	local share_count
+	local loop
+	local guestAccess
+	local accessUser
+	
+	share_count=`cat /etc/config/lighttpd |grep "config share" -c`
+
+
+	loop=`expr $share_count - 1`
+	
+	
+	while [ $loop -ge 0 ]
+	do
+		guestAccess=`uci get lighttpd.@share[$loop].anon_auth`
+		accessUsers=`uci get lighttpd.@share[$loop].user`
+		if [ $guestAccess -eq 0 -a  -z "$accessUsers" ];then
+			uci del lighttpd.@share[$loop]
+		fi
+		let loop--		
+	done
+	uci commit lighttpd
+
+}     
+
+start() {
+	
+	shareCheck
+	
+	[ ! -d /tmp/serversManager ] && mkdir -p /tmp/serversManager
+	
+	cat /etc/lighttpd/lighttpd.conf.template > /etc/lighttpd/lighttpd.conf
+	cat /dev/null >  /etc/lighttpd/.lighttpd.user
+	
+	config_load lighttpd
+	config_foreach global global
+	
+	if [ $ENABLE = 1 ];then
+		config_foreach addShare share
+		
+		###############################
+		#deal with the plain passwd
+		config_load pwd
+		config_foreach backend userinfo
+	fi
+	
+	[ -f $DEFAULT ] && . $DEFAULT
+	mkdir -p $LOG_D
+	mkdir -p $RUN_D
+	$BIN $OPTIONS 
+}
+
+stop() {
+#	[ -f $PID_F ] && kill -9 $(cat $PID_F)
+	pkill -9 lighttpd
+}
+
+restart(){
+	stop
+	start
+}
