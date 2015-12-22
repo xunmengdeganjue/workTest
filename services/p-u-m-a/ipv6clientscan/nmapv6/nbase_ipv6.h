@@ -1,4 +1,4 @@
-
+ 
 /***************************************************************************
  * nbase_ipv6.h -- IPv6 portability classes and structures These were      *
  * written by fyodor@nmap.org .                                        *
