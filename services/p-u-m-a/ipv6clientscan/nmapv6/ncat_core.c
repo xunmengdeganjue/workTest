@@ -123,7 +123,7 @@
 //#include "ncat.h"
 #include "utils.h"
 //#include "sys_wrap.h"
-
+/*
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -131,6 +131,7 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <time.h>
+*/
 
 /* Only two for now because we might have to listen on IPV4 and IPV6 */
 union sockaddr_u listenaddrs[NUM_LISTEN_ADDRS];
@@ -261,14 +262,6 @@ int resolve(const char *hostname, unsigned short port,
 
 int fdinfo_close(struct fdinfo *fdn)
 {
-#ifdef HAVE_OPENSSL
-    if (o.ssl && fdn->ssl != NULL) {
-        SSL_shutdown(fdn->ssl);
-        SSL_free(fdn->ssl);
-        fdn->ssl = NULL;
-    }
-#endif
-
     return close(fdn->fd);
 }
 

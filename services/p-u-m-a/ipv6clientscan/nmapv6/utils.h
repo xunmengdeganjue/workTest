@@ -2,14 +2,55 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-
+#include "nbase_ipv6.h"
 #include <time.h>
 #include <sys/select.h>
 #include <limits.h>
 #include <arpa/inet.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <time.h>
+#include<netdb.h>
 
 
+/* Ncat information for output, etc. */
+#define NCAT_NAME "Ncat"
+#define NCAT_URL "https://nmap.org/ncat"
+#define NCAT_VERSION "7.01"
+#define DEFAULT_PROXY_PORT 3128
+#define NUM_LISTEN_ADDRS 2
+/* Default Ncat port */
+#define DEFAULT_NCAT_PORT 31337
+#define DEFAULT_MAX_CONNS 100
+/* Client-mode timeout for connection establishment, in msecs */
+#define DEFAULT_CONNECT_TIMEOUT 10000
+#define EAI_NONAME       8      /* hostname nor servname provided, or not known */
 
+union sockaddr_u {
+    struct sockaddr_storage storage;
+#ifdef HAVE_SYS_UN_H
+    struct sockaddr_un un;
+#endif
+    struct sockaddr_in in;
+    struct sockaddr_in6 in6;
+    struct sockaddr sockaddr;
+};
+
+extern union sockaddr_u listenaddrs[NUM_LISTEN_ADDRS];
+extern int num_listenaddrs;
+extern union sockaddr_u srcaddr;
+extern union sockaddr_u targetss;
+extern size_t targetsslen;
+extern size_t srcaddrlen;
+
+typedef struct fd_list {
+    struct fdinfo *fds;
+    int nfds, maxfds, fdmax;
+} fd_list_t;
 
 typedef unsigned long bitvector_t;
 /* A 256-element bit vector, representing legal values for one octet. */
@@ -116,13 +157,22 @@ struct options{
     int sslverify;
     char *ssltrustfile;
     char *sslciphers;
-}
+};
+
 
 
 extern struct options o;
 
 /* The time the program was started, for exit statistics in connect mode. */
 extern struct timeval start_time;
+
+struct fdinfo {
+    int fd;
+    union sockaddr_u remoteaddr;
+#ifdef HAVE_OPENSSL
+    SSL *ssl;
+#endif
+};
 
 
 void options_init(void);
@@ -154,6 +204,28 @@ unsigned int sleep(unsigned int seconds);
 
 void bye(const char *fmt, ...);
 void zmem(void *mem, size_t n);
+
+void loguser(const char *fmt, ...);
+void logdebug(const char *fmt, ...) __attribute__ ((format (printf, 1, 2)));
+
+void *safe_malloc(size_t size) ;
+void *safe_realloc(void *ptr, size_t size) ;
+void *safe_zalloc(size_t size) ;
+
+int addrset_add_file(struct addrset *set, FILE *fd, int af, int dns);
+
+int addrset_add_spec(struct addrset *set, const char *spec, int af, int dns);
+
+void die(int err);
+int Open(const char *pathname, int flags, mode_t mode);
+int ncat_openlog(const char *logfile, int append);
+
+
+
+
+
+
+
 
 
 

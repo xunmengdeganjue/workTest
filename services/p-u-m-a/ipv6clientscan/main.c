@@ -72,7 +72,7 @@ int main(int argc, char **argv)
         printf("begin listen\n");
 
 
-	
+	daemon(1,1);
     while (1) {
         len = sizeof(struct sockaddr);
         if ((new_fd =
