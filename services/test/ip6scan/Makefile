@@ -5,4 +5,4 @@ main.o : main.c func.c func.h
 func.o :func.c func.h
 	gcc -c func.c
 clean:
-	rm -rf ip6scan
+	rm -rf ip6scan *.o
