@@ -1,9 +1,31 @@
+/*
+ ******************************************************************************
+ *
+ *    Copyright (C) 2015-2016 by Nick Li. All rights reserved.
+ *    All source codes is distributed under the U-License.
+ *
+ *    CPU               :   ARM9
+ *    OS                 :   OpenWRT
+ *    Version          :   0.10
+ *    Released by Nick Li
+ *                      2015.12.31
+ *
+ *
+ *
+ *       File Name      : func.c
+ *       Create Date  : 2015/12/31
+ *       Author         	: Nick Li 
+ *       Description    : 
+ ******************************************************************************
+*/
 
-
-
+/****************************************************************************
+ *  modify history(TransPlant-1st)                                         								 *
+ *  NO.     modify reason              modify date      modify person      						 *
+ *<--1-->                      
+*****************************************************************************/
 
 #include "func.h"
-
 
 
 static void sigUsr(int signo){/*argument is signal number*/
