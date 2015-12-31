@@ -37,28 +37,30 @@
 #include<fcntl.h>
 #include<stdarg.h> //for va_start
 #include<errno.h> //for the error
-#include <sys/stat.h>//for the struct stat
+#include<sys/stat.h>//for the struct stat
 
 
 
 //#define PIDFILE "/var/run/ip6scan.pid"
 
 #define PIDFILE 			"/tmp/ip6scan.pid"
-#define PROCIP6CLIENTS 	"/proc/ip6addr"
+//#define PROCIP6CLIENTS 	"/proc/ip6addr"
 #define IPV6CLIENTS 		"/tmp/ip6clients"
+#define PROCIP6CLIENTS 	"/tmp/ip6addr"
 
-#define GET_MAC 			"cat /proc/ip6addr |awk -F \"|\" '{print $1}'"
-#define GET_ADDR 		"cat /proc/ip6addr |awk -F \"|\" '{print $2}'"
+//#define GET_MAC 			"cat /proc/ip6addr |awk -F \"|\" '{print $1}'"
+//#define GET_ADDR 		"cat /proc/ip6addr |awk -F \"|\" '{print $2}'"
 
+#define GET_MAC 			"cat /tmp/ip6addr |awk -F \"|\" '{print $1}'"
+#define GET_ADDR 		"cat /tmp/ip6addr |awk -F \"|\" '{print $2}'"
 
-
-int exec_cmd(char *cmd, char *val);
+int exec_cmd(char *cmd, char *val,int size);
 char* xasprintf(const char *format, ...);
 char* bb_get_chunk_with_continuation(FILE *file, int *end, int *lineno);
 char* xmalloc_fgetline(FILE *file);
 int data_transmission();
 
-
+//extern int vasprintf(char **ret, const char *format, va_list ap);
 
 
 #endif
