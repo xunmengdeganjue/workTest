@@ -134,22 +134,24 @@ int data_transmission()
 
 	/*get the original mac and ipv6addr*/
 	exec_cmd(GET_MAC,mac_got,18);
-	exec_cmd(GET_ADDR,ipv6addr_got,30);
-	/*
-	printf("\nthe mac_refer is [%s]\n",mac_refer);
-	printf("\nthe ipv6addr_refer is [%s]\n",ipv6addr_refer);
-	*/
+	exec_cmd(GET_ADDR,ipv6addr_got,40);
 
+	printf("the mac_got is [%s]\n",mac_got);
+	printf("the ipv6addr_got is [%s]\n",ipv6addr_got);
 	fnamesfx = xasprintf("%s+", filename);
 	
 	sfx_char = &fnamesfx[strlen(fnamesfx)-1];/*get the last char of the fnamesfx,which is '+'*/
 
-	old_data_fp = fopen(filename,"r+");
+	old_data_fp = fopen(filename,"r+");//if the file is not exists,then create it.
 	
 	if (!old_data_fp){
 		printf("opened the  file %s failed!!!\n",filename);
-		ret = -1;
-		goto free_mem;
+		old_data_fp = fopen(filename,"w+");//create a new record file.
+		if(!old_data_fp){
+			printf("ERROR:create record file failed!\n");
+			ret = -1;
+			goto free_mem;
+		}
 	}
 	old_fd = fileno(old_data_fp);//get the fp again because opened the file already	
 	
@@ -204,10 +206,10 @@ int data_transmission()
 		
 		line = xmalloc_fgetline(old_data_fp);	
 
-		//printf("the line content is [%s]\n",line);
+		printf("the line content is [%s]\n",line);
 		
 		if(!line){
-			//printf("the content of the line is null\n");
+			printf("the content of the line is null\n");
 			break;
 		}
 		if (strncmp(mac_got, line, strlen(mac_got)) != 0)//if the mac is not included in the line
@@ -218,11 +220,11 @@ int data_transmission()
 			cp = line +strlen(mac_got)+1;
 			//printf("the cp is [%s]\n",cp);
 			if(strcmp(ipv6addr_got,cp)){
-				//printf("*******update a client's information to the record file******\n");
+				printf("*******update a client's information to the record file******\n");
 				fprintf(new_data_fp,"%s|%s\n",mac_got,ipv6addr_got);
 				add_flag = 0;
 			}else{/*the ipv6addr_refer is the same as the line's ipv6addr,so keep the old data*/
-				//printf("*******keep the information as it used be******\n");
+				printf("*******keep the information as it used be******\n");
 				fprintf(new_data_fp,"%s\n",line);
 				add_flag = 0;
 			}
@@ -236,7 +238,7 @@ next:
 	/*add the new clients information to the /tmp/ip6clients+*/
 	if(add_flag){
 
-		//printf("+++++add a new client to the record file++++++\n");
+		printf("+++++add a new client to the record file++++++\n");
 		/*
 		if(!(new_data_fp = fopen(fnamesfx,"r+")))
 		{
