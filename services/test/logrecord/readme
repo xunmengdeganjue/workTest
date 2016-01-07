@@ -4,3 +4,5 @@ USAGE:
 COMPIEL:
 	gcc -o log main.c daemon_log.c
 
+note:
+	the log.h and logopt.c is from a working project that provide a very good learning material.

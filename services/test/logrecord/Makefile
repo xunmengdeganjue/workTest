@@ -15,8 +15,6 @@ LDFLAGS +=
 
 all:$(OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET) $(OBJS)
-#lib:
-#	make -C lib
 
 #%.o:%.c
 #	$(CC) $(CFLAGS) -c $<
@@ -25,5 +23,5 @@ all:$(OBJS)
 	$(CC) $(CFLAGS) -o $@ -c $<
 	
 clean:
-	rm -rf *.o
+	rm -rf *.o && cd ./lib && rm -rf *.o
 	rm -rf log
