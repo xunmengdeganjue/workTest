@@ -46,12 +46,10 @@ int daemon_log(const char *func,const char *file,unsigned long line,const char *
 
 	fprintf(logfd,LINE_FILE_FUNC_FMT"%s",line,file,func,msg_buffer);
 	
-	
-
 	//fprintf(logfd,format,args);
 	fflush(logfd);
 	fclose(logfd);
-	
+	return 0;
 }
 
 

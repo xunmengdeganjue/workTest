@@ -67,7 +67,7 @@ int debug_log_init(t_log_p * log_p, const char *log_file, unsigned long attr, in
 	char command[128] = {0};
 	char *file = tmparray;
 	FILE *pf = NULL;
-	int ret = 0;
+	//int ret = 0;
 	
 	log = malloc(sizeof(t_log));
 	if (log == NULL) {
