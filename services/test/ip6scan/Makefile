@@ -1,11 +1,22 @@
 
-CFLAGS += -Wall -D_GNU_SOURCE 
+TARGET=net6scan
+TARGET1=test
+CFLAGS += -Wall -D_GNU_SOURCE -I./include -DX86
 
-net6scan : main.o func.o
-	$(CC) $(CFLAGS) -o net6scan main.o func.o
-main.o : main.c
-	$(CC) $(CFLAGS) -c main.c
-func.o : func.c
-	$(CC) $(CFLAGS) -c func.c
+DIRS=lib
+SRCS=$(foreach DIR, $(DIRS), $(wildcard $(DIR)/*.c))
+OBJS=$(patsubst %.c, %.o, $(SRCS))
+OBJS += main.o
+
+all:$(OBJS) test
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	cp ./test/test ./test.bin
+test:
+	$(CC) -C test
+	
+%.o:%.c
+	$(CC) $(CFLAGS) -o $@ -c $^
+
 clean:
-	rm -rf ip6scan *.o
+	rm -rf ip6scan *.o  *.bin
+	cd ./lib && rm -rf *.o
