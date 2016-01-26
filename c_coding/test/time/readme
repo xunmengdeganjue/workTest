@@ -1,3 +1,5 @@
+一、LINUX下获取系统当前时间相关
+
 1. Linux下与时间有关的结构体
 struct timeval
 { 
@@ -126,3 +128,23 @@ char * strptime(char *s,char *fmt,struct tm *tp);
 %T : 读取"%H:%M:%S"格式。 
 %y : 读取两位数年份。 
 %Y : 读取四位数年份。 
+实验代码：date_get.c
+
+二、根据总时间计算得出年月日时分秒算法
+
+    long con_allsec = 0;
+    int con_year = 0;
+    int con_month = 0;
+    int con_day = 0;
+    int con_hour = 0;
+    int con_minute = 0;
+    int con_second = 0;
+
+
+    con_year = con_allsec / 31536000; 
+    con_month = (con_allsec % 31536000) / 2678400; 
+    con_day = (con_allsec % 2678400) / 86400; 
+    con_hour = (con_allsec % 86400) / 3600; 
+    con_minute = (con_allsec % 3600) / 60; 
+    con_second = con_allsec % 60; 
+
