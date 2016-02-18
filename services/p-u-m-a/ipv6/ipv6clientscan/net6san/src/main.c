@@ -76,7 +76,7 @@ static void recordPid(){
 
 int main(int argc,char **argv){
 	
-//	FILE *record_fp;
+	FILE *record_fp;
 	printf("Start the net6scan daemon.\n");
 
 #if 0	

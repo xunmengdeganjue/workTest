@@ -1,8 +1,22 @@
-ip6scan : main.o func.o
-	gcc -o ip6scan main.c func.c
-main.o : main.c func.c func.h
-	gcc -c main.c func.c
-func.o :func.c func.h
-	gcc -c func.c
+
+TARGET=net6scan
+TARGET1=test
+CFLAGS += -Wall -D_GNU_SOURCE -I./include -DX86
+
+DIRS=lib
+SRCS=$(foreach DIR, $(DIRS), $(wildcard $(DIR)/*.c))
+OBJS=$(patsubst %.c, %.o, $(SRCS))
+OBJS += main.o
+
+all:$(OBJS) test
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	cp ./test/test ./test.bin
+test:
+	$(CC) -C test
+	
+%.o:%.c
+	$(CC) $(CFLAGS) -o $@ -c $^
+
 clean:
-	rm -rf ip6scan *.o
+	rm -rf ip6scan *.o  *.bin
+	cd ./lib && rm -rf *.o
