@@ -129,8 +129,13 @@ devList *fill_default_list(){
 		tail_list->tail = tmp_list;
 		tail_list->size++;
 	}
-	//tail_list->tail = org_list->head;
-	//org_list->head = tail_list->tail;
+#ifdef DOUBLE_LINK
+	/**/
+	printf("%s:You have defined the DOUBLE_CIRCLE_LINK_LIST paramater!\n",__FILE__);
+	tail_list->tail->next = org_list->head;
+	org_list->head->prev = tail_list->tail;
+	//printf("%s:You have defined the DOUBLE_CIRCLE_LINK_LIST paramater!\n",__FILE__);
+#endif
 	
 	return org_list;
 
@@ -143,7 +148,14 @@ int list_show(devList *list){
 		printf("the list is empty!\n");
 		return -1;
 	}
-	while((list->tail !=NULL) && (list->tail != list->tail->next)){
+#ifdef DOUBLE_LINK
+	printf("You have defined the DOUBLE_CIRCLE_LINK_LIST paramater!\n");
+	while(list->tail != list->tail->next){
+#else
+	printf("You have not defined the DOUBLE_CIRCLE_LINK_LIST paramater!\n");
+	while((list->tail !=NULL)/* && (list->tail != list->tail->next)*/){
+#endif
+	/*通过list->tail != NULL 来判断，因为此时双向链表并非循环的*/
 		printf("the device name is %s\n",list->tail->data);
 		list->tail = list->tail->next;
 	}
