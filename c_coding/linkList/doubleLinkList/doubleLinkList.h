@@ -64,12 +64,11 @@ typedef struct devopt
 #define list_next(element) ((element)->next)		//get the next element
 
 
-
-
-void destroy(void *data);
 void list_init( devList *list,void (*destroy)(void *data));
-int list_remove(devList * list, devNode *element,void **data);
+void destroy(void *data);
+int  list_remove(devList * list, devNode *element,void **data);
 void list_destroy(devList *list);
-devList *fill_default_list();
+
+
 
 #endif

@@ -27,33 +27,61 @@
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
+#include <stdlib.h>
 
 #include "doubleLinkList.h"
+#include "data_test.h"
 
-#if 0
-void *destroy(void *data){
-	if(strlen(data)){
-		memset(data,0x00,strlen(data));
+
+/*create the double link list*/
+void list_init(devList *list,void (*destroy)(void *data)){
+	
+	if(list == NULL){
+		printf("the list is Null,so I must malloc for it at first!\n");
+		list = (devList *)malloc(sizeof(devList));
 	}
-	free(data);
-	return ;
-}
+
+/*begin:the following operation is must or it will lead to the segment error*/	
+	list->head =(devNode *)malloc(sizeof(devNode));
+	if(list->head == NULL){
+		printf("Can't malloc for the list->head!\n");
+		exit(1);
+	}else{
+		memset(list->head,0x00,sizeof(devNode));
+	}
+	
+	list->tail =(devNode *)malloc(sizeof(devNode));
+	if(list->tail == NULL){
+		printf("Can't malloc for the list->tail!\n");
+		exit(1);
+	}else{
+		memset(list->tail,0x00,sizeof(devNode));
+	}
+/*over:the upping operation is  must*/		
+
+
+	list->size = 0;
+	list->destroy = destroy;
+#ifdef DOUBLE_CIRCULAR_LINK
+	/*create a double circular link list*/
+	list->head->next = list->tail;
+	list->tail->prev = list->head;
+#else
+	/*create a double link list*/
+	list->head=NULL;
+	list->tail=NULL;
 #endif
 
+}
+
+/*
+destroy the target data.
+*/
 void destroy(void *data)  
 {  
     free(data);  
     return;  
 } 
-
-void list_init(devList *list,void (*destroy)(void *data)){
-	
-	list->size = 0;
-	list->destroy = destroy;
-	list->head=NULL;
-	list->tail=NULL;
-	
-}
 
 
 /*list destory*/
@@ -104,64 +132,9 @@ int list_remove(devList * list, devNode *element,void **data){
 	return 0;
 	
 }
-//#if 0
-devList *fill_default_list(){
 
-	int i = 0;
-	devList *org_list,*tail_list;
-	devNode *tmp_list;
-	
-	org_list = (devList *)malloc(sizeof(devList));
-	tail_list = (devList *)malloc(sizeof(devList));
-	
-	org_list = tail_list;
-	for(i=0;i<3;i++){
-		tmp_list=(devNode *)malloc(sizeof(devNode));
-		if(i == 0){
-			tmp_list->data = "shubiao";
-		}else if(i == 1){
-			tmp_list->data = "jianpan";
-		}else{
-			tmp_list->data = "xianshiqi";
-		}
-		tmp_list->next = tail_list->tail;
-		tmp_list->prev = tail_list->head;
-		tail_list->tail = tmp_list;
-		tail_list->size++;
-	}
-#ifdef DOUBLE_LINK
-	/**/
-	printf("%s:You have defined the DOUBLE_CIRCLE_LINK_LIST paramater!\n",__FILE__);
-	tail_list->tail->next = org_list->head;
-	org_list->head->prev = tail_list->tail;
-	//printf("%s:You have defined the DOUBLE_CIRCLE_LINK_LIST paramater!\n",__FILE__);
-#endif
-	
-	return org_list;
 
-}
-//#endif
 
-int list_show(devList *list){
-	
-	if(list_size(list) == 0){
-		printf("the list is empty!\n");
-		return -1;
-	}
-#ifdef DOUBLE_LINK
-	printf("You have defined the DOUBLE_CIRCLE_LINK_LIST paramater!\n");
-	while(list->tail != list->tail->next){
-#else
-	printf("You have not defined the DOUBLE_CIRCLE_LINK_LIST paramater!\n");
-	while((list->tail !=NULL)/* && (list->tail != list->tail->next)*/){
-#endif
-	/*通过list->tail != NULL 来判断，因为此时双向链表并非循环的*/
-		printf("the device name is %s\n",list->tail->data);
-		list->tail = list->tail->next;
-	}
-	
-	return 0;
-}
 
 
 

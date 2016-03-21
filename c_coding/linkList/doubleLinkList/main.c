@@ -12,7 +12,7 @@
  *
  *
  *
- *       File Name      : func.c
+ *       File Name      : main.c
  *       Create Date    : 2016/03/30
  *       Author         : Nick Li 
  *       Description    : 
@@ -27,20 +27,23 @@
 #include <stdio.h>
 
 #include "doubleLinkList.h"
+#include "data_test.h"
 
 int main()
 {
 	devList  *devlist = (devList *)malloc(sizeof(devList));
 	list_init(devlist,destroy);
-	devlist = fill_default_list();
-/*	
-	devList *tmplist = devlist;
-	while(tmplist->tail->data != NULL){
-		printf("the data lof the tmplist is %s\n",tmplist->tail->data);
-		tmplist = tmplist->tail;		
+	
+#ifdef DATA_TEST	
+	/*fill some default data(shubiao,jianpan,xianshiqi) to the link list*/
+	if(!fill_default_list(devlist)){
+		list_show(devlist);
 	}
-*/	
-	list_show(devlist);
+	/*destory the last link list*/
+#endif	
+	
+	
+	
 
 	return 0;
 }
