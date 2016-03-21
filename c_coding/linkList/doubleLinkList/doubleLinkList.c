@@ -28,9 +28,11 @@
 #include <string.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "doubleLinkList.h"
 #include "data_test.h"
+#include "sky_log.h"
 
 
 /*create the double link list*/
@@ -79,16 +81,18 @@ destroy the target data.
 */
 void destroy(void *data)  
 {  
-    free(data);  
+    printf("destroy the target data %s\n",(char *)data);
+	free(data);  
     return;  
 } 
 
 
 /*list destory*/
 void list_destroy(devList *list){
-	
+	sky_trace_enter();
 	void *data;
 	while(list_size(list) > 0){
+		sleep(1);
 		if(list_remove(list,list_tail(list),(void **)&data) == 0 
 				&& list->destroy != NULL ){
 			list->destroy(data);
@@ -96,10 +100,12 @@ void list_destroy(devList *list){
 		
 	}
 	memset(list,0x00,sizeof(devList));
+	sky_trace_exit();
 	return ;
 }
 /*remove the destination element of the list*/
 int list_remove(devList * list, devNode *element,void **data){
+	sky_trace_enter();
 	//don't deal with the NULL or a empty list.
 	if((element == NULL )||( list_size(list) == 0)){
 		return -1;
@@ -128,7 +134,8 @@ int list_remove(devList * list, devNode *element,void **data){
 	free(element);
 	/*adjust the size*/
 	list->size--;
-	
+	sleep(1);
+	sky_trace_exit();
 	return 0;
 	
 }

@@ -28,20 +28,25 @@
 
 #include "doubleLinkList.h"
 #include "data_test.h"
-
+#include "sky_log.h"
 int main()
 {
 	devList  *devlist = (devList *)malloc(sizeof(devList));
 	list_init(devlist,destroy);
+	
+	sky_log_init();
 	
 #ifdef DATA_TEST	
 	/*fill some default data(shubiao,jianpan,xianshiqi) to the link list*/
 	if(!fill_default_list(devlist)){
 		list_show(devlist);
 	}
-	/*destory the last link list*/
+
 #endif	
-	
+	/*destory the last link list*/
+	printf("destroy the devlist link list!\n");
+	list_destroy(devlist);
+	list_show(devlist);
 	
 	
 
