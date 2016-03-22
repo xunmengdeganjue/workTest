@@ -180,17 +180,16 @@ void list_clear(devList *list){
 		return ;
 	}
 #ifdef ALLOW_RECURSION
-	/*使用递归方式删除节点*/
+	/*ʹ�õݹ鷽ʽɾ���ڵ�*/
 	if(list->head->next != list->tail)
 		list_clear(list);
 #else
-	/*采用非递归方式*/
+	/*ʹ�÷ǵݹ�ķ�ʽ*/
 	do{
 		scan = list->head->next;
 		list->head->next  = scan->next;
 		free(scan);
-	}while( list->head->next  !=  list->tail ); //不要删除尾节点
-	
+	}while( list->head->next  !=  list->tail );//��Ҫɾ��β�ڵ�
 #endif
 
 }
