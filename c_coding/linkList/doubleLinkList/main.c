@@ -40,7 +40,7 @@ int main()
 #ifdef DATA_TEST	
 	/*fill some default data(shubiao,jianpan,xianshiqi) to the link list*/
 	if(!fill_default_list(devlist)){
-		printf("the tail of the delvlist is %s\n",list_tail(devlist)->data);
+		//printf("the tail of the delvlist is %s\n",list_tail(devlist)->data);
 		list_show(devlist);
 	}
 	

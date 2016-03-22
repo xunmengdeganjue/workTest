@@ -74,19 +74,40 @@ int fill_default_list(devList *list){
 		list->head->next = tmp_node;
 	
 #endif
-#else
+
+#else/*非循环链表插入数据*/
 		printf("fileName:%s:--funcName:%s()--line:\033[32m%d\033[0m \
 			\033[31m You have not defined the DOUBLE_CIRCULAR_LINK_LIST parameter!\033[0m\n",__FILE__,__func__,__LINE__);
-		tmp_node->next = list->tail;
-		tmp_node->prev = list->head;
-		list->tail = tmp_node;
+#ifdef BACK_INSERT
+		if(list->tail == NULL){
+			tmp_node->next = NULL;
+			tmp_node->prev = NULL;
+			list->tail = tmp_node;
+		}else{
+			tmp_node->next = list->tail->next;
+			tmp_node->prev = list->tail;
+			list->tail->next = tmp_node;	
+		}			
+
+#else
+	   /*insert the element into the head of the list*/
+		if(list->head == NULL){
+			tmp_node->next = NULL;
+			tmp_node->prev = NULL;
+			list->head = tmp_node;
+		}else{
+			tmp_node->next = list->head->next;
+			tmp_node->prev = list->head->prev;
+			list->head->prev = tmp_node;
+		}
+
+		
+#endif
 
 #endif	
 		list->size++;
 	}
 
-
-	//return tail_list;
 	return 0;
 }
 //#endif
@@ -97,7 +118,7 @@ int list_show( devList *list){
 		return -1;
 	}
 
-	devList *content = list;
+	//devList *content = list;
 	
 	
 #ifdef DOUBLE_CIRCULAR_LINK
@@ -107,14 +128,28 @@ int list_show( devList *list){
 		search = search->next;
 	}
 #else
-	while((list->tail !=NULL)/* && (list->tail != list->tail->next)*/){
+
+#ifdef BACK_INSERT
+
+	while((list->tail != NULL)/* && (list->tail != list->tail->next)*/){
 			/*通过list->tail != NULL 来判断，因为此时双向链表并非循环的*/
 		printf("the device name is %s\n",list->tail->data);
 		list->tail = list->tail->next;
 
 	}
+#else /*前向插入数据后的读法*/
+
+	while((list->head != NULL)/* && (list->tail != list->tail->next)*/){
+			/*通过list->tail != NULL 来判断，因为此时双向链表并非循环的*/
+		printf("the device name is %s\n",list->head->data);
+		list->head = list->head->prev;
+
+	}	
+
+
+#endif
+	
 #endif	
-	list = content;
 
 	return 0;
 }

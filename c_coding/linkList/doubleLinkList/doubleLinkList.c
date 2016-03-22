@@ -43,7 +43,7 @@ void list_init(devList *list,void (*destroy)(void *data)){
 		list = (devList *)malloc(sizeof(devList));
 	}
 
-/*begin:the following operation is must or it will lead to the segment error*/	
+	/*begin:the following operation is must or it will lead to the segment error*/	
 	list->head =(devNode *)malloc(sizeof(devNode));
 	if(list->head == NULL){
 		printf("Can't malloc for the list->head!\n");
@@ -59,17 +59,19 @@ void list_init(devList *list,void (*destroy)(void *data)){
 	}else{
 		memset(list->tail,0x00,sizeof(devNode));
 	}
-/*over:the upping operation is  must*/		
+	/*over:the upping operation is  must*/		
 
 
 	list->size = 0;
 	list->destroy = destroy;
 	
 #ifdef DOUBLE_CIRCULAR_LINK
+	/*做成循环双链表*/
 	/*create a double circular link list*/
 	list->head->next = list->tail;
 	list->tail->prev = list->head;
 #else
+	/*做成非循环双链表*/
 	/*create a double link list*/
 	list->head=NULL;
 	list->tail=NULL;
@@ -97,6 +99,7 @@ int list_remove_element(devList * list, devNode *element,void **data){
 	/*remove the element of the list*/
 	*data = element->data;
 #ifdef DOUBLE_CIRCULAR_LINK
+
 	if( element == list->head){
 		list->head = element->next;
 		if(list->head == NULL){
@@ -119,6 +122,7 @@ int list_remove_element(devList * list, devNode *element,void **data){
 	}	
 
 #else
+
 	if( element == list->head)//the element is the head node
 	{
 		list->head = element->next;
@@ -144,7 +148,9 @@ int list_remove_element(devList * list, devNode *element,void **data){
 	free(element);
 	/*adjust the size*/
 	list->size--;
+	
 	sleep(1);
+	
 	sky_trace_exit();
 	
 	return 0;
@@ -152,27 +158,7 @@ int list_remove_element(devList * list, devNode *element,void **data){
 }
 
 
-#if 0
-/*list destory*/
-void list_destroy(devList *list){
-	sky_trace_enter();
-	void *data;
-	devNode *element;
-	int size = 0;
-	while( ( size = list_size(list) ) > 0 ){
-		sleep(1);
-		element = list_tail(list);
-		if(list_remove_element(list,element,(void **)&data) == 0 
-				&& list->destroy != NULL ){
-			list->destroy(data);
-		}
-		
-	}
-	memset(list,0x00,sizeof(devList));
-	sky_trace_exit();
-	return ;
-}
-#endif
+
 
 void list_clear(devList *list){
 	devNode *scan = NULL;
@@ -193,6 +179,8 @@ void list_clear(devList *list){
 #endif
 
 }
+
+#ifdef DOUBLE_CIRCULAR_LINK 
 
 void list_destroy(devList *list){
 	sky_trace_enter();
@@ -215,7 +203,30 @@ void list_destroy(devList *list){
 	return ;
 }
 
+#else
+	
+/*list destory*/
+void list_destroy(devList *list){
+	sky_trace_enter();
+	void *data;
+	devNode *element;
+	int size = 0;
+	while( ( size = list_size(list) ) > 0 ){
+		sleep(1);
+		element = list_tail(list);
+		if(list_remove_element(list,element,(void **)&data) == 0 
+				&& list->destroy != NULL ){
+			list->destroy(data);
+		}
+		
+	}
+	memset(list,0x00,sizeof(devList));
+	sky_trace_exit();
+	return ;
+}
 
+
+#endif
 
 
 
