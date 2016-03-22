@@ -34,7 +34,7 @@
 #define DevNumber 4
 
 
-int fill_default_list(devList *tail_list);
-int list_show(devList *list);
+int fill_default_list(devList *list);
+int list_show( devList *list);
 
 #endif

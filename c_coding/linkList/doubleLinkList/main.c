@@ -29,6 +29,7 @@
 #include "doubleLinkList.h"
 #include "data_test.h"
 #include "sky_log.h"
+
 int main()
 {
 	devList  *devlist = (devList *)malloc(sizeof(devList));
@@ -39,11 +40,18 @@ int main()
 #ifdef DATA_TEST	
 	/*fill some default data(shubiao,jianpan,xianshiqi) to the link list*/
 	if(!fill_default_list(devlist)){
+		printf("the tail of the delvlist is %s\n",list_tail(devlist)->data);
 		list_show(devlist);
 	}
+	
+#endif
+	fill_default_list(devlist);
+	list_show(devlist);
 
-#endif	
+
 	/*destory the last link list*/
+	int size = list_size(devlist);
+	printf("the sizeof the list devlist is %d\n",size);
 	printf("destroy the devlist link list!\n");
 	list_destroy(devlist);
 	list_show(devlist);

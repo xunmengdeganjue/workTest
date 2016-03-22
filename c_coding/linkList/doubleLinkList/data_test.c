@@ -90,12 +90,16 @@ int fill_default_list(devList *list){
 	return 0;
 }
 //#endif
-int list_show(devList *list){
+int list_show( devList *list){
 	
 	if(list_size(list) == 0){
 		printf("the list is empty!\n");
 		return -1;
 	}
+
+	devList *content = list;
+	
+	
 #ifdef DOUBLE_CIRCULAR_LINK
 	devNode *search = list->head->next;//
 	while(search->next != list->head->prev){
@@ -110,5 +114,7 @@ int list_show(devList *list){
 
 	}
 #endif	
+	list = content;
+
 	return 0;
 }

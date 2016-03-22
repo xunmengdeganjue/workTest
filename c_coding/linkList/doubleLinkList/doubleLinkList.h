@@ -66,7 +66,7 @@ typedef struct devopt
 
 void list_init( devList *list,void (*destroy)(void *data));
 void destroy(void *data);
-int  list_remove(devList * list, devNode *element,void **data);
+int  list_remove_element(devList * list, devNode *element,void **data);
 void list_destroy(devList *list);
 
 

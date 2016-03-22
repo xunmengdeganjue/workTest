@@ -64,6 +64,7 @@ void list_init(devList *list,void (*destroy)(void *data)){
 
 	list->size = 0;
 	list->destroy = destroy;
+	
 #ifdef DOUBLE_CIRCULAR_LINK
 	/*create a double circular link list*/
 	list->head->next = list->tail;
@@ -86,14 +87,82 @@ void destroy(void *data)
     return;  
 } 
 
+/*remove the destination element from the list*/
+int list_remove_element(devList * list, devNode *element,void **data){
+	sky_trace_enter();
+	//don't deal with the NULL or a empty list.
+	if((element == NULL )||( list_size(list) == 0)){
+		return -1;
+	}
+	/*remove the element of the list*/
+	*data = element->data;
+#ifdef DOUBLE_CIRCULAR_LINK
+	if( element == list->head){
+		list->head = element->next;
+		if(list->head == NULL){
+			list->tail = NULL;
+		}else{
+			element->prev->next = element->next;
+			element->next->prev = element->prev;
+		}
+	}else if(element == list->tail){
+		list->tail = element->next;
+		if(list->tail == NULL){
+			list->head = NULL;
+		}else{
+			element->prev->next = element->next;
+			element->next->prev = element->prev;
+		}
+	}else{
+		list_prev(element)->next = list_next(element);
+		list_next(element)->prev = list_prev(element);
+	}	
 
+#else
+	if( element == list->head)//the element is the head node
+	{
+		list->head = element->next;
+		if(list->head ==NULL){//the element->next==NULL
+			list->tail = NULL;
+		}else{
+			element->next->prev = NULL;//throw out the element 
+		}
+	}else  //if the element is the tail node.
+	{
+		element->prev->next = element->next;
+		if( element->next == NULL) //deal with the last element.
+		{
+			list->tail = element->prev;
+		}else{
+			element->next->prev = element->prev;
+		}
+	}
+	
+#endif
+
+	/*free the memery*/
+	free(element);
+	/*adjust the size*/
+	list->size--;
+	sleep(1);
+	sky_trace_exit();
+	
+	return 0;
+	
+}
+
+
+#if 0
 /*list destory*/
 void list_destroy(devList *list){
 	sky_trace_enter();
 	void *data;
-	while(list_size(list) > 0){
+	devNode *element;
+	int size = 0;
+	while( ( size = list_size(list) ) > 0 ){
 		sleep(1);
-		if(list_remove(list,list_tail(list),(void **)&data) == 0 
+		element = list_tail(list);
+		if(list_remove_element(list,element,(void **)&data) == 0 
 				&& list->destroy != NULL ){
 			list->destroy(data);
 		}
@@ -103,45 +172,49 @@ void list_destroy(devList *list){
 	sky_trace_exit();
 	return ;
 }
-/*remove the destination element of the list*/
-int list_remove(devList * list, devNode *element,void **data){
-	sky_trace_enter();
-	//don't deal with the NULL or a empty list.
-	if((element == NULL )||( list_size(list) == 0)){
-		return -1;
+#endif
+
+void list_clear(devList *list){
+	devNode *scan = NULL;
+	if(list->head->next == NULL){
+		return ;
 	}
-	/*remove the element of the list*/
-	*data = element->data;
+#ifdef ALLOW_RECURSION
+	/*使用递归方式删除节点*/
+	if(list->head->next != list->tail)
+		list_clear(list);
+#else
+	/*采用非递归方式*/
+	do{
+		scan = list->head->next;
+		list->head->next  = scan->next;
+		free(scan);
+	}while( list->head->next  !=  list->tail ); //不要删除尾节点
 	
-	if( element == list->head)
-	{
-		list->head = element->next;
-		if(list->head ==NULL){
-			list->tail = NULL;
-		}else{
-			element->next->prev = NULL;
-		}
-	}else{
-		element->prev->next = element->next;
-		if( element->next == NULL) //deal with the last element.
-		{
-			list->tail = element->prev;
-		}else{
-			element->next->prev = element->prev;
-		}
-	}
-	/*free the memery*/
-	free(element);
-	/*adjust the size*/
-	list->size--;
-	sleep(1);
-	sky_trace_exit();
-	return 0;
-	
+#endif
+
 }
 
-
-
+void list_destroy(devList *list){
+	sky_trace_enter();
+	
+	devList *p = list;
+	
+	if (NULL == p)
+	    return;
+	
+	list_clear(p);
+	
+	free(p->head);
+	free(p->tail);
+	free(p);
+	
+	list = NULL;
+	
+	sky_trace_exit();
+	
+	return ;
+}
 
 
 
