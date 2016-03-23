@@ -4,18 +4,18 @@
  *    Copyright (C) 2015-2016 by Nick Li. All rights reserved.
  *    All source codes is distributed under the U-License.
  *
- *    CPU               :   ARM9
- *    OS                 :   OpenWRT
+ *    CPU              :   
+ *    OS               :   OpenWRT
  *    Version          :   0.10
  *    Released by Nick Li
  *                      2015.12.31
  *
  *
  *
- *       File Name      : func.c
+ *       File Name    : func.c
  *       Create Date  : 2015/12/31
- *       Author         	: Nick Li 
- *       Description    : 
+ *       Author       : Nick Li 
+ *       Description  : 
  ******************************************************************************
 */
 
