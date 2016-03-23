@@ -47,10 +47,7 @@ static void recordPid(){
 		fwrite(buffer,sizeof(buffer),1,fp);
 		fclose(fp);
 	}
-	
-	
-	
-	
+
 }
 
 static void dataTransmission(){

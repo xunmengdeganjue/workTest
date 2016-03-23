@@ -1,0 +1,41 @@
+--- odhcp6c-2015-07-13/src/dhcpv6.c	2015-07-21 20:45:57.000000000 -0700
++++ dhcpv6.bak.c	2015-11-29 00:35:26.000000000 -0800
+@@ -261,6 +261,24 @@
+ 	size_t ia_pd_entries = 0, ia_pd_len = 0;
+ 	uint8_t *ia_pd;
+ 
++	#ifdef SKYSOFT_TR_SUPPORT
++	char cmd[512] = {0};
++	char duidc[256] = {0};
++	char duids[256] = {0};
++	size_t i = 0;
++	uint8_t * cl_id2 = (uint8_t *)(cl_id);
++	uint8_t * srv_id2 = (uint8_t *)(srv_id);
++	for (i = 4; i < cl_id_len; i ++) //from 4
++		sprintf(duidc, "%s%02x", duidc, cl_id2[i]);
++	sprintf(cmd, "echo %s > /tmp/dhcp6cDuidc", duidc);
++	system(cmd);
++	memset(cmd, 0, sizeof(cmd));
++	for (i = 4; i < srv_id_len; i ++) //from 4
++        sprintf(duids, "%s%02x", duids, srv_id2[i]);
++    sprintf(cmd, "echo %s > /tmp/dhcp6cDuids", duids);
++    system(cmd);
++	#endif
++
+ 	if (type == DHCPV6_MSG_SOLICIT) {
+ 		odhcp6c_clear_state(STATE_IA_PD);
+ 		size_t n_prefixes;
+@@ -1241,6 +1259,13 @@
+ 			parsed_ia++;
+ 		}
+ 	}
++	//ASKEY SH add/s
++	char cmd[128] = {0};
++	sprintf(cmd, "echo T1 = %u > /tmp/dhcpv6cT1T2", t1);
++	system(cmd);
++	sprintf(cmd, "echo T2 = %u >> /tmp/dhcpv6cT1T2", t2);
++	system(cmd);
++	//ASKEY SH add/e
+ 	return parsed_ia;
+ }
+ 

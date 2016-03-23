@@ -1,0 +1,21 @@
+#!/bin/sh /etc/rc.common
+
+
+PID="/proc/pid6"
+BIN="/sbin/net6scan"
+
+start()
+{
+	daemon=`basename $BIN`
+	$BIN
+	pid=`cat $PID`
+	if [ $pid -ne 0 ];then
+		echo -e "stat the $daemon [\033[32m SUCCEED \033[0m] \n$daemon PID [\033[33m $pid \033[0m]"
+	fi
+}
+
+stop(){
+	killall -9 net6scan
+	echo "0" > /proc/pid6
+	
+}
