@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <malloc.h>
-
+/*
+Data :struct student
+Desc :the Student is just for the sizeof operation,and the *StudentNode is 
+      the main struct data type,use it to define more usefull variables.
+*/
 typedef struct student{
 
 	int score;
@@ -9,7 +13,11 @@ typedef struct student{
 	struct student *Next;
 
 }Student,*StudentNode;
-
+/*
+FuncName:createList
+Desc    :create the list with the information of the student,the information
+		 include the name and score of the student.
+*/
 StudentNode createList( void)
 {
 	int number = 0;
