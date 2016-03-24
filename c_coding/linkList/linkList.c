@@ -2,21 +2,23 @@
 #include <string.h>
 #include <malloc.h>
 
-struct student{
+typedef struct student{
 
-	int core;
+	int score;
 	char *name;
 	struct student *Next;
 
-};
+}Student,*StudentNode;
 
-struct student *createList( void)
+StudentNode createList( void)
 {
 	int number = 0;
 	int i = 0;
-	struct student *Shead=(struct student *)malloc(sizeof(struct student));
-	struct student *Stail=Shead;
-
+	StudentNode Shead=(StudentNode)malloc(sizeof(Student));
+	StudentNode Stail=Shead;
+	char * student_name = (char *)malloc(64);
+	int student_score = 0;
+	
 	Shead->Next = Stail;
 	Stail->Next = NULL;
 
@@ -26,24 +28,32 @@ struct student *createList( void)
 	
 	for(i=0;i<number;i++)
 	{
-		struct student *Stmp = (struct student *)malloc(sizeof(struct student));
-		Stmp->core=99;
-		Stmp->name="xiaoli";
+		StudentNode Stmp = (StudentNode)malloc(sizeof(Student));
+		
+		printf("Please input the %d student's name:\n",i);
+		scanf("%s",student_name);
+		printf("Please input the %d student's score:\n",i);
+		scanf("%d",&student_score);
+		
+		Stmp->score=student_score;
+		Stmp->name=student_name;
+		//strcpy(Stmp->name,student_name);//can't and there is no need to do so.
 		Stail->Next=Stmp;
 		Stail=Stmp;
 		Stmp->Next=NULL;
 	
 	}
+	//free(student_name);//can't do this,or the student's name will be lost.
 	return Shead;
 
 }
-void scanList(struct student *Shead)
+void scanList(StudentNode Shead)
 {
-	struct student *Snode;
+	StudentNode Snode;
 	int i = 0;
 	Snode=Shead->Next;
 	while(Snode){
-		printf("the %d student name is %s,core is [%d]\n",i,Snode->name,Snode->core);
+		printf("the %d student name is %s,core is [%d]\n",i,Snode->name,Snode->score);
 		i++;
 		Snode=Snode->Next;
 	}
@@ -52,7 +62,7 @@ void scanList(struct student *Shead)
 }
 int main()
 {
-	struct student *Phead;
+	StudentNode Phead;
 	
 	Phead=createList();
 	
