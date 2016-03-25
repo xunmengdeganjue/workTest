@@ -53,7 +53,24 @@ int main()
 	int size = list_size(devlist);
 	printf("the sizeof the list devlist is %d\n",size);
 	printf("destroy the devlist link list!\n");
-	list_destroy(devlist);
+	//list_destroy(devlist);
+	
+	/*test the inserting*/
+	sky_dbg("test the insert operation!\n");
+	devNode *newnode = (devNode *)malloc(sizeof(devNode));
+	strcpy(newnode->data,"hhhh");
+	list_insert(devlist,newnode);
+	list_show(devlist);
+
+	sky_dbg("test the remove operation!\n");
+	void *del_data; 
+	sky_trace_line();
+	list_remove_element(devlist,list_head(devlist),(void **)&del_data);
+	sky_dbg("the content of the deleted node is %s\n",del_data);
+
+	list_remove_element(devlist,list_tail(devlist),(void **)&del_data);
+	sky_dbg("the content of the deleted node is %s\n",del_data);
+	
 	list_show(devlist);
 	
 	

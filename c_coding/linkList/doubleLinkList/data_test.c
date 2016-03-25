@@ -47,7 +47,14 @@ int fill_default_list(devList *list){
 	}
 	
 	//list = (devList *)malloc(sizeof(devList));
-	
+#ifdef DOUBLE_CIRCULAR_LINK /*循环链表*/
+	printf("fileName:%s--funcName:%s()--line:\033[32m%d\033[0m \
+\033[32m You have defined the DOUBLE_CIRCULAR_LINK_LIST macro\033[0m\n",__FILE__,__func__,__LINE__);
+#else/*非循环链表*/
+		printf("fileName:%s:--funcName:%s()--line:\033[32m%d\033[0m \
+\033[31m You have not defined the DOUBLE_CIRCULAR_LINK_LIST parameter!\033[0m\n",__FILE__,__func__,__LINE__);
+#endif
+
 	for(i=0; i < DevNumber; i++){
 		tmp_node = (devNode *)malloc(sizeof(devNode));
 		size = strlen(devices[i]);
@@ -55,18 +62,21 @@ int fill_default_list(devList *list){
 		strcpy(tmp_node->data,devices[i]);
 		
 #ifdef DOUBLE_CIRCULAR_LINK
-		printf("fileName:%s--funcName:%s()--line:\033[32m%d\033[0m \
-			\033[32m You have defined the DOUBLE_CIRCULAR_LINK_LIST macro\033[0m\n",__FILE__,__func__,__LINE__);
+		//printf("fileName:%s--funcName:%s()--line:\033[32m%d\033[0m \
+		//	\033[32m You have defined the DOUBLE_CIRCULAR_LINK_LIST macro\033[0m\n",__FILE__,__func__,__LINE__);
 			
 #ifdef BACK_INSERT   /*后向插入*/
 		/*将元素从List的后向插入时，tail指针的前驱的next指针 = tail的前驱 = 要添加的元素节点；反之如果从头部
 		插入，则是head的后驱的前驱=head的后驱=要添加的元素节点*/
-		/*inset the element into the tail of the list*/	
+		/*inset the element into the tail of the list*/
+		sky_dbg("Insert the data into the tail of the link list!\n");	
 		tmp_node->next = list->tail;
 		tmp_node->prev = list->tail->prev;
 		list->tail->prev->next = tmp_node;
 		list->tail->prev = tmp_node;
+	
 #else   /*前向插入*/
+		sky_dbg("Insert the data into the head of the link list!\n");
 	    /*insert the element into the head of the list*/
 		tmp_node->next = list->head->next;
 		tmp_node->prev = list->head;
@@ -76,8 +86,8 @@ int fill_default_list(devList *list){
 #endif
 
 #else/*非循环链表插入数据*/
-		printf("fileName:%s:--funcName:%s()--line:\033[32m%d\033[0m \
-			\033[31m You have not defined the DOUBLE_CIRCULAR_LINK_LIST parameter!\033[0m\n",__FILE__,__func__,__LINE__);
+		//printf("fileName:%s:--funcName:%s()--line:\033[32m%d\033[0m \
+		//	\033[31m You have not defined the DOUBLE_CIRCULAR_LINK_LIST parameter!\033[0m\n",__FILE__,__func__,__LINE__);
 #ifdef BACK_INSERT
 		if(list->tail == NULL){
 			tmp_node->next = NULL;

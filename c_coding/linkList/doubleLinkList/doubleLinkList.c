@@ -85,7 +85,7 @@ destroy the target data.
 void destroy(void *data)  
 {  
     printf("destroy the target data %s\n",(char *)data);
-	free(data);  
+	free(data);
     return;  
 } 
 
@@ -97,32 +97,33 @@ int list_remove_element(devList * list, devNode *element,void **data){
 		return -1;
 	}
 	/*remove the element of the list*/
-	*data = element->data;
+	//*data = element->prev->data;
+	sky_dbg("the content of the deleted node is %s\n",element->data);
 #ifdef DOUBLE_CIRCULAR_LINK
-
+/*head tail节点中并没有数据*/
+	/*循环双向链表*/
 	if( element == list->head){
-		list->head = element->next;
-		if(list->head == NULL){
-			list->tail = NULL;
-		}else{
-			element->prev->next = element->next;
-			element->next->prev = element->prev;
-		}
+		*data = element->next->data;
+		//list->head = element->next;
+		//if(list->head == NULL){
+		//	list->tail = NULL;
+		//}else{
+			//list->head->next = list->head->next->next;
+			list->head->next->next->prev = list->head->next->prev;
+			list->head->next = list->head->next->next;
+		//}
 	}else if(element == list->tail){
-		list->tail = element->next;
-		if(list->tail == NULL){
-			list->head = NULL;
-		}else{
-			element->prev->next = element->next;
-			element->next->prev = element->prev;
-		}
+		*data = element->prev->data;
+		sky_trace_line();
+		list->tail->prev->prev->next = list->tail;
+		list->tail->prev = list->tail->prev->prev;
 	}else{
 		list_prev(element)->next = list_next(element);
 		list_next(element)->prev = list_prev(element);
 	}	
 
 #else
-
+	/*非循环双向链表*/
 	if( element == list->head)//the element is the head node
 	{
 		list->head = element->next;
@@ -181,7 +182,7 @@ void list_clear(devList *list){
 }
 
 #ifdef DOUBLE_CIRCULAR_LINK 
-
+/*销毁循环双链表*/
 void list_destroy(devList *list){
 	sky_trace_enter();
 	
@@ -204,7 +205,7 @@ void list_destroy(devList *list){
 }
 
 #else
-	
+/*销毁非循环双链表*/	
 /*list destory*/
 void list_destroy(devList *list){
 	sky_trace_enter();
@@ -224,10 +225,27 @@ void list_destroy(devList *list){
 	sky_trace_exit();
 	return ;
 }
-
-
 #endif
 
+int list_insert(devList *list,devNode *element){
+	
+#ifdef BACK_INSERT
+	/*insert the element into the tail*/
+	element->next = list->tail;
+	element->prev = list->tail->prev;
+	list->tail->prev->next = element;
+	list->tail->prev = element;
+#else	
+	/*insert the element into the head*/
+	element->prev = list->head;
+	element->next = list->head->next;
+	list->head->next->prev = element;
+	list->head->next = element;
+#endif
+	
+	
+	
+}
 
 
 
