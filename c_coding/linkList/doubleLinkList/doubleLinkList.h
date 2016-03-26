@@ -69,6 +69,6 @@ void destroy(void *data);
 int  list_remove_element(devList * list, devNode *element,void **data);
 void list_destroy(devList *list);
 
-
+int list_insert(devList *list,devNode *element);
 
 #endif

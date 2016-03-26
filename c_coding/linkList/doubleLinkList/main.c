@@ -65,14 +65,33 @@ int main()
 	sky_dbg("test the remove operation!\n");
 	void *del_data; 
 	sky_trace_line();
-	list_remove_element(devlist,list_head(devlist),(void **)&del_data);
-	sky_dbg("the content of the deleted node is %s\n",del_data);
-
+#ifndef DOUBLE_CIRCULAR_LINK
+#ifdef BACK_INSERT
+	//del_data= NULL;
+	sky_dbg("test remove the tail node of the list!\n");
 	list_remove_element(devlist,list_tail(devlist),(void **)&del_data);
 	sky_dbg("the content of the deleted node is %s\n",del_data);
-	
+	list_show(devlist);
+#else	
+	sky_dbg("test remove the head node of the list!\n");
+	list_remove_element(devlist,list_head(devlist),(void **)&del_data);
+	sky_dbg("the content of the deleted node is %s\n",del_data);
+	list_show(devlist);
+#endif
+#else
+	sky_dbg("test remove the tail node of the list!\n");
+	list_remove_element(devlist,list_tail(devlist),(void **)&del_data);
+	sky_dbg("the content of the deleted node is %s\n",del_data);
 	list_show(devlist);
 	
+	sky_dbg("test remove the head node of the list!\n");
+	list_remove_element(devlist,list_head(devlist),(void **)&del_data);
+	sky_dbg("the content of the deleted node is %s\n",del_data);
+	list_show(devlist);
+
+
+#endif
+
 	
 
 	return 0;

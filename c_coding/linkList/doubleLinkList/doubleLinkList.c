@@ -73,8 +73,9 @@ void list_init(devList *list,void (*destroy)(void *data)){
 #else
 	/*做成非循环双链表*/
 	/*create a double link list*/
-	list->head=NULL;
-	list->tail=NULL;
+	list->head = NULL;
+	list->tail = NULL;
+
 #endif
 
 }
@@ -132,15 +133,23 @@ int list_remove_element(devList * list, devNode *element,void **data){
 		}else{
 			element->next->prev = NULL;//throw out the element 
 		}
-	}else  //if the element is the tail node.
+	}else  //if the element is not the head node.
 	{
+		if(element == list->tail ){
+			list->tail = element->next;
+		}else{
+			list_next(element)->prev = list_prev(element);
+			list_prev(element)->next = list_next(element);
+			
+		}
+		/*
 		element->prev->next = element->next;
 		if( element->next == NULL) //deal with the last element.
 		{
 			list->tail = element->prev;
 		}else{
 			element->next->prev = element->prev;
-		}
+		}*/
 	}
 	
 #endif
@@ -228,23 +237,38 @@ void list_destroy(devList *list){
 #endif
 
 int list_insert(devList *list,devNode *element){
-	
-#ifdef BACK_INSERT
+
+#ifdef DOUBLE_CIRCULAR_LINK	
+	#ifdef BACK_INSERT
 	/*insert the element into the tail*/
 	element->next = list->tail;
 	element->prev = list->tail->prev;
 	list->tail->prev->next = element;
 	list->tail->prev = element;
-#else	
+	#else	
 	/*insert the element into the head*/
 	element->prev = list->head;
 	element->next = list->head->next;
 	list->head->next->prev = element;
 	list->head->next = element;
+	#endif
+#else
+	#ifdef BACK_INSERT
+	element->next = list->tail->next;
+	element->prev = list->tail;
+	list->tail->next = element;
+	
+	#else
+	element->next = list->head;
+	element->prev = list->head->prev;
+	list->head->prev = element;
+	
+	#endif
+
 #endif
 	
-	
-	
+	list->size++;
+	return 0;	
 }
 
 

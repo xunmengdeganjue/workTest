@@ -62,8 +62,9 @@ int fill_default_list(devList *list){
 		strcpy(tmp_node->data,devices[i]);
 		
 #ifdef DOUBLE_CIRCULAR_LINK
-		//printf("fileName:%s--funcName:%s()--line:\033[32m%d\033[0m \
-		//	\033[32m You have defined the DOUBLE_CIRCULAR_LINK_LIST macro\033[0m\n",__FILE__,__func__,__LINE__);
+		/*printf("fileName:%s--funcName:%s()--line:\033[32m%d\033[0m \
+		\033[32m You have defined the DOUBLE_CIRCULAR_LINK_LIST macro\033[0m\n",__FILE__,__func__,__LINE__);
+		*/
 			
 #ifdef BACK_INSERT   /*后向插入*/
 		/*将元素从List的后向插入时，tail指针的前驱的next指针 = tail的前驱 = 要添加的元素节点；反之如果从头部
@@ -86,16 +87,17 @@ int fill_default_list(devList *list){
 #endif
 
 #else/*非循环链表插入数据*/
-		//printf("fileName:%s:--funcName:%s()--line:\033[32m%d\033[0m \
-		//	\033[31m You have not defined the DOUBLE_CIRCULAR_LINK_LIST parameter!\033[0m\n",__FILE__,__func__,__LINE__);
+		/*printf("fileName:%s:--funcName:%s()--line:\033[32m%d\033[0m \
+			\033[31m You have not defined the DOUBLE_CIRCULAR_LINK_LIST parameter!\033[0m\n",__FILE__,__func__,__LINE__);
+		*/
 #ifdef BACK_INSERT
-		if(list->tail == NULL){
+		if(list->tail ==  NULL){
 			tmp_node->next = NULL;
 			tmp_node->prev = NULL;
 			list->tail = tmp_node;
 		}else{
-			tmp_node->next = list->tail->next;
 			tmp_node->prev = list->tail;
+			tmp_node->next = list->tail->next;
 			list->tail->next = tmp_node;	
 		}			
 
@@ -129,10 +131,10 @@ int list_show( devList *list){
 	}
 
 	//devList *content = list;
-	
+	devNode *search;//
 	
 #ifdef DOUBLE_CIRCULAR_LINK
-	devNode *search = list->head->next;//
+	search = list->head->next;
 	while(search->next != list->head->prev){
 		printf("the device name is %s\n",search->data);
 		search = search->next;
@@ -140,20 +142,18 @@ int list_show( devList *list){
 #else
 
 #ifdef BACK_INSERT
-
-	while((list->tail != NULL)/* && (list->tail != list->tail->next)*/){
+	search = list->tail;
+	while((search != NULL)/* && (list->tail != list->tail->next)*/){
 			/*通过list->tail != NULL 来判断，因为此时双向链表并非循环的*/
-		printf("the device name is %s\n",list->tail->data);
-		list->tail = list->tail->next;
-
+		printf("the device name is %s\n",search->data);
+		search = search->next;
 	}
 #else /*前向插入数据后的读法*/
-
-	while((list->head != NULL)/* && (list->tail != list->tail->next)*/){
+	search = list->head;
+	while((search->prev != NULL)/* && (list->tail != list->tail->next)*/){
 			/*通过list->tail != NULL 来判断，因为此时双向链表并非循环的*/
-		printf("the device name is %s\n",list->head->data);
-		list->head = list->head->prev;
-
+		printf("the device name is %s\n",search->data);
+		search = search->prev;
 	}	
 
 
