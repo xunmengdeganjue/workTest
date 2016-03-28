@@ -6,8 +6,7 @@ typedef struct device{
 
 	char *dev_name;
 	char *dev_driver;
-	int dev_number;
-	struct device *prev,*next;
+	struct device *next;
 
 }deviceNode,*pNode;
 
@@ -30,10 +29,8 @@ pNode device_init(){
 		tmp = (pNode)malloc(sizeof(deviceNode));
 
 		if(i==0){
-			//tail = tmp;
 			tmp->dev_name="shubiao";
 			tmp->dev_driver="shubiao_driver";
-			//tmp->next = tmp;
 		}else if(i == 1){
 			tmp->dev_name="jianpan";
 			tmp->dev_driver="jianpan_driver";		
@@ -42,7 +39,6 @@ pNode device_init(){
 			tmp->dev_name="xianshiqi";
 			tmp->dev_driver="xianshiqi_driver";		
 		}
-		tmp->dev_number = i+1;
 		tmp->next = tail->next;
 		tail->next = tmp;
 		tail = tmp;
@@ -54,7 +50,56 @@ pNode device_init(){
 
 }
 
+void scan_list(pNode head){
+	
+	pNode cur;
+	
+	for(cur=head->next;cur->dev_name != NULL;){
+		printf("The device name is :%s\n",cur->dev_name);
+		printf("The device driver is :%s\n",cur->dev_driver);
+		if(cur->next != head){
+			cur=cur->next;
+		}else{
+			break;
+		}
+	}
+}
 
+
+/*
+*Insert a node to the place of the node's nodeNumber location. 
+*
+*/
+void insert_node(pNode head,int nodeNumber,pNode newNode){
+	
+	int i = 1;
+	pNode cur = head;
+	pNode destNode = newNode;
+	/*get the position of the dest node*/
+	while(i < nodeNumber){
+		cur=cur->next; 
+		i++;
+	}
+	
+	destNode->next=cur->next;
+	cur->next=destNode;
+	
+}
+
+void delete_node(pNode head,int nodeNumber){
+	
+	int i = 1;
+	pNode cur = head;
+	pNode tmp ;
+	while(i < nodeNumber){
+		i++;
+		cur = cur->next;
+		
+	}
+	tmp = cur->next;
+	cur->next = tmp-> next;
+	
+}
 
 int main()
 {
@@ -68,17 +113,28 @@ int main()
 	DevNode = device_init();
 	
 	printf("scan all of the devices!\n");
+	/*scan the list*/
+	scan_list(DevNode);
 	
-	for(cur = DevNode->next; cur->dev_name != NULL;){
-		printf("Device name is :%s\n",cur->dev_name);
-		printf("Device driver is :%s\n",cur->dev_driver);
-		printf("Device number is %d\n",cur->dev_number);
-		if(cur->next != DevNode)
-			cur = cur->next;
-		else
-			break;
-
-	}
+	printf("-----------------------add a node to the node list-----------------------------------\n");
+	/*insert a new node to the list*/
+	pNode newNode = (pNode)malloc(sizeof(deviceNode));
+	newNode->dev_name="led";
+	newNode->dev_driver="led_driver";
+	insert_node(DevNode,2,newNode);
+	scan_list(DevNode);
+	
+	printf("-----------------------add a node to the node list-----------------------------------\n");
+//#if 0
+	pNode newNode1 = (pNode)malloc(sizeof(deviceNode));
+	newNode1->dev_name="ledd";
+	newNode1->dev_driver="ledd_driver";
+	insert_node(DevNode,7,newNode1);
+	scan_list(DevNode);
+//#endif
+	printf("----------------------delete a node from the node list---------------------------\n");
+	delete_node(DevNode,3);
+	scan_list(DevNode);
 	
 	return 0;
 
