@@ -1,0 +1,402 @@
+#!/bin/sh
+# Copyright (C) 2011 OpenWrt.org
+
+blkdev=`dirname $DEVPATH`
+
+list_name=""
+space=" "
+temp=""
+disk_name=""
+multypart_flag=0
+
+#LOG="/tmp/mount.log"
+LOG="/dev/console"
+#LOG="/dev/null"
+DATE=`date "+%F---%H:%M:%S"`
+
+#echo "[$DATE]-----START------Usb-storage:the blkdev is $blkdev" >> $LOG
+
+dlna_share(){
+	dlna_enabled=`uci get minidlna.config.enabled`
+	ps |grep minidlna |grep -v grep
+	if [ $? -eq 0 -a $dlna_enabled -eq 1 ];then
+		/etc/init.d/minidlna restart
+	fi
+}
+
+###
+#check if there are same special symbol in the disk-name string.
+#the special symbol include space and  "."	
+###
+disk_name_deal(){
+	disk_name=""
+	local TMP=""
+	local refer_name=""
+	local tmp_name=$1
+	#echo "FUNC:disk_name_deal:the orginal disk_name is $tmp_name" >> $LOG
+	#######################################################
+	#use the "_" to replace the "space" of the tmp_name.
+	#######################################################
+	tmp_name=$tmp_name" "
+	while [ -n "$tmp_name" ] ; do
+		TMP="$TMP${tmp_name%%" "*}"
+		tmp_name=${tmp_name#*" "}
+		[ -n "$TMP" ] && TMP=$TMP"_"
+	done
+	##delete the last '_' of the tmp_name
+	tmp_name=${TMP%*_}
+	#######################################################
+	#use the "_" to replace the "." of the tmp_name.
+	#######################################################
+	tmp_name=$tmp_name"."
+	TMP=""
+	while [ -n "$tmp_name" ] ; do
+		TMP="$TMP${tmp_name%%"."*}"
+		tmp_name=${tmp_name#*"."}
+		[ -n "$TMP" ] && TMP=$TMP"_"
+	done
+	##delete the last '_' of the tmp_name
+	tmp_name=${TMP%*_}
+	######################################################
+	
+	disk_name=$tmp_name
+	#echo "FUNC:disk_name_deal:the disk_name is $disk_name" >> $LOG
+	
+	###
+	#check if there is a same diskname exists already.
+	###
+	if [ $multypart_flag -eq 1 ];then
+		echo "FUNC:disk_name_deal:#####the multypart_flag = 1" >> $LOG
+
+	else
+		cat /etc/config/devices |grep usb-storage 
+		n=`grep -rn "config automount" /etc/config/devices -c`
+		let n--
+		while [ $n -ge 0 ]
+		do
+			refer_name=`uci get devices.@automount[$n].name`
+			if [ ! -z $refer_name ];then
+					if [ "$disk_name" == "$refer_name" ];then
+							disk_name=$disk_name"_1"
+					fi
+			fi
+			let n--
+		done
+		echo "FUNC:disk_name_deal:#####the multypart_flag = 0" >> $LOG
+	fi
+	#echo -e "$DATE---FUNC:disk_name_deal:the disk_name is \033[32m $disk_name \033[0m" >> $LOG
+}
+
+storageinfowrite(){
+	disk=$1 
+	dest_blkdev=$2
+	disk_totalsize=$3
+	disk_freesize=$4
+	
+	usb_name=`cat /sys/$dest_blkdev/device/vendor`
+	usb_name=`echo $usb_name`	
+	usb_num=`cat /sys/$dest_blkdev/device/model`
+	usb_num=`echo $usb_num`				
+	disk_name=$usb_name"_"$usb_num
+	
+	disk_name_deal "$disk_name"
+	
+	uci set devices.$disk_name="usb-storage"
+	uci set devices.$disk_name.name=$disk_name
+	uci set devices.$disk_name.port="1"
+	uci set devices.$disk_name.disk=$disk
+	uci set devices.$disk_name.totalsize=$disk_totalsize
+	uci set devices.$disk_name.freesize=$disk_freesize
+	uci commit devices
+} 
+
+usb_addinfo(){
+	disk=$1 
+	dest_blkdev=$2
+	usb_num=0
+	port_exit=0
+	echo -e "\033[35m the disk is $disk \033[0m " >> $LOG
+	[ -b /dev/$disk ] ||exit
+	#echo "FUNC:usb_addinfo:disk is [$disk]" >> $LOG
+	disk=${disk/[0-9]/}
+	#echo " " >> $LOG
+	#echo "FUNC:usb_addinfo:now disk is [$disk]" >> $LOG
+	[ -b /dev/$disk ] ||exit 
+	disk_totalsize=`fdisk -l |grep  -w /dev/$disk |awk -F " " '{print $3}'`
+	size_unit=`fdisk -l |grep -w /dev/$disk |awk -F" " '{print $4}'`
+	if [ $disk_totalsize ];then
+		if [ "$size_unit" = "MB," ];then
+			disk_totalsize=`awk 'BEGIN{printf "%.2f\n",'$disk_totalsize'/'1024'}'`"G"
+		else
+			disk_totalsize=$disk_totalsize"G"
+		fi
+		#############################################################
+		##get the free size start
+		#############################################################
+		echo -e "\033[36m THE $DISK IS /dev/$disk \033[0m" >>$LOG
+		if [ -b /dev/$disk ];then
+			echo -e "\033[36m THE DISK EXISTS \033[0m" >> $LOG
+			part_info=`fdisk -l /dev/$disk|grep ^/dev/*|awk '{print $1}'`
+		else
+			echo -e "\033[36m THE DISK DONT EXISTS \033[0m" >> $LOG
+			exit 1
+		fi
+		time=0
+		part_info=`echo $part_info`
+		#echo "FUNC:usb_addinfo:the part_info is $part_info" >> $LOG
+		for i in $part_info
+		do
+			[ -b /dev/$disk ] ||exit 
+			echo "FUNC:usb_addinfo:the time is $time [[[[the disk is $i]]]]]" >> $LOG
+			if [ $time -eq 0 ];then
+				disk_freesize=`df -h $i |grep $i |awk '{print $4}'`
+				disk_freesize=${disk_freesize/[A-Z]/}
+				#echo "FUNC:usb_addinfo:the first free size is $disk_freesize" >> $LOG
+			else
+				multypart_flag=1
+				echo -e "\033[35m FUNC:usb_addinfo:the time is $time [the disk is $i]\033[0m" >> $LOG
+				tmpsize=`df -h $i |grep $i |awk '{print $4}'`
+				if [ ! -z $tmpsize ];then
+					#echo "FUNC:usb_addinfo:the orginal tmpsize is $tmpsize" >> $LOG
+					tmpsize=${tmpsize/[A-Z]/}
+					#echo "FUNC:usb_addinfo:the temp size is $tmpsize" >> $LOG
+					disk_freesize=`awk 'BEGIN{printf '$disk_freesize'+'$tmpsize'}'`
+				fi
+				echo -e "\033[35m FUNC:usb_addinfo:the time is $time [the disk is $i]\033[0m" >> $LOG
+			fi
+			let time++
+			#####
+			##sleep 1
+		done
+		disk_freesize="$disk_freesize""G"
+		#echo "FUNC:usb_addinfo:the freesize is $disk_freesize" >> $LOG
+		#get the free size end
+		
+		##write the total information to the usb-storage config section
+		storageinfowrite $disk $dest_blkdev $disk_totalsize $disk_freesize 
+		
+	fi
+	uci commit devices
+	#echo "restart the usb led init programe" >> $LOG
+	#/etc/init.d/led restart 
+	#echo "writhe the config-devices over!"  >> $LOG
+
+}
+clear() {
+	umount /mnt/*
+	enable=`uci get devices.@printer[0].enable`
+	printer_port=`uci get devices.@printer[0].port`
+	rm -rf /etc/config/devices
+	rm -rf /mnt/*
+	touch /etc/config/devices
+	uci add devices printer
+	uci set devices.@printer[0].enable=$enable
+	uci add_list devices.@printer[0].port=$printer_port
+	uci commit
+}
+
+getLabel() {
+	k=`grep -rn "config automount" /etc/config/devices -c`
+	let j=k-1
+	while [ $j -ge 0 ]; do
+		label_exit=`uci get devices.@automount[$j].label`
+		list_name=$list_name$space$label_exit
+		let j--
+	done
+}
+
+checkname() {
+	start=$1
+	end=$2
+	num=$3
+	
+	for value in $list_name
+	do
+		flag=1
+		if [ $end == $value ];then
+			end=$start"_$num"
+			let num++
+			checkname $start $end $num
+			flag=0
+		fi
+	done
+	if [ $flag==1 ]; then
+		temp=$end
+	fi
+		
+}
+echo -e "\033[34m DEBUG \033[0m" >> $LOG
+base=`basename $blkdev`
+echo -e "\033[31m [$DATE]the basename of the blkdev is [$base]\033[0m" >> $LOG
+#if [ `basename $blkdev` != "block" -a ${base:0:8} != "mtdblock" -a ${base:0:3} != "mtd" ]; then
+
+if [ ${base:0:2} == "sd" ] ; then
+	#echo "[$DATE]--------the dest blkdev is $blkdev" >> $LOG
+	if [ -f /tmp/devices ]; then
+		touch /tmp/devices
+	else
+		clear
+		touch /tmp/devices
+	fi
+	device=`basename $DEVPATH`
+	#echo "[$DATE]=========the device is [$device] " >> $LOG
+	case "$ACTION" in
+		add)					
+			#echo "[$DATE] The dest device is:[$device]" >> $LOG			
+			# vfat & ntfs-3g check
+			if [ -b /dev/$device ];then
+				echo -e "\033[36m the device is /dev/$device \033[0m" >> $LOG
+			else
+				echo -e "\033[36m the device is /dev/$device disappear!\033[0m" >> $LOG
+				exit 1
+				
+			fi
+			if [ `which blkid` ];then
+				formattype=`blkid -o value -s TYPE /dev/$device`
+				if [ -z $formattype ];then
+					formattype=`blkid /dev/$device |cut -d" " -f4|cut -d"=" -f2|cut -d"\"" -f2`
+					
+				fi
+				if [ $formattype = "vfat" ];then
+					isvfat=$formattype
+				elif [ $formattype = "ntfs" ];then
+					isntfs=$formattype
+				elif [ $formattype = "exfat" ];then
+					isexfat=$formattype
+					#echo "[$DATE]****************the formattype is [$isexfat]" >> $LOG
+				else
+					isvfat=""
+					isntfs=""
+					isexfat=""
+				fi
+				isfuse=`lsmod | grep fuse`
+				isntfs3g=`which ntfs-3g`
+			else
+				isntfs=""
+				isvfat=""
+			fi
+			label=`blkid -o value -s LABEL /dev/$device`
+			uuid_flag=`blkid -o value -s UUID /dev/$device`
+			#echo " [$DATE] The first first lable is:[$label]" >> $LOG
+			if [ -z "$label" -o -z "$uuid_flag" ]; then
+                		label="UNTITLED"
+            		fi
+			key=1
+			start=$label
+			getLabel
+			checkname $start $start $key
+			label_real=$temp
+			
+			mkdir -p /mnt/$label_real
+			isfat=0
+			# mount with ntfs-3g if possible, else with default mount
+			if [ "$isntfs" -a "$isfuse" -a "$isntfs3g" ]; then
+				#echo "[$DATE] mount the disk with ntfs-3g format" >> $LOG
+				ntfs-3g -o nls=utf8 /dev/$device /mnt/$label_real
+			elif [ "$isvfat" ]; then
+				#echo "[$DATE] mount the disk with vfat format" >> $LOG
+		#		mount -t vfat -o umask=000,iocharset=utf8,quiet /dev/$device /mnt/$label_real
+				mount -t vfat -o umask=000,utf8,quiet /dev/$device /mnt/$label_real
+				isfat=1
+			elif [ "$isexfat" ]; then
+				#echo "[$DATE] mount the disk with exfat format" >> $LOG
+				#echo -e "`date "+%F-%H:%M:%S"` \033[31m mount the exfat to the /mnt/$label_real \033[0m " >> $LOG
+				mount -t exfat -o umask=000 /dev/$device /mnt/$label_real
+				#isexfat=1
+			else
+				mount -t ext4 /dev/$device /mnt/$label_real -o rw,sync
+			fi
+			
+			#add the usb-storage info to the uci config file
+			usb_addinfo $device $blkdev
+			
+			#get the device information
+			info=`df -h /dev/$device | grep /dev/$device`
+			loop=0
+			for value in $info
+			do
+				# device total size 
+				if [ 1 -eq $loop ]; then
+					totalsize=$value
+				fi
+				# device free size 
+				if [ 3 -eq $loop ]; then
+					freesize=$value
+				fi
+				let loop++
+			done
+			
+			# 
+			m=`grep -rn "config automount" /etc/config/devices -c`
+			UUID=`blkid -o value -s UUID /dev/$device`
+			if [ -z $UUID ];then
+				UUID="THE DISK IS NOT NORMAL ONE"
+			fi		
+			u=`dirname $blkdev | grep usb -c`
+			vendor=`cat /sys/$blkdev/device/vendor`
+			vendor=`echo $vendor`
+			model=`cat /sys/$blkdev/device/model`
+			model=`echo $model`
+			#charge the device
+			if [ $totalsize ]; then 
+				if [ -d "/proc/scsi/usb-storage" -a 1 -eq $u ] ;then
+					uci add devices automount
+					disk_name=""
+					disk_name_deal "$vendor""_""$model"
+					uci set devices.@automount[$m].name=$disk_name
+					uci set devices.@automount[$m].label=$label_real
+					uci set devices.@automount[$m].path=/mnt/$label_real
+					uci set devices.@automount[$m].device=$device
+					uci set devices.@automount[$m].totalsize=$totalsize
+					uci set devices.@automount[$m].freesize=$freesize
+					uci set devices.@automount[$m].isfat=$isfat
+					uci set devices.@automount[$m].uuid=$UUID
+				fi
+			fi
+			chmod 777 -R /mnt/$label_real
+			uci commit devices
+			echo $UUID >> /tmp/devices
+			##deal with the dlna sharing
+			dlna_share
+			echo "[`date \"+%F---%H:%M:%S\"`] ----OEVER" >> $LOG
+		;;
+		remove)
+			
+			if [ -b /dev/$device ];then
+			
+				echo -e "\033[33m START TO FUSER -KILL \033[0m" >> $LOG
+				fuser -k /dev/$device
+				echo -e "\033[33m TO FUSER -KILL  OVER\033[0m" >> $LOG
+			else
+				echo -e "\033[33m Dont need TO FUSER -KILL  OVER\033[0m" >> $LOG
+				
+			fi
+			
+			umount -l /dev/$device
+			n=`grep -rn "config automount" /etc/config/devices -c`
+			let i=n-1
+			while [ $i -ge 0 ]; do
+				device_del=`uci get devices.@automount[$i].device`
+				if [ $device_del == $device ]; then
+					uuid_del=`uci get devices.@automount[$i].uuid`
+					label_del=`uci get devices.@automount[$i].label`
+					device_del=`uci get devices.@automount[$i].device`
+					disk_del=`uci get devices.@automount[$i].name`
+					uci delete devices.@automount[$i]
+					uci delete devices.$disk_del
+					uci commit
+					umount -l /mnt/$label_del
+					rm -rf /mnt/$label_del
+					rm -rf /dev/$device_del
+					sed -i "/$uuid_del/d" /tmp/devices
+				fi
+				let i--
+			done
+			if [ !  -s "/tmp/devices" ];then
+				rm -rf /tmp/devices 
+			fi
+			#/etc/init.d/led restart
+		;;
+	esac
+fi
+
