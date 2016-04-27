@@ -1,0 +1,56 @@
+
+*本工具包含trfcmo truci:
+
+（1）trfcmo
+作用：首先根据xml2func生成的tr69_handler.h 文件生成所有的配置项宏定义头文件，该头文件中仅仅包含所有宏的名称；其次
+填充tr69_handler.h文件中的所有接口，增加读写uci文件的操作。
+
+依赖文件：xml2func程序生成的函数接口文件tr69_handler.h
+
+生成文件：tr_uciconfig tr69_handler.c
+
+（2）truci
+作用：
+（a）根据xml2func生成的tr69_handler_table.h文件填充trfcmo生成的tr_uciconfig文件，完成所有宏定义；
+（b）根据tr_uciconfig文件内容，生成trconf——tr069的所有配置项保存文件,/etc/config/trconf。
+
+依赖文件：tr_config tr69_handler_table.h
+
+生成文件：tr_config.h trconf
+
+**软件编译：
+
+        make
+
+编译完成后会在tools目录中生成trfcmo 和 truci两个程序。
+
+***目标程序使用方法:
+
+$cd trtools/tools/
+$准备tr69_handler.h，tr69_handler_table.h文件在本目录下
+
+trfcmo
+	#./trfcmo macro —— 生成tr_uciconfig文件
+	#./trfcmo func  —— 填充tr69_handler.h文件内所有函数接口
+	#./trfcmo show  —— 显示所有tr69_handler.h中的函数名称
+
+truci
+	#./truci -- 填充tr_uciconfig文件，并最后得到tr_uciconfig.h文件
+		 -- 生成trconf文件
+
+****一步到位的操作：
+$cd trtools/tools/
+
+$vim dowork.sh
+$修改ONEAGENT_HOME值为实际的oneagent/interface/xml目录的路径
+
+$准备tr181.xml文件在该目录下
+
+$./dowork.sh clean --清除旧生成物
+$./dowork.sh do    --完成从xml文件生成相应接口文件，填充基本接口、生成新的相应文件，并将各文件放置到相应的位置的所有操作。
+
+	
+	
+2015-05-04
+Nick Li
+	
