@@ -19,5 +19,5 @@ install:
 		cp trfcmo $(TOPDIR)/tools; \
 	fi
 clean:
-	rm -rf *.o trfcmo
+	rm -rf *.o trfcmo $(TOPDIR)/tools/trfcmo
 

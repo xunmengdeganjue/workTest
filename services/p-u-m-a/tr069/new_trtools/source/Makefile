@@ -1,7 +1,7 @@
 
 TOPDIR ?= /home/nickli/trtools/TRTOOLS/
 SOURCEDIR = $(TOPDIR)/source
-SUBDIRS = $(SOURCEDIR)/trfcmo $(SOURCEDIR)/truci
+SUBDIRS = $(SOURCEDIR)/trfcmo $(SOURCEDIR)/truci $(SOURCEDIR)/xml2func
 
 
 all:

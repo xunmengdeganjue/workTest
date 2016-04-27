@@ -19,5 +19,5 @@ install:
 		cp truci ${TOPDIR}/tools;\
 	fi
 clean:
-	rm -rf *.o truci
+	rm -rf *.o truci $(TOPDIR)/tools/truci
 

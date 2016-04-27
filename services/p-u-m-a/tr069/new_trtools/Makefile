@@ -40,5 +40,6 @@ clean:clean_excute
 clean_excute:	
 	rm -rf ${TOPDIR}/tools/trfcmo
 	rm -rf ${TOPDIR}/tools/truci
+	rm -rf ${TOPDIR}/tools/xml2func
 
 	
