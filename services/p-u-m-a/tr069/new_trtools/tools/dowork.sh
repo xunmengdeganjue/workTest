@@ -2,8 +2,37 @@
 #at first you should check if the tr69_handler.h and the tr69_handler_table.h
 #are existing in this file.
 
-ONEAGENT_HOME="/home/nickli/oneagent_181NEW/interface/xml"
+
+
+WORK_DIR="/home/nickli/test/workTest/services/p-u-m-a/tr069/new_trtools/tools"
+CURRENT=`pwd`
+TMPDIR=${CURRENT}/result
+
+#PLEASE SET THE REAL ONEAGENT_HOME DIR.
+#ONEAGENT_HOME=
+ONEAGENT_HOME=${ONEAGENT_HOME-${TMPDIR}}
+#echo "the oneagent home is $ONEAGENT_HOME"
+
 XML_MODULE="xml.xml"
+
+
+alias cp='sudo cp'
+alias rm='sudo rm'
+
+delOldFiles(){
+
+	if [ -f ${ONEAGENT_HOME}/tr69_handler_table.h ];then
+		echo "delete the old tr69_handler_table.h"
+		rm -rf ${ONEAGENT_HOME}/tr69_handler_table.h
+	fi
+	if [ -f ${ONEAGENT_HOME}/tr69_handler_ext.h ];then
+		echo "delete the old tr69_handler_ext.h"
+		rm -rf ${ONEAGENT_HOME}/tr69_handler_ext.h
+	fi
+
+}
+
+
 dowork()
 {
 	#1）inplement the tr69_handler.h and create the macro file tr_uciconfig.h
@@ -17,15 +46,7 @@ dowork()
 				echo "the xml2func meet same error!"
 				exit 1
 			else 
-				echo "cp the tr69_handler_table.h and the tr69_handler_ext.h to the $ONEAGENT_HOME"
-				if [ -f ${ONEAGENT_HOME}/tr69_handler_table.h ];then
-					echo "delete the old tr69_handler_table.h"
-					rm -rf ${ONEAGENT_HOME}/tr69_handler_table.h
-				fi
-				if [ -f ${ONEAGENT_HOME}/tr69_handler_ext.h ];then
-					echo "delete the old tr69_handler_ext.h"
-					rm -rf ${ONEAGENT_HOME}/tr69_handler_ext.h
-				fi
+				delOldFiles
 				cp tr69_handler_table.h ${ONEAGENT_HOME}/
 				cp tr69_handler_ext.h ${ONEAGENT_HOME}/
 			fi
@@ -76,14 +97,22 @@ dowork()
 	fi
 	
 	##set value of some very base parameters
-	./ucidefault.sh
+	#./ucidefault.sh
 	
-
+	##clean the work place
+	cleanWorkPlace
+	
+	echo -e "\033[32m WORK DONE!\033[0m\n\033[31mThe result is placed in the result folder\033[0m"
 	
 }
-clean()
+clean(){
+	cleanWorkPlace
+	rm -rf ./result/*
+}
+
+cleanWorkPlace()
 {
-	echo "clean all the built files"
+	echo "Clean the work place"
 	rm -rf tr69_handler.c tr_uciconfig tr_uciconfig.h trconf
 	rm -rf tr69_handler.h tr69_handler_table.h tr69_handler_ext.h
 	

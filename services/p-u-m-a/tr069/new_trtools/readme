@@ -36,7 +36,7 @@ trfcmo
 
 truci
 	#./truci -- 填充tr_uciconfig文件，并最后得到tr_uciconfig.h文件
-		 -- 生成trconf文件
+			 -- 生成trconf文件
 
 ****一步到位的操作：
 $cd trtools/tools/
