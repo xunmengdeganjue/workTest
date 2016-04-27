@@ -1,0 +1,31 @@
+编译方法：
+# make
+使用方法：
+# ./double
+
+
+Makefile 内容：
+-------------------------------------------------------------------------------
+TEST:= -DDATA_TEST
+DOUBLE_CIRCULAR_LINK:= -DDOUBLE_CIRCULAR_LINK -DHEAD_INSERT
+
+CFLAGS:= -Wall $(DOUBLE_CIRCULAR_LINK) $(TEST)
+
+double:main.o doubleLinkList.o data_test.o
+	gcc $(CFLAGS) -g -o double main.o doubleLinkList.o data_test.o
+main.o :main.c doubleLinkList.h
+	gcc $(CFLAGS) -g -c main.c
+doubleLinkList.o:doubleLinkList.h
+	gcc $(CFLAGS) -g -c  doubleLinkList.c
+data_test.o:data_test.c data_test.h
+	gcc $(CFLAGS) -g -c data_test.c
+clean:
+	rm -rf *.o double
+---------------------------------------------------------------------------------
+DATA_TEST：控制fill_default_list()及list_show（）测试接口的功能；
+DOUBLE_CIRCULAR_LINK：定义后可以在list_init()接口中创建双向循环链表；
+HEAD_INSERT：定义该项后，将执行后向插入每个元素节点。
+
+
+/*将元素从List的后向插入时，tail指针的前驱的next指针 = tail的前驱 = 要添加的元素节点；反之如果从头部
+插入，则是head的后驱的前驱=head的后驱=要添加的元素节点*/
