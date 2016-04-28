@@ -1,23 +1,24 @@
 #! /bin/bash
-#at first you should check if the tr69_handler.h and the tr69_handler_table.h
-#are existing in this file.
 
+##at first you should check if the tr69_handler.h and the tr69_handler_table.h
+##are existing in this file.
 
-
-WORK_DIR="/home/nickli/test/workTest/services/p-u-m-a/tr069/new_trtools/tools"
 CURRENT=`pwd`
-TMPDIR=${CURRENT}/result
+WORKPLACE=${CURRENT}/tools
+RESULTLOCATION=${CURRENT}/result
 
-#PLEASE SET THE REAL ONEAGENT_HOME DIR.
-#ONEAGENT_HOME=
-ONEAGENT_HOME=${ONEAGENT_HOME-${TMPDIR}}
-#echo "the oneagent home is $ONEAGENT_HOME"
+##Please set the right value for ONEAGENT_HOME
+##The ONEAGENT_HOME is the place where the tr69_handler* should placed.
+#ONEAGENT_HOME="/home/nickli/oneagent_181NEW/interface/xml"
+ONEAGENT_HOME=${ONEAGENT_HOME-${RESULTLOCATION}}
 
+##Please set the right value for XML_MODULE
 XML_MODULE="xml.xml"
 
-
-alias cp='sudo cp'
+###
 alias rm='sudo rm'
+alias mv='sudo mv'
+
 
 delOldFiles(){
 
@@ -46,6 +47,7 @@ dowork()
 				echo "the xml2func meet same error!"
 				exit 1
 			else 
+				echo "cp the tr69_handler_table.h and the tr69_handler_ext.h to the $ONEAGENT_HOME"
 				delOldFiles
 				cp tr69_handler_table.h ${ONEAGENT_HOME}/
 				cp tr69_handler_ext.h ${ONEAGENT_HOME}/
@@ -99,22 +101,23 @@ dowork()
 	##set value of some very base parameters
 	#./ucidefault.sh
 	
-	##clean the work place
 	cleanWorkPlace
 	
-	echo -e "\033[32m WORK DONE!\033[0m\n\033[31mThe result is placed in the result folder\033[0m"
-	
 }
-clean(){
-	cleanWorkPlace
-	rm -rf ./result/*
-}
+cleanWorkPlace(){
 
-cleanWorkPlace()
-{
-	echo "Clean the work place"
+	echo "clean all the work place"
 	rm -rf tr69_handler.c tr_uciconfig tr_uciconfig.h trconf
 	rm -rf tr69_handler.h tr69_handler_table.h tr69_handler_ext.h
+
+}
+
+
+clean()
+{
+	cleanWorkPlace
+	echo "clean the result located folder"
+	rm -rf ${RESULTLOCATION}/*
 	
 }
 
@@ -128,6 +131,8 @@ case $1 in
 ;;
 *)
 	echo "Usage"
-	echo "     $0 <do|clean>"
+	echo 	"  $0 <do|clean>"
+	echo -e "  $0 do    \033[31m#Do the whole work,the result will be placed in\n \t\tthe ${ONEAGENT_HOME}\033[0m"
+	echo -e "  $0 clean \033[31m#Do the cleaning,clean all of the result files.\033[0m"
 ;;
 esac
