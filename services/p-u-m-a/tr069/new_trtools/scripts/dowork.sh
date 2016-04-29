@@ -1,9 +1,39 @@
 #! /bin/bash
-#at first you should check if the tr69_handler.h and the tr69_handler_table.h
-#are existing in this file.
 
-ONEAGENT_HOME="/home/nickli/oneagent_181NEW/interface/xml"
-XML_MODULE="xml.xml"
+##at first you should check if the tr69_handler.h and the tr69_handler_table.h
+##are existing in this file.
+
+CURRENT=`pwd`
+WORKPLACE=${CURRENT}/tools
+RESULTLOCATION=${CURRENT}/result
+
+##Please set the right value for ONEAGENT_HOME
+##The ONEAGENT_HOME is the place where the tr69_handler* should placed.
+#ONEAGENT_HOME="/home/nickli/oneagent_181NEW/interface/xml"
+ONEAGENT_HOME=${ONEAGENT_HOME-${RESULTLOCATION}}
+
+##Please set the right value for XML_MODULE
+XML_MODULE="tr.xml"
+
+###
+alias rm='sudo rm'
+alias mv='sudo mv'
+
+
+delOldFiles(){
+
+	if [ -f ${ONEAGENT_HOME}/tr69_handler_table.h ];then
+		echo "delete the old tr69_handler_table.h"
+		rm -rf ${ONEAGENT_HOME}/tr69_handler_table.h
+	fi
+	if [ -f ${ONEAGENT_HOME}/tr69_handler_ext.h ];then
+		echo "delete the old tr69_handler_ext.h"
+		rm -rf ${ONEAGENT_HOME}/tr69_handler_ext.h
+	fi
+
+}
+
+
 dowork()
 {
 	#1）inplement the tr69_handler.h and create the macro file tr_uciconfig.h
@@ -18,14 +48,7 @@ dowork()
 				exit 1
 			else 
 				echo "cp the tr69_handler_table.h and the tr69_handler_ext.h to the $ONEAGENT_HOME"
-				if [ -f ${ONEAGENT_HOME}/tr69_handler_table.h ];then
-					echo "delete the old tr69_handler_table.h"
-					rm -rf ${ONEAGENT_HOME}/tr69_handler_table.h
-				fi
-				if [ -f ${ONEAGENT_HOME}/tr69_handler_ext.h ];then
-					echo "delete the old tr69_handler_ext.h"
-					rm -rf ${ONEAGENT_HOME}/tr69_handler_ext.h
-				fi
+				delOldFiles
 				cp tr69_handler_table.h ${ONEAGENT_HOME}/
 				cp tr69_handler_ext.h ${ONEAGENT_HOME}/
 			fi
@@ -76,16 +99,25 @@ dowork()
 	fi
 	
 	##set value of some very base parameters
-	./ucidefault.sh
+	#./ucidefault.sh
 	
-
+	cleanWorkPlace
 	
 }
-clean()
-{
-	echo "clean all the built files"
+cleanWorkPlace(){
+
+	echo "clean all the work place"
 	rm -rf tr69_handler.c tr_uciconfig tr_uciconfig.h trconf
 	rm -rf tr69_handler.h tr69_handler_table.h tr69_handler_ext.h
+
+}
+
+
+clean()
+{
+	cleanWorkPlace
+	echo "clean the result located folder"
+	rm -rf ${RESULTLOCATION}/*
 	
 }
 
@@ -99,6 +131,8 @@ case $1 in
 ;;
 *)
 	echo "Usage"
-	echo "     $0 <do|clean>"
+	echo 	"  $0 <do|clean>"
+	echo -e "  $0 do    \033[31m#Do the whole work,the result will be placed in\n \t\tthe ${ONEAGENT_HOME}\033[0m"
+	echo -e "  $0 clean \033[31m#Do the cleaning,clean all of the result files.\033[0m"
 ;;
 esac

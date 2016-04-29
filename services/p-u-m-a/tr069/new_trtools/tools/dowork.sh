@@ -13,7 +13,7 @@ RESULTLOCATION=${CURRENT}/result
 ONEAGENT_HOME=${ONEAGENT_HOME-${RESULTLOCATION}}
 
 ##Please set the right value for XML_MODULE
-XML_MODULE="xml.xml"
+XML_MODULE="tr.xml"
 
 ###
 alias rm='sudo rm'
