@@ -10,6 +10,8 @@ NFS_D=/var/lib/nfs
 LOCK_D=/var/lib/nfs/sm
 
 ENABLE=''
+SERVICE_CONFIG="/etc/exports"
+
 global(){
 	config_get ENABLE $1 enable	
 	echo "get the enable"
@@ -27,8 +29,7 @@ addshare(){
 	config_get device_list $1 allow_devices
 	
 	##clear the old content of the /etc/exports
-	echo -n > /etc/exports
-	echo "$share_path $device_list($rw_permission,all_squash,no_subtree_check,async,insecure)" >> /etc/exports
+	echo "$share_path $device_list($rw_permission,all_squash,no_subtree_check,async,insecure)" >> $SERVICE_CONFIG
 
 }
 
@@ -40,7 +41,7 @@ start() {
 	config_load nfsd
 	config_foreach global global
 	if [ $ENABLE -eq 1 ];then
-
+		echo -n > $SERVICE_CONFIG
 		config_foreach addshare share
 
 		grep -q /proc/fs/nfsd /proc/mounts || \
