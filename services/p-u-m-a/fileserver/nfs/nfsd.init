@@ -23,13 +23,30 @@ addshare(){
 	local share_path
 	local rw_permission
 	local device_list
+	local space=" "
 	
 	config_get share_path $1 path
 	config_get rw_permission $1 permission
 	config_get device_list $1 allow_devices
 	
+	echo "the device_list is $device_list"
+	
 	##clear the old content of the /etc/exports
-	echo "$share_path $device_list($rw_permission,all_squash,no_subtree_check,async,insecure)" >> $SERVICE_CONFIG
+	i=0
+	for tmp in $device_list
+	do
+		
+		tmp_list=`echo $tmp|cut -d"," -f1`"("`echo $tmp|cut -d"," -f2`",sync,no_subtree_check)"
+		if [ $i -eq 0 ];then 
+			device_list=$tmp_list
+		else
+			device_list=$device_list$space$tmp_list
+		fi
+		
+		let i++
+	done
+	
+	echo "$share_path $device_list" >> $SERVICE_CONFIG
 
 }
 
@@ -74,11 +91,15 @@ restart(){
 	stop
 	sleep 1
 	start
-
-
 }
 
 reload() {
+	
+	echo -n > $SERVICE_CONFIG
+	
+	config_load nfsd
+	config_foreach addshare share
+	
 	/usr/sbin/exportfs -r
 }
 
