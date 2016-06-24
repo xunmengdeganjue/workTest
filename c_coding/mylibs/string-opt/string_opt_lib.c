@@ -79,3 +79,29 @@ void strrpl(char* pDstOut, char* pSrcIn, const char* pSrcRpl, const char* pDstRp
 		po = po + nLen + nDstRplLen; 	
 		} while (p != NULL); 
 }
+
+/*
+	To convert a string to uppercase.	
+
+*/
+
+/*
+*Func: 	strtoupper
+*Dec :	To convert a string to uppercase.	
+*Parm:	str,the source string to be deal with.
+*Ret:	void.
+*/
+void strtoupper(char *str){
+	cgi_trace_enter();
+	int i = 0;
+	for(i=0;i<strlen(str);i++){
+		str[i]=toupper(str[i]);
+	}
+	
+	if(!strcmp(str,"PPPOE")){
+		memset(str,0x00,strlen(str));
+		strcpy(str,"PPPoE");
+	}
+	
+	cgi_trace_exit();
+}
