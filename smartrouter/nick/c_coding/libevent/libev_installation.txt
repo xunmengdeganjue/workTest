@@ -1,4 +1,0 @@
-make[1]: Entering directory `/home/nickli/test/c_coding/libevent/libev-3.7'
-/bin/sh ./mkinstalldirs /usr/local/libev_nickli/lib
-mkdir -p -- /usr/local/libev_nickli/lib
-make[1]: Leaving directory `/home/nickli/test/c_coding/libevent/libev-3.7'

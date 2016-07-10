@@ -1,5 +1,0 @@
-config button
-        option action 'released'
-        option button 'wps'
-        option handler 'sh /etc/ledtest.sh'
-
