@@ -1,0 +1,39 @@
+. /etc/profile
+. /lib/functions.sh
+
+LOG="/dev/console"
+#LOG="/tmp/ddns.log"
+DATE=`date +"%F-%H:%M:%S"`
+
+NAME=ez-ipupdate
+COMMAND=/usr/sbin/$NAME
+
+case "$ACTION" in
+    ifdown)
+		cleanup $pidfile
+	;;
+	ifup)
+		. /lib/functions/network.sh
+		echo "THE DEVICE IS $DEVICE" >> $LOG	
+		
+		interface=`uci get network.wan.ifname`
+		interface=`echo $interface`
+		echo "THE interface is $interface" >> $LOG
+		if [ "$interface" = "$DEVICE" ];then
+			/*here we must make sure that the wan network is ready for update the ddns info*/
+			wan_status=`ubus call network.interface.wan status |grep -i '"up":'|cut -d " " -f 2`
+			wan_status=${wan_status%*,}
+			if [ "$wan_status" = "true" ];then
+				echo -e "THE NET WORK IS \033[32m [READY] \033[0m!"  >> $LOG
+				if [ $? -eq 0 ];then
+					/etc/init.d/ddns start
+					echo -e "\033[35m I have called the ddns script to update the ddns info\033[0m" >> $LOG
+				fi
+			else 
+				echo -e "THE NET WORK IS \033[31m [UNREADY] \033[0m!"  >> $LOG
+			fi
+
+		fi
+	;;
+esac
+
