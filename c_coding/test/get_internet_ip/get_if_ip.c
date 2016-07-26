@@ -1,16 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h> //for memcopy
-#include <unistd.h>
-#include <sys/socket.h>
-#include <fcntl.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <arpa/inet.h> //for inet_ntoa
-#include <net/if.h> //for   struct ifreq ifr;
-#include <signal.h>
-#include <sys/ioctl.h> //for SIOCGIFADDR
+#include <stdio.h>		
+#include <stdlib.h>  	//for free()
+#include <string.h> 	//for memcopy
+#include <arpa/inet.h> 	//for inet_ntoa
+#include <net/if.h> 	//for struct ifreq ifr;
+#include <sys/ioctl.h> 	//for SIOCGIFADDR
+
+//#include <netinet/in.h>
+//#include <sys/socket.h>
+//#include <signal.h>
+//#include <sys/types.h>
+//#include <fcntl.h>
+//#include <unistd.h>
 
 #ifdef DEBUG
 //#define dprintf(x) if( options & OPT_DEBUG ) 
@@ -46,7 +46,7 @@ int main(){
 			address = strdup(inet_ntoa(sin.sin_addr));
 			
 			printf("The address of the interface eth0  is [%s]\n",address);
-			pirntf("The ");
+			printf("The ");
 		}	
 		
 	}else{
