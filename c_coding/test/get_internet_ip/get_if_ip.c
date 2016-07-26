@@ -32,6 +32,7 @@ int main(){
 	struct sockaddr_in sin;
     struct sockaddr_in sin2;
 	char *address = NULL;
+	int port = 0;
 	int sock = -1;
 	
 	sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -44,9 +45,7 @@ int main(){
 			memcpy(&sin, &sin2, sizeof(sin));
 			if(address) { free(address); }
 			address = strdup(inet_ntoa(sin.sin_addr));
-			
 			printf("The address of the interface eth0  is [%s]\n",address);
-			printf("The ");
 		}	
 		
 	}else{
@@ -82,7 +81,7 @@ int get_if_addr(int sock, char *name, struct sockaddr_in *sin)
   if(ifr.ifr_addr.sa_family == AF_INET)
   {
 	memcpy(sin, &(ifr.ifr_addr), sizeof(struct sockaddr_in));
-
+	
    	if ( (strcmp(name, "ppp0") == 0) && (strcmp(inet_ntoa(sin->sin_addr),"10.64.64.64") == 0) ){
 		dprintf((stderr, "%s: %s\n", name, "can not get ip address!"));
 		return -1;
