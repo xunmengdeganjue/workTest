@@ -39,6 +39,7 @@ int main(){
 	
 	ret = get_if_addr(sock,"eth0",&sin2);
 	if(ret == 0){
+#if 0		
 		if(memcmp(&sin.sin_addr, &sin2.sin_addr, sizeof(struct in_addr)) != 0 )
 		{
 			
@@ -47,7 +48,9 @@ int main(){
 			address = strdup(inet_ntoa(sin.sin_addr));
 			printf("The address of the interface eth0  is [%s]\n",address);
 		}	
-		
+#endif
+			address = strdup(inet_ntoa(sin2.sin_addr));
+			printf("The address of the interface eth0  is [%s]\n",address);
 	}else{
 		printf("Can't get the address of the eth0!\n");
 		
