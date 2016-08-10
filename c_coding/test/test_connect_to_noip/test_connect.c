@@ -39,6 +39,11 @@ int main(int argc,char **argv){
 	}else{
 		printf("Connect successfully!\n");	
 	}
+	/*send the requirement to the server*/
+	
+	snprintf(buff,sizeof(buff),"%.24s\r\n",ctime(&ticks));
+	Writen(connfd,buff,strlen(buff));
+	
 	
 	while((n = read(sockfd,recvline,MAXLINE)) > 0){
      
