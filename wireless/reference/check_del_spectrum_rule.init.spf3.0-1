@@ -1,0 +1,51 @@
+#!/bin/sh
+# This script will be called from /etc/init.d/network. This script will delete the 
+#spcetrum_tcp_mss and spcetrum_qos rule before stopping the network. It is required
+# becuase there is a dependency of phys-dev target on the bridge port.
+# It will restore the rules when network will be started.
+
+del_spectrum_rule() {
+        # Builds up a list of iptables commands to flush the spectrum_* chains,
+        # remove rules referring to them, then delete them
+
+        # Print rules in the mangle table, like iptables-save
+        iptables -t mangle -S |
+        # Find rules for the spectrum_* chains
+        grep '^-N spectrum_\|-j spectrum_' |
+        grep -v '^-A spectrum_' |
+        # Replace -N with -X and hold, with -F and print
+        # Replace -A with -D
+        # Print held lines at the end (note leading newline)
+        sed -e '/^-N/{s/^-N/-X/;H;s/^-X/-F/}' \
+        -e 's/^-A/-D/' \
+        -e '${p;g}' |
+        # Make into proper iptables calls
+        # Note:  awkward in previous call due to hold space usage
+        sed -n -e 's/^./iptables -t mangle &/p' >  /tmp/checkndel.sh
+        chmod 777  /tmp/checkndel.sh
+        /tmp/checkndel.sh
+}
+restore_spectrum_rule()
+{
+#	if [ -e /tmp/checkndel.sh ]
+#	then
+#		numrule=$(cat /tmp/checkndel.sh | wc -l)
+#		if [ $numrule -gt 0 ]
+#		then
+			/etc/init.d/spectrum_qos start
+			rm /tmp/checkndel.sh
+#		fi	
+#	fi
+}
+case "$1" in
+        check)
+                del_spectrum_rule
+                /etc/init.d/spectrum_tcp_mss del
+                /etc/init.d/gre_keepalive stop
+        ;;
+        restore)
+                restore_spectrum_rule 
+                /etc/init.d/spectrum_tcp_mss add
+                /etc/init.d/gre_keepalive start
+        ;;
+esac

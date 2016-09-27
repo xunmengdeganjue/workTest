@@ -1,0 +1,77 @@
+#!/bin/sh
+
+del_ssid_vlan_config() {
+       
+	local VETH0_BR_NAME                                                    
+	local LOCAL_EP_NAME                                                                  
+	local PEER_EP_NAME                                                                   
+	local VLAN_ID                                                                        
+	local VETH1_BR_NAME                                                                  
+	local VETH0_BR_NAME 
+
+	VETH0_BR_NAME=`uci get network.veth.network`                           
+	LOCAL_EP_NAME=`uci get network.veth.ifname`                            
+	PEER_EP_NAME=`uci get network.veth.peer_ifname`             
+	VLAN_ID=`uci get network.veth.vlanid`                       
+	VETH1_BR_NAME=`uci get network.veth.peer_network`           
+
+	brctl delif br-$VETH0_BR_NAME $LOCAL_EP_NAME.$VLAN_ID                                          
+	vconfig rem $LOCAL_EP_NAME.$VLAN_ID
+	brctl delif br-$VETH1_BR_NAME $PEER_EP_NAME                                             
+
+	ip link del $LOCAL_EP_NAME
+}
+
+restore_ssid_vlan_config() {                                                          
+        local VETH0_BR_NAME                                                    
+        local LOCAL_EP_NAME                                                                  
+        local PEER_EP_NAME                                                                                                                                          
+        local VETH1_BR_NAME                                                                  
+        local VETH0_BR_NAME 
+        
+        VETH0_BR_NAME=`uci get network.veth.network`                           
+        LOCAL_EP_NAME=`uci get network.veth.ifname`                            
+        PEER_EP_NAME=`uci get network.veth.peer_ifname`             
+        VLAN_ID=`uci get network.veth.vlanid`                       
+        VETH1_BR_NAME=`uci get network.veth.peer_network`           
+
+                                                                                                                                             
+        ip link add $LOCAL_EP_NAME type veth peer name $PEER_EP_NAME                         
+        if [ "x" != ${VLAN_ID}x ]; then                                                             
+            vconfig add $LOCAL_EP_NAME $VLAN_ID                 
+       		brctl addif br-$VETH0_BR_NAME $LOCAL_EP_NAME.$VLAN_ID
+        	ifconfig $LOCAL_EP_NAME.$VLAN_ID up
+        else                                                                        
+			brctl addif br-$VETH0_BR_NAME $LOCAL_EP_NAME           
+        fi                                                                                   
+
+        brctl addif br-$VETH1_BR_NAME $PEER_EP_NAME                                             
+		ifconfig $LOCAL_EP_NAME up                                                           
+        ifconfig $PEER_EP_NAME up                                                            
+
+}
+
+
+
+case "$1" in                                                                                 
+        stop)                                                                               
+        	echo "ssid vlan stopping"
+        	del_ssid_vlan_config
+        	exit
+        ;;                                                                                   
+        start)
+        	echo "ssid vlan starting"
+		restore_ssid_vlan_config 
+		exit                                                       
+        ;;                                                                                   
+        reload)
+                echo "ssid vlan reloading"   
+                del_ssid_vlan_config
+                
+                #restart the hostapd
+       		#/etc/init.d/restart_spectrum_hostapd.sh reload
+                restore_ssid_vlan_config                                                     
+                
+                exit         
+        ;;
+esac    
