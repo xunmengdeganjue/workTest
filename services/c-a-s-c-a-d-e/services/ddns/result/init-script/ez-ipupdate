@@ -1,0 +1,88 @@
+#!/bin/sh /etc/rc.common
+# Copyright (C) 2006 OpenWrt.org
+START=50
+
+. /lib/functions.sh
+. /lib/functions/network.sh
+. /etc/profile
+
+BIN=ez-ipupdate
+CONF=/etc/$BIN.conf
+RUN_D=/var/run
+PID_F=$RUN_D/$BIN.pid
+
+NAME=ez-ipupdate
+configure() 
+{
+	local cfg=$1
+	config_get program $cfg program
+	config_get interface $cfg interface
+	config_get enabled $cfg enabled
+	config_get service  $cfg service
+	config_get pidfile $cfg pidfile
+	
+	echo "THE PROGRAM IS $program" 
+	[ "$program" = "$NAME" ] && {
+		echo 1111
+		echo "the interface is $interface"
+:<<DEL
+		network_get_device dev "$INTERFACE" || {
+			echo "get device interface failed!"
+			return
+		}
+DEL
+		enabled=${enabled:-1}
+		echo "the enabled is $enabled"
+
+		pidfile=${pidfile:-/var/run/$NAME-$service-$interface.pid}
+
+		if [ $enabled -eq 1 ];then
+			echo 3333
+			[ ! -e $pidfile ] && {
+				config_get cache $cfg cache
+				[ -z "$cache" ] && cache=/tmp/$NAME-$service-$dev.cache
+
+				config_get config $cfg config
+				[ -z "$config" ] && {
+					config=/var/run/$NAME-$service-$dev.conf	
+				}
+				config_get username $cfg username
+				config_get password $cfg password
+				config_get hostname $cfg hostname
+				service=${service:-"dyndns"}
+				config_get server	$cfg server
+				server_line=""
+				[ -n "$server" ] && {
+					server_line="server=$server"
+				}
+				echo "the config is $config" >> /dev/console			
+				cat > $config <<EOF
+service-type=$service
+$server_line
+user=$username:$password
+host=$hostname
+cache-file=$cache
+pid-file=$pidfile
+interface=$interface
+quiet
+EOF
+			
+			}
+		fi
+	}
+}
+
+start() {
+
+	config_load ddns
+	config_foreach configure ddns
+	
+	configure
+	[ -f $CONF ] || exit
+	mkdir -p $RUN_D
+	$BIN -c $CONF 
+}
+
+stop() {
+	[ -f $PID_F ] && kill $(cat $PID_F)
+}
