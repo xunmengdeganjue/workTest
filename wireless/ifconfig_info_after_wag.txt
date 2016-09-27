@@ -1,0 +1,84 @@
+br-com    Link encap:以太网  硬件地址 96:ae:22:69:f3:d6  
+          inet 地址:12.0.0.2  广播:0.0.0.0  掩码:255.255.255.0
+          inet6 地址: fe80::94ae:22ff:fe69:f3d6/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  跃点数:1
+          接收数据包:0 错误:0 丢弃:0 过载:0 帧数:0
+          发送数据包:60 错误:0 丢弃:0 过载:0 载波:0
+          碰撞:0 发送队列长度:0 
+          接收字节:0 (0.0 B)  发送字节:9713 (9.7 KB)
+
+br-tap    Link encap:以太网  硬件地址 2a:63:08:64:09:ae  
+          inet6 地址: fe80::2863:8ff:fe64:9ae/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1462  跃点数:1
+          接收数据包:106 错误:0 丢弃:0 过载:0 帧数:0
+          发送数据包:28 错误:0 丢弃:0 过载:0 载波:0
+          碰撞:0 发送队列长度:0 
+          接收字节:15814 (15.8 KB)  发送字节:4412 (4.4 KB)
+
+eth0      Link encap:以太网  硬件地址 52:54:00:03:de:d5  
+          inet 地址:10.8.2.58  广播:10.8.2.63  掩码:255.255.255.224
+          inet6 地址: fe80::5054:ff:fe03:ded5/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  跃点数:1
+          接收数据包:22317098 错误:0 丢弃:6 过载:0 帧数:0
+          发送数据包:5865974 错误:0 丢弃:0 过载:0 载波:0
+          碰撞:0 发送队列长度:1000 
+          接收字节:17961737911 (17.9 GB)  发送字节:1888723707 (1.8 GB)
+
+eth0.5    Link encap:以太网  硬件地址 52:54:00:03:de:d5  
+          inet 地址:11.0.0.6  广播:0.0.0.0  掩码:255.255.255.0
+          inet6 地址: fe80::5054:ff:fe03:ded5/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  跃点数:1
+          接收数据包:0 错误:0 丢弃:0 过载:0 帧数:0
+          发送数据包:272 错误:0 丢弃:0 过载:0 载波:0
+          碰撞:0 发送队列长度:0 
+          接收字节:0 (0.0 B)  发送字节:31291 (31.2 KB)
+
+gretap2   Link encap:以太网  硬件地址 2a:63:08:64:09:ae  
+          inet6 地址: fe80::2863:8ff:fe64:9ae/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1462  跃点数:1
+          接收数据包:0 错误:0 丢弃:0 过载:0 帧数:0
+          发送数据包:159 错误:3 丢弃:0 过载:0 载波:3
+          碰撞:0 发送队列长度:1000 
+          接收字节:0 (0.0 B)  发送字节:26852 (26.8 KB)
+
+lo        Link encap:本地环回  
+          inet 地址:127.0.0.1  掩码:255.0.0.0
+          inet6 地址: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  跃点数:1
+          接收数据包:67534 错误:0 丢弃:0 过载:0 帧数:0
+          发送数据包:67534 错误:0 丢弃:0 过载:0 载波:0
+          碰撞:0 发送队列长度:0 
+          接收字节:4837250 (4.8 MB)  发送字节:4837250 (4.8 MB)
+
+secgretap2 Link encap:以太网  硬件地址 7a:63:7a:6f:67:9b  
+          inet6 地址: fe80::7863:7aff:fe6f:679b/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1462  跃点数:1
+          接收数据包:0 错误:0 丢弃:0 过载:0 帧数:0
+          发送数据包:159 错误:3 丢弃:0 过载:0 载波:3
+          碰撞:0 发送队列长度:1000 
+          接收字节:0 (0.0 B)  发送字节:26852 (26.8 KB)
+
+veth0     Link encap:以太网  硬件地址 2a:ad:0d:f9:f6:43  
+          inet6 地址: fe80::28ad:dff:fef9:f643/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  跃点数:1
+          接收数据包:107 错误:0 丢弃:0 过载:0 帧数:0
+          发送数据包:56 错误:0 丢弃:0 过载:0 载波:0
+          碰撞:0 发送队列长度:1000 
+          接收字节:17388 (17.3 KB)  发送字节:8824 (8.8 KB)
+
+veth1     Link encap:以太网  硬件地址 96:ae:22:69:f3:d6  
+          inet6 地址: fe80::94ae:22ff:fe69:f3d6/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  跃点数:1
+          接收数据包:56 错误:0 丢弃:0 过载:0 帧数:0
+          发送数据包:107 错误:0 丢弃:0 过载:0 载波:0
+          碰撞:0 发送队列长度:1000 
+          接收字节:8824 (8.8 KB)  发送字节:17388 (17.3 KB)
+
+veth1.7   Link encap:以太网  硬件地址 96:ae:22:69:f3:d6  
+          inet6 地址: fe80::94ae:22ff:fe69:f3d6/64 Scope:Link
+          UP BROADCAST RUNNING PROMISC MULTICAST  MTU:1500  跃点数:1
+          接收数据包:0 错误:0 丢弃:0 过载:0 帧数:0
+          发送数据包:88 错误:0 丢弃:0 过载:0 载波:0
+          碰撞:0 发送队列长度:0 
+          接收字节:0 (0.0 B)  发送字节:14125 (14.1 KB)
+
