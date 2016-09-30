@@ -1,0 +1,443 @@
+####################################################################################################################################################################################################################
+
+DOCUMENT NAME :___________ CONFIGURING COOVA-CHILLI + FREERADIUS  		 _______________
+AUTHOR        :___________ 			NAVNEET		     	 _______________
+COMPANY       :___________ 		     IOTINA TECHNOLOGIES	         _______________
+
+##################################################################################################################################################################################################################
+
+
+REFERENCES_____________________________
+
+- for commands on terminal
+
+& for adding text in files
+
+* for showing output on screen
+
+! for post installation checking
+
+________________________________________
+
+
+@@@@@@@@@@@@@@@@@@ BASIC NETWORK ARCHIETECTURE
+
+Here's the bare minimum you'll need to get things ***DONE***
+
+1. Internet connection (say, cable modem or satellite modem)
+2. Linux computer with 2 network cards (one of them can be wireless).
+3. Ubuntu 10.04 or greater
+
+Note:- Here my COOA-CHILLI AND RADIUS SERVER both are on same system. You can deploy each one of them on
+different systems too.
+
+@@@@@@@@@@@@@@@@@@@ SEQUENCE OF EVENTS IN THE IMPLEMENTATION
+Sequence of events of a client login
+
+1.    Client connects to wireless/wired network, requesting for an IP Address using DHCP
+2.    Chillispot (which provides DHCP services) grants them an IP address via a "tunnel" it sets up
+3.    Client requests for a URL, say http://www.google.com
+4.    Chillispot checks the client's MAC address to see if they're authenticated. If they're not, they get redirected to a login page
+5.    Client logs into Chillispot
+6.    Chillispot checks with FreeRadius to see if the user's credentials are accepted (and if they've exceeded their quotas)
+7.    FreeRadius responds either negatively (wrong username/password or quota exceeded), or positively (accepted, starting time/bandwidth logging now)
+8.    If positive response, Chillispot redirects user to a "Thank You, you are now connected to the internet" page.
+
+
+
+@@@@@@@@@@@@@@@@@@@ COMPONENTS OF SETTING UP THE CAPTIVE PORTAL
+
+1. COVA-CHILLI
+
+	Coova-Chilli is a Linux package that provides the following:
+- integration with FreeRadius
+- DHCP
+- captive portal
+- network bridge between "in" (LAN) and "out" (WAN) interfaces
+
+
+2. FREERADIUS
+
+- Performs the user authentication and bandwidth/time accounting.
+
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+
+STEP 1:- 	
+
+	INSTALL Apache Web Server --->
+		
+-sudo apt-get update	
+-sudo apt-get install apache2
+
+Apache will first look for a file called index.html. We want to tell our web server to prefer PHP files, so we'll make Apache look for an index.php file first.
+
+-sudo vim /etc/apache2/mods-enabled/dir.conf
+
+
+It will look like this:
+
+		<IfModule mod_dir.c>
+    			DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
+		</IfModule>
+
+We want to move the PHP index file highlighted above to the first position after the DirectoryIndex specification, like this:
+
+		<IfModule mod_dir.c>
+    			DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+		</IfModule>
+
+STEP 2:- 	
+
+
+	INSTALL php5 ----->
+
+-sudo apt-get install php5 libapache2-mod-php5 php5-mcrypt
+
+
+STEP 3:-
+
+	UPDATE PACKAGE CACHE
+
+-sudo apt-get update
+
+
+STEP 4:-
+
+	INSTALL FREERADIUS
+	
+-sudo add-apt-repository ppa:freeradius/stable-3.0
+
+-sudo apt-get update
+
+-sudo apt-get install freeradius 
+
+	
+	Then let the installation go ON...
+
+STEP 5:-
+
+	Check freeRadius config files
+
+check if freeradius is Running or Not? ------>
+
+- ps -A | grep freeradius
+
+- sudo /etc/init.d/freeradius stop  >>> If Did Not stop use this Command --> 
+
+-sudo service freeradius stop 
+
+- sudo freeradius -XXX
+
+		If all goes well the last line should display
+
+		Wed Jul 27 15:24:34 2009 : Info: Ready to process requests.	
+		
+		Ctrl+C to exit.
+
+NOTE: If you get error “Error binding to port for 0.0.0.0 port 1812”, it means freeradius is already running. Stop it by doing the following:
+
+
+	Run these Command --> 
+
+- ps –A | grep freeradius
+
+	to stop
+
+- sudo /etc/init.d/freeradius stop  >>> Maybe Not going to stop use ( service freeradius stop )
+
+	again start
+
+- sudo /etc/init.d/freeradius start  >>> If Not starting Use ( service freeradius start )
+
+
+STEP 6:-
+
+	ADD USERS
+
+coovachilli uses the username 'iotina' with the password 'hello' for logging into the radius by default. Add this user in the file Users too.
+
+Run This Command -->
+
+-sudo vim /etc/freeradius/users 
+
+Add this Block to this File At Line 100 -->
+
+
+"iotina"       Cleartext-Password := "hello"
+               Reply-Message = "Hello, %{User-Name}"
+ 
+
+
+STEP 7:-
+
+	ADD SECRET
+
+Open This File -->
+
+-sudo vim /etc/freeradius/clients.conf
+
+And 
+
+Change Secret to secret in  Block --->
+
+	"client localhost {"
+
+Around 100 Line there Should be this line --->
+
+secret = secret
+
+
+STEP 8 :-
+
+	Check FREERADIUS
+
+- sudo /etc/init.d/freeradius restart
+
+	TEST LINK
+
+	If all goes well you should receive an Access-Accept response like this:
+
+**********************************
+ Run This Command --->
+
+-sudo radtest iotina hello 127.0.0.1 0 secret
+
+Output of This Command --->
+
+Sending Access-Request of id 253 to 127.0.0.1 port 1812
+	User-Name = "iotina"
+	User-Password = "hello"
+	NAS-IP-Address = 127.0.1.1
+	NAS-Port = 0
+	Message-Authenticator = 0x00000000000000000000000000000000
+rad_recv: Access-Accept packet from host 127.0.0.1 port 1812, id=253, length=20
+
+Received Access-Accept Id 253 from 127.0.0.1:1812 to 0.0.0.0:0 length 36
+	Reply-Message = "Hello, iotina"
+
+**********************************
+
+
+STEP 7:-
+
+	SETUP COUNTER
+
+- vim /etc/freeradius/radiusd.conf 
+
+	Around line 710 in the instantiate section make sure you have,
+&&&&&
+
+chillispot_max_bytes
+noresetcounter
+
+&&&&&
+
+STEP 8:- 
+	
+	SETUP APACHE2
+
+- vim /etc/apache2/sites-available/default-ssl.conf
+
+	in this file change (line no 5)
+&&&&&&
+
+DocumentRoot /var/www/
+
+&&&&&&
+
+- vim /etc/apache2/sites-available/000-default.conf
+
+ in this file change (line no 10)
+
+&&&&&&
+
+DocumentRoot /var/www/
+
+&&&&&&
+
+	Test apache configuration
+
+- apachectl configtest
+
+	Restart apache
+
+- /etc/init.d/apache2 restart
+
+
+STEP 10:-
+
+	RUN THIS FOLLOWING SCRIPT FIRST TO CREATE THE INTERFACES ----->
+
+- sudo  chmod +x ./bridge_script.sh
+- sudo ./bridge_script.sh
+
+STEP 11 :-
+
+	INSTALL COOVA-CHILLI
+
+
+- tar zxvf coova-chilli-1.2.9.tar
+
+- cd coova-chilli-1.2.9/
+
+- ./configure --prefix= --enable-miniportal --with-openssl
+
+- make
+
+- make install
+
+- cd ..
+
+STEP 12:-
+
+	INSTALL HASERL ( This is a cgi scripting program ) 
+	
+- tar zxvf haserl-0.9.29.tar.gz
+
+- cd haserl-0.9.29/
+
+- ls
+
+- ./configure --prefix=
+
+- make
+
+- make install
+
+	Create chilli user
+
+- useradd chilli
+
+
+	Check Chilli and freeradius status
+
+- ps -A | grep freeradius
+
+- ps -A | grep chilli
+
+
+
+	Create a file for chilli in /etc/deafault/chilli
+
+- vim /etc/default/chilli
+
+	Add following lines 
+
+&&&&&&&&&&&&&&&&
+
+START_CHILLI=1
+
+CONFFILE="/etc/chilli.conf"
+
+
+&&&&&&&&&&&&&&&
+
+STEP 13:-
+
+	CONFIGURING CHILLI in /etc/chilli
+
+		Go to the Coova-chilli Extracted Pacakge
+
+	Run The Following Commands ------>
+
+
+- cd coova-chilli-1.2.9/
+
+- cp ./spectrum_config /etc/chilli/config
+
+
+STEP 14 :-
+
+	SETTING UP IPTABLES
+
+
+READ CAREFULLY --->
+
+	The creators of CoovaChilli have predefined rules for iptables, but their script needs a little help before it works. CoovaChilli's iptables config is done in the /etc/chilli/up.sh script which runs after the tun interface is up, so that the exact tun interface is known.
+
+/etc/chilli/up.sh calls /etc/chilli/ipup.sh, if it exists. By default, it does not. If you need to run your own commands after the main iptables configuration is done, create /etc/chilli/ipup.sh and populate it however you like, being sure to make it executable (chmod +x /etc/chilli/ipup.sh) when done.
+
+
+- vim /etc/chilli/ipup.sh
+
+with the following content:
+
+&&&&&&&&&&
+
+# force-add the final rule necessary to fix routing tables
+iptables -I POSTROUTING -t nat -o $HS_WANIF -j MASQUERADE
+
+&&&&&&&&&&
+
+- chmod +x /etc/chilli/ipup.sh 
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+	NOW IF YOU HAVE FOLLOWED ALL ABOVE STEPS PRECISELY YOU WILL DEFINITELY  GET THINGS WORKING
+
+	ATTACH A CLIENT TO YOUR COOVA CHILLI LAN INTERFACE
+	START CHILLI AND FREERADIUS
+
+
+
+
+
+- /etc/init.d/chilli start
+
+- /etc/init.d/freeradius start
+
+	CHECK AN IP IS BEING PROVIDED TO YOUR CLIENT BY CHILLI if not then problem might be with tunnel
+	Resolve it by
+
+- sudo modprobe tun 
+
+or
+
+-sudo modprobe tunnel4
+
+- lsmod | grep tun
+
+
+	then at client side type www.google.com in the browser you will be redirected to coova-chilli login page enter username and sword to get login with the account we have already created in mysql
+
+username- iotina
+password- hello
+
+NOTE :-     ( OPTIONAL )
+
+	IF YOU WANT TO RUN CHILLI IN DEBUGGING MODE AND SAVE THE LOGS RUN THE FOLLOWING COMMANDS ----->
+
+
+-sudo ./chilli_start.sh
+
+LOGS ARE CREATING IN chilli.log file  TO CHECK RUN THIS IN DIFFERENT TERMINAL ---->
+
+-cd coova-chilli-1.2.9/
+
+-tail -f ./chilli.log
+
+ 
+
+	HUUUUUUUUUURRRRRRRRRRRRRAAAAAAAAAAAAAAAYYYYYYYYYYYYYYYYYYY ENJOY SURFING!!!!!!!!!!!!!
+
+	IF YOU STILL HAVE ANY ISSUE REGARDING INTERNET ON CLIENT
+	the issue might be with default route on the system running chilli or it might be with NAT IP 
+	forwarding
+
+	check
+
+- cat /proc/sys/net/ipv4/ip_forward
+
+	if it is 1 then everything is ok if not then type
+
+- echo 1 > /proc/sys/net/ipv4/ip_forward
+
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+

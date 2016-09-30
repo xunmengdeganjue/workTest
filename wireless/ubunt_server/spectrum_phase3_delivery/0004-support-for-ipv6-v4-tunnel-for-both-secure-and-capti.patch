@@ -1,0 +1,349 @@
+From f766de66202d2b816c0c7f846c558ebaef67341f Mon Sep 17 00:00:00 2001
+From: Navneet Barwal <navneet.barwal@iotina.io>
+Date: Wed, 17 Aug 2016 12:08:21 +0530
+Subject: [PATCH 4/6] support for ipv6/v4 tunnel for both secure and captive
+ SSID
+
+---
+ .../base-files/files/lib/functions/uci-defaults.sh | 48 +++++++++++++++++++++-
+ .../skysoft/skysoft_web_admin/cgi/function/wlan.c  | 34 +++++++--------
+ .../skysoft_web_admin/cgi/include/uci_cfg.h        | 16 ++++----
+ .../qsdk/package/skysoft/spectrum-wifi/Makefile    |  1 +
+ .../skysoft/spectrum-wifi/files/clear_ssid_vlan.sh | 32 +++++++--------
+ .../ipq806x/base-files/etc/uci-defaults/network    |  8 ++++
+ 6 files changed, 96 insertions(+), 43 deletions(-)
+
+diff --git a/base/software/common/qsdk/package/base-files/files/lib/functions/uci-defaults.sh b/base/software/common/qsdk/package/base-files/files/lib/functions/uci-defaults.sh
+index abf87f0..be1ea74 100755
+--- a/base/software/common/qsdk/package/base-files/files/lib/functions/uci-defaults.sh
++++ b/base/software/common/qsdk/package/base-files/files/lib/functions/uci-defaults.sh
+@@ -233,6 +233,7 @@ ucidef_set_interface_tap() {
+ 	uci batch <<EOF
+ set network.tap='interface'
+ set network.tap.proto='gretap'
++set network.tap.mode=1
+ set network.tap.ipaddr='11.0.0.1'
+ set network.tap.peeraddr='11.0.0.6'
+ set network.tap.network='commtap'
+@@ -246,6 +247,23 @@ set network.tap.ka_pri_chk_intrvl='3'
+ EOF
+ }
+ 
++ucidef_set_interface_clr_tap() {
++	uci batch <<EOF
++set network.clr_tap='interface'
++set network.clr_tap.proto='gretap'
++set network.tap.mode=1
++set network.clr_tap.ipaddr='11.0.0.1'
++set network.clr_tap.peeraddr='11.0.0.60'
++set network.clr_tap.network='clr_commtap'
++set network.clr_tap.enable_vlan='1'
++set network.clr_tap.ka_pri_addr='11.0.0.60'
++set network.clr_tap.ka_sec_addr='11.0.0.11'
++set network.clr_tap.ka_intrvl='3'
++set network.clr_tap.ka_thrld='3'
++set network.clr_tap.ka_pri_chk_intrvl='3'
++
++EOF
++}
+ ucidef_set_interface_commtap() {
+ 	uci batch <<EOF
+ set network.commtap=interface
+@@ -254,6 +272,14 @@ set network.commtap.type='bridge'
+ EOF
+ }
+ 
++ucidef_set_interface_clr_commtap() {
++	uci batch <<EOF
++set network.clr_commtap=interface
++set network.clr_commtap.type='bridge'
++
++EOF
++}
++
+ ucidef_set_interface_com() {
+ 	uci batch <<EOF
+ set network.com=interface
+@@ -265,6 +291,14 @@ set network.com.netmask='255.255.255.0'
+ EOF
+ }
+ 
++ucidef_set_interface_clr_com() {
++	uci batch <<EOF
++set network.clr_com=interface
++set network.clr_com.type='bridge'
++
++EOF
++}
++
+ ucidef_set_interface_veth() {
+ 	uci batch <<EOF
+ set network.veth=interface
+@@ -278,8 +312,18 @@ set network.veth.enable_vlan='0'
+ EOF
+ }
+ 
++ucidef_set_interface_clr_veth() {
++	uci batch <<EOF
++set network.clr_veth=interface
++set network.clr_veth.proto='veth'
++set network.clr_veth.ifname='veth2'
++set network.clr_veth.network='clr_com'
++set network.clr_veth.peer_ifname='veth3'
++set network.clr_veth.peer_network='clr_commtap'
++set network.clr_veth.enable_vlan='0'
+ 
+-
++EOF
++}
+ 
+ ucidef_set_interface_tagv() {
+ 	uci batch <<EOF
+@@ -287,11 +331,11 @@ set network.tagv=interface
+ set network.tagv.ifname='eth3.5'
+ set network.tagv.proto='static'
+ set network.tagv.ipaddr='11.0.0.1'
++set network.tagv.ip6addr='2001:db9::1/64'
+ set network.tagv.netmask='255.255.255.0'
+ EOF
+ }
+ 
+-
+ ucidef_add_switch_specvlan() {
+ 	local device=$1
+ 	local vlan=$2
+diff --git a/base/software/common/qsdk/package/skysoft/skysoft_web_admin/cgi/function/wlan.c b/base/software/common/qsdk/package/skysoft/skysoft_web_admin/cgi/function/wlan.c
+index ba7923a..27760a6 100755
+--- a/base/software/common/qsdk/package/skysoft/skysoft_web_admin/cgi/function/wlan.c
++++ b/base/software/common/qsdk/package/skysoft/skysoft_web_admin/cgi/function/wlan.c
+@@ -14375,10 +14375,10 @@ int setspectrumwifi(tcm_session *session, char *name, char *val, char *list)
+ 	do_uci_set(WIFI02_NETWORK, "com");
+ 	do_uci_set(WIFI12_NETWORK, "com");
+ #if 1
+-        do_cmd("uci delete network.clear_com");
+-        do_cmd("uci set network.clear_com=interface");
+-        do_cmd("uci set network.clear_com.type='bridge'");
+-        do_cmd("uci set network.clear_com.proto='static'");
++        do_cmd("uci delete network.clr_com");
++        do_cmd("uci set network.clr_com=interface");
++        do_cmd("uci set network.clr_com.type='bridge'");
++        do_cmd("uci set network.clr_com.proto='static'");
+ 
+         do_cmd("uci delete network.clr_commtap");
+         do_cmd("uci set network.clr_commtap=interface");
+@@ -14386,8 +14386,8 @@ int setspectrumwifi(tcm_session *session, char *name, char *val, char *list)
+ 
+ 
+ 	//for clear
+-	do_uci_set(WIFI03_NETWORK, "clear_com");
+-	do_uci_set(WIFI13_NETWORK, "clear_com");
++	do_uci_set(WIFI03_NETWORK, "clr_com");
++	do_uci_set(WIFI13_NETWORK, "clr_com");
+ #endif
+ 	do_cmd("uci delete network.veth");
+ 	do_cmd("uci set network.veth=interface");
+@@ -14399,14 +14399,14 @@ int setspectrumwifi(tcm_session *session, char *name, char *val, char *list)
+ 	do_cmd("uci set network.veth.peer_network='commtap'");
+ #if 1
+ 	//for clear
+-	do_cmd("uci delete network.clear_veth");
+-	do_cmd("uci set network.clear_veth=interface");
+-	do_cmd("uci set network.clear_veth.proto='veth'");
+-	do_cmd("uci set network.clear_veth.ifname='veth2'");
++	do_cmd("uci delete network.clr_veth");
++	do_cmd("uci set network.clr_veth=interface");
++	do_cmd("uci set network.clr_veth.proto='veth'");
++	do_cmd("uci set network.clr_veth.ifname='veth2'");
+ /*uci set network.veth.vlanid='7'*/
+-	do_cmd("uci set network.clear_veth.network='clear_com'");
+-	do_cmd("uci set network.clear_veth.peer_ifname='veth3'");
+-	do_cmd("uci set network.clear_veth.peer_network='clr_commtap'");
++	do_cmd("uci set network.clr_veth.network='clr_com'");
++	do_cmd("uci set network.clr_veth.peer_ifname='veth3'");
++	do_cmd("uci set network.clr_veth.peer_network='clr_commtap'");
+ #endif
+ 
+ 	/*setup the firewall*/
+@@ -14433,10 +14433,10 @@ int setspectrumwifi(tcm_session *session, char *name, char *val, char *list)
+ 	do_cmd("uci set network.tap.network='commtap'");
+ #if 1
+ //for clear
+-	do_cmd("uci delete network.clear_tap");
+-	do_cmd("uci set network.clear_tap=interface");
+-	do_cmd("uci set network.clear_tap.proto='gretap'");
+-	do_cmd("uci set network.clear_tap.network='clr_commtap'");
++	do_cmd("uci delete network.clr_tap");
++	do_cmd("uci set network.clr_tap=interface");
++	do_cmd("uci set network.clr_tap.proto='gretap'");
++	do_cmd("uci set network.clr_tap.network='clr_commtap'");
+ #endif
+ 
+ 	do_cmd("uci delete spectrumqos.spectrumdownstream");
+diff --git a/base/software/common/qsdk/package/skysoft/skysoft_web_admin/cgi/include/uci_cfg.h b/base/software/common/qsdk/package/skysoft/skysoft_web_admin/cgi/include/uci_cfg.h
+index 447f1bd..398678b 100644
+--- a/base/software/common/qsdk/package/skysoft/skysoft_web_admin/cgi/include/uci_cfg.h
++++ b/base/software/common/qsdk/package/skysoft/skysoft_web_admin/cgi/include/uci_cfg.h
+@@ -1009,29 +1009,29 @@
+ 
+ #define SPEC_GRE_PROTO			"network.tap.proto"
+ #define SPEC_GRE_PROTO6			"network.tap.proto"
+-#define SPEC_GRE_CAPTIVE_PROTO			"network.clear_tap.proto"
+-#define SPEC_GRE_CAPTIVE_PROTO6			"network.clear_tap.proto"
++#define SPEC_GRE_CAPTIVE_PROTO			"network.clr_tap.proto"
++#define SPEC_GRE_CAPTIVE_PROTO6			"network.clr_tap.proto"
+ 
+ 
+ #define SPEC_VLAN_TAPIP			"network.tap.ipaddr"
+-#define SPEC_VLAN_TAPIPCAPTIVE			"network.clear_tap.ipaddr"
++#define SPEC_VLAN_TAPIPCAPTIVE			"network.clr_tap.ipaddr"
+ 
+ #define SPEC_VLAN_TAPIP6			"network.tap.ip6addr"
+-#define SPEC_VLAN_TAPIP6CAPTIVE			"network.clear_tap.ip6addr"
++#define SPEC_VLAN_TAPIP6CAPTIVE			"network.clr_tap.ip6addr"
+ 
+ #define SPEC_VLAN_ENABLE		"network.tap.enable_vlan"
+ #define SPEC_PERR_IP			"network.tap.peeraddr"
+ #define SPEC_PERR_IP6			"network.tap.peer6addr"
+-#define SPEC_PERR_IP_CAPTIVE			"network.clear_tap.peeraddr"
+-#define SPEC_PERR_IP6_CAPTIVE			"network.clear_tap.peer6addr"
++#define SPEC_PERR_IP_CAPTIVE			"network.clr_tap.peeraddr"
++#define SPEC_PERR_IP6_CAPTIVE			"network.clr_tap.peer6addr"
+ 
+ 
+ /* for keepalive*/
+ #define SPEC_KA_PRI_ADDR			"network.tap.ka_pri_addr"
+ #define SPEC_KA_SEC_ADDR			"network.tap.ka_sec_addr"
+ 
+-#define SPEC_KA_PRI_ADDR_CAPTIVE			"network.clear_tap.ka_pri_addr"
+-#define SPEC_KA_SEC_ADDR_CAPTIVE			"network.clear_tap.ka_sec_addr"
++#define SPEC_KA_PRI_ADDR_CAPTIVE			"network.clr_tap.ka_pri_addr"
++#define SPEC_KA_SEC_ADDR_CAPTIVE			"network.clr_tap.ka_sec_addr"
+ 
+ 
+ 
+diff --git a/base/software/common/qsdk/package/skysoft/spectrum-wifi/Makefile b/base/software/common/qsdk/package/skysoft/spectrum-wifi/Makefile
+index 27f19eb..a2fd0af 100755
+--- a/base/software/common/qsdk/package/skysoft/spectrum-wifi/Makefile
++++ b/base/software/common/qsdk/package/skysoft/spectrum-wifi/Makefile
+@@ -34,6 +34,7 @@ define Package/spectrum-wifi/install
+ 	$(INSTALL_BIN) ./files/spectrum_tcp_mss $(1)/etc/init.d/spectrum_tcp_mss
+ 	$(INSTALL_BIN) ./files/check_del_spectrum_rule $(1)/etc/init.d/check_del_spectrum_rule
+ 	$(INSTALL_BIN) ./files/ssid_vlan.sh $(1)/etc/init.d/ssid_vlan.sh
++	$(INSTALL_BIN) ./files/clear_ssid_vlan.sh $(1)/etc/init.d/clear_ssid_vlan.sh
+ 
+ 	$(INSTALL_BIN) ./files/spectrumqos $(1)/etc/config/spectrumqos
+ endef
+diff --git a/base/software/common/qsdk/package/skysoft/spectrum-wifi/files/clear_ssid_vlan.sh b/base/software/common/qsdk/package/skysoft/spectrum-wifi/files/clear_ssid_vlan.sh
+index b45b671..619717d 100755
+--- a/base/software/common/qsdk/package/skysoft/spectrum-wifi/files/clear_ssid_vlan.sh
++++ b/base/software/common/qsdk/package/skysoft/spectrum-wifi/files/clear_ssid_vlan.sh
+@@ -1,6 +1,6 @@
+ #!/bin/sh
+ 
+-del_clear_ssid_vlan_config() {
++del_clr_ssid_vlan_config() {
+        
+         local VETH2_BR_NAME                                                    
+         local LOCAL_EP_NAME                                                                  
+@@ -8,11 +8,11 @@ del_clear_ssid_vlan_config() {
+         local VLAN_ID                                                                        
+         local VETH3_BR_NAME                                                                  
+ 
+-        VETH2_BR_NAME=`uci get network.clear_veth.network`                           
+-        LOCAL_EP_NAME=`uci get network.clear_veth.ifname`                            
+-        PEER_EP_NAME=`uci get network.clear_veth.peer_ifname`             
+-        VLAN_ID=`uci get network.clear_veth.vlanid`                       
+-        VETH3_BR_NAME=`uci get network.clear_veth.peer_network`           
++        VETH2_BR_NAME=`uci get network.clr_veth.network`                           
++        LOCAL_EP_NAME=`uci get network.clr_veth.ifname`                            
++        PEER_EP_NAME=`uci get network.clr_veth.peer_ifname`             
++        VLAN_ID=`uci get network.clr_veth.vlanid`                       
++        VETH3_BR_NAME=`uci get network.clr_veth.peer_network`           
+         
+ 	brctl delif br-$VETH2_BR_NAME $LOCAL_EP_NAME.$VLAN_ID                                          
+ 	vconfig rem $LOCAL_EP_NAME.$VLAN_ID
+@@ -21,17 +21,17 @@ del_clear_ssid_vlan_config() {
+ 	ip link del $LOCAL_EP_NAME
+ }
+ 
+-restore_clear_ssid_vlan_config() {                                                          
++restore_clr_ssid_vlan_config() {                                                          
+         local VETH2_BR_NAME                                                    
+         local LOCAL_EP_NAME                                                                  
+         local PEER_EP_NAME                                                                                                                                          
+         local VETH3_BR_NAME                                                                  
+ 
+-        VETH2_BR_NAME=`uci get network.clear_veth.network`                           
+-        LOCAL_EP_NAME=`uci get network.clear_veth.ifname`                            
+-        PEER_EP_NAME=`uci get network.clear_veth.peer_ifname`             
+-        VLAN_ID=`uci get network.clear_veth.vlanid`                       
+-        VETH3_BR_NAME=`uci get network.clear_veth.peer_network`           
++        VETH2_BR_NAME=`uci get network.clr_veth.network`                           
++        LOCAL_EP_NAME=`uci get network.clr_veth.ifname`                            
++        PEER_EP_NAME=`uci get network.clr_veth.peer_ifname`             
++        VLAN_ID=`uci get network.clr_veth.vlanid`                       
++        VETH3_BR_NAME=`uci get network.clr_veth.peer_network`           
+ 
+                                                                                                                                              
+         ip link add $LOCAL_EP_NAME type veth peer name $PEER_EP_NAME                         
+@@ -54,21 +54,21 @@ restore_clear_ssid_vlan_config() {
+ case "$1" in                                                                                 
+         stop)                                                                               
+         	echo "clear_ssid vlan stopping"
+-        	del_clear_ssid_vlan_config
++        	del_clr_ssid_vlan_config
+         	exit
+         ;;                                                                                   
+         start)
+         	echo "clear_ssid vlan starting"
+-		restore_clear_ssid_vlan_config 
++		restore_clr_ssid_vlan_config 
+ 		exit                                                       
+         ;;                                                                                   
+         reload)
+                 echo "clear_ssid vlan reloading"   
+-                del_clear_ssid_vlan_config
++                del_clr_ssid_vlan_config
+                 
+                 #restart the hostapd
+        		#/etc/init.d/restart_spectrum_hostapd.sh reload
+-                restore_clear_ssid_vlan_config                                                     
++                restore_clr_ssid_vlan_config                                                     
+                 
+                 exit         
+         ;;
+diff --git a/base/software/common/qsdk/target/linux/ipq806x/base-files/etc/uci-defaults/network b/base/software/common/qsdk/target/linux/ipq806x/base-files/etc/uci-defaults/network
+index 97aee74..fdc167a 100644
+--- a/base/software/common/qsdk/target/linux/ipq806x/base-files/etc/uci-defaults/network
++++ b/base/software/common/qsdk/target/linux/ipq806x/base-files/etc/uci-defaults/network
+@@ -25,9 +25,13 @@ rt4230w-d187-rev1)
+ 	ucidef_add_switch_vlan "switch0" "1" "6 1 2 3 4"
+ 	ucidef_add_switch_vlan "switch0" "2" "0 5"
+ 	ucidef_set_interface_tap
++	ucidef_set_interface_clr_tap
+         ucidef_set_interface_commtap
++        ucidef_set_interface_clr_commtap
+         ucidef_set_interface_com
++        ucidef_set_interface_clr_com
+         ucidef_set_interface_veth
++        ucidef_set_interface_clr_veth
+         ucidef_set_interface_tagv
+ 	ucidef_add_switch_specvlan "switch0" "5" "0t 5t"
+ 	;;
+@@ -40,9 +44,13 @@ rt4230w-d187-rev2)
+ 	ucidef_add_switch_vlan "switch0" "1" "6 1 2 3 4"
+ 	ucidef_add_switch_vlan "switch0" "2" "0 5"
+ 	ucidef_set_interface_tap
++	ucidef_set_interface_clr_tap
+         ucidef_set_interface_commtap
++        ucidef_set_interface_clr_commtap
+         ucidef_set_interface_com
++        ucidef_set_interface_clr_com
+         ucidef_set_interface_veth
++        ucidef_set_interface_clr_veth
+         ucidef_set_interface_tagv
+         ucidef_add_switch_specvlan "switch0" "5" "0t 5t"
+ 	;;
+-- 
+1.9.1
+
