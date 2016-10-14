@@ -1,3 +1,12 @@
+#! /bin/bash
+###############################################################################
+#2016-10-14:nick,add the ifconfig enp7s0.5 up operation in this script.
+#
+#
+#
+#
+###############################################################################
+
 LOCAL_EP=11.0.0.6
 SEC_LOCAL_EP=11.0.0.110
 REMOTE_EP=11.0.0.1
@@ -115,6 +124,8 @@ ifconfig br-tap up
 echo "Bringing br-com up"
 ifconfig br-com up 
 
+echo "Bringing enp7s0.5 up"
+ifconfig enp7s0.5 up
 echo "Starting the Radius service"
 radiusd -Xx &
 #radiusd -Xx

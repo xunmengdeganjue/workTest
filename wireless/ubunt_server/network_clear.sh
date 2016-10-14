@@ -20,6 +20,14 @@ else
 fi
 
 
+ifconfig $BRCOMNAME down
+ifconfig $BRTAPNAME down
+ifconfig veth0 down
+ifconfig veth1 down
+ifconfig veth2 down 
+ifconfig veth3 down
+
+
 brctl delif $BRTAPNAME $GRENAME
 brctl delif $BRTAPNAME veth2
 
@@ -43,9 +51,5 @@ else
 fi
 
 
-ifconfig $BRCOMNAME down
-ifconfig $BRTAPNAME down
-ifconfig veth0 down
-ifconfig veth1 down
-ifconfig veth2 down 
-ifconfig veth3 down
+
+
