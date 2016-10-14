@@ -1,6 +1,13 @@
 #! /bin/bash
 
-#IP6=true
+#################################################################
+#2016-10-14:nick,add the operating of the interface enp7s0.5
+#
+#
+#################################################################
+
+
+##IP6=true
 echo "IP6 val is $IP6"
 if [ -z ${IP6+x} ];
 then
@@ -43,15 +50,22 @@ brctl delbr $BRCOMNAME
 
 ifconfig $BRTAPNAME down
 brctl delbr $BRTAPNAME
+
+##nick added opt
+ifconfig enp7s0.5 down
+vconfig rem enp7s0.5
+
 if [ -z ${IP6+x} ];
 then
-ip addr del $LOCAL_EP/24 dev enp7s0.5
+	ip addr del $LOCAL_EP/24 dev enp7s0.5
 else
-ip addr del $LOCAL_EP/64 dev enp7s0.5
+	ip addr del $LOCAL_EP/64 dev enp7s0.5
 fi
 echo ">>>>>>>>>Done>>>>>>>>"
 echo "Now creating $BRTAPNAME"
+
 vconfig add enp7s0 5
+
 if [ -z ${IP6+x} ];
 then
 	ip addr add $LOCAL_EP/24 dev enp7s0.5
@@ -80,6 +94,8 @@ brctl addif $BRTAPNAME veth2
 ifconfig veth2 up
 ifconfig veth3 up
 ifconfig $BRTAPNAME up
+##nick add opt
+ifconfig enp7s0.5 up
 
 echo "Now Cretaing $BRCOMNAME"
 
