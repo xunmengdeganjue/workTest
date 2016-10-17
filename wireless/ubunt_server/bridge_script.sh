@@ -11,15 +11,15 @@
 echo "IP6 val is $IP6"
 if [ -z ${IP6+x} ];
 then
-        echo "IP6 not set"
+    echo "IP6 not set"
 	LOCAL_EP=11.0.0.60
 	REMOTE_EP=11.0.0.1
 	SEC_LOCAL_EP=11.0.0.11
 #	BR_IP=14.0.0.2
 else
-        LOCAL_EP=2001:db9::4
-        REMOTE_EP=2001:db9::1
-        SEC_LOCAL_EP=2001:db9::5
+	LOCAL_EP=2001:db9::4
+	REMOTE_EP=2001:db9::1
+	SEC_LOCAL_EP=2001:db9::5
 
 #        BR_IP=2001:db9::2
 fi
@@ -51,16 +51,23 @@ brctl delbr $BRCOMNAME
 ifconfig $BRTAPNAME down
 brctl delbr $BRTAPNAME
 
-##nick added opt
-ifconfig enp7s0.5 down
-vconfig rem enp7s0.5
 
+
+###############################################################################
 if [ -z ${IP6+x} ];
 then
 	ip addr del $LOCAL_EP/24 dev enp7s0.5
 else
 	ip addr del $LOCAL_EP/64 dev enp7s0.5
 fi
+
+
+##nick added operation
+ifconfig enp7s0.5 down
+vconfig rem enp7s0.5
+
+
+
 echo ">>>>>>>>>Done>>>>>>>>"
 echo "Now creating $BRTAPNAME"
 
@@ -94,7 +101,8 @@ brctl addif $BRTAPNAME veth2
 ifconfig veth2 up
 ifconfig veth3 up
 ifconfig $BRTAPNAME up
-##nick add opt
+
+##nick add operation
 ifconfig enp7s0.5 up
 
 echo "Now Cretaing $BRCOMNAME"

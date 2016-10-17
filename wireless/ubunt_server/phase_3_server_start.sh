@@ -12,18 +12,15 @@ sudo ./bridge_script.sh
 
 
 ##check if the cooval chilli is running
-
 echo -e "\033[32mStop the Coova Chilli if it is running.\033[0m"
 ps -aux |grep chilli |grep -vE "grep|sudo|tail"
 [ $? -eq 0 ] && sudo killall -9 chilli
 
-#sudo /etc/init.d/chilli start
 
-echo -e "\033[31m Starting chilli\033[0m"
-
+echo -e "\033[32m Starting chilli\033[0m"
 sudo /etc/init.d/chilli start
 
-echo -e "\033[31m Starting Radiusd\033[0m"
+echo -e "\033[32m Starting Radiusd\033[0m"
 sudo radiusd -Xx &
 
 
