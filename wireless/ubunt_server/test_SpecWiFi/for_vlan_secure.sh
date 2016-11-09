@@ -86,11 +86,11 @@ fun_down_intf(){
 	
 	if [ -z ${VLAN_ID+x} ];
 	then
-	echo "VLAN for SSID not set"
-	        brctl delif $BRCOMNAME veth1
+		echo "VLAN for SSID not set"
+	    brctl delif $BRCOMNAME veth1
 	else
-	        brctl delif $BRCOMNAME veth1.$VLAN_ID
-	        vconfig rem veth1.$VLAN_ID
+		brctl delif $BRCOMNAME veth1.$VLAN_ID
+		vconfig rem veth1.$VLAN_ID
 	fi
 	sleep 1
 	ip link del dev veth0
@@ -112,16 +112,19 @@ fun_up_intf(){
 	echo ">>>>>>>>>Now Starting to create and Setup Fresh>>>>>>>>"
 	
 	echo "Now Creating a $BRTAPNAME"
-
+	
+	##add a bridge br-tap.
 	brctl addbr $BRTAPNAME
 
-	echo "Creating $GRE_NAME with local $LOCAL_EP and remote $REMOTE_EP"
-	echo "Creating $SEC_GRE_NAME with local $SEC_LOCAL_EP and remote $REMOTE_EP"
-	
-	if [ -z ${IP6+x} ];
+	echo -e "\033[35mCreating\033[0m \033[31m$GRE_NAME\033[0m with local $LOCAL_EP and remote $REMOTE_EP"
+	echo -e "\033[35mCreating\033[0m \033[31m$SEC_GRE_NAME\033[0m with local $SEC_LOCAL_EP and remote $REMOTE_EP"
+	if [ -z ${IP6+x} ]; ##if it is not for ipv6
 	then
+		##the GRENAME is gretap_secr.LOCAL_EP=11.0.0.6,REMOTE_EP=11.0.0.1
 		ip link add $GRENAME type gretap local $LOCAL_EP remote $REMOTE_EP
+		##the SEC_GRE_NAME=secgretap_secr.
 		ip link add $SEC_GRE_NAME type gretap local $SEC_LOCAL_EP remote $REMOTE_EP
+		
 		ip link set dev $GRENAME up 
 		ip link set dev $SEC_GRE_NAME up
 	else
@@ -133,18 +136,21 @@ fun_up_intf(){
 
 	sleep 1
 
-	echo "Creating a $BRCOMNAME"
-
+	echo -e "\033[35mCreating\033[0m a \033[32m$BRCOMNAME\033[0m"
+	##the BRCOMNAME=br-com
 	brctl addbr $BRCOMNAME
 
-	echo "Now creating vlan interface for $ETH_IF_NAME.$GRE_VLAN_ID"
-
+	echo -e "Now \033[35mCreating\033[0m vlan interface for \033[33m$ETH_IF_NAME.$GRE_VLAN_ID\033[0m"
 	if [ -z ${IP6+x} ];
 	then
 		echo "Assigning ipv4 ip's to local and sec local ep "
+		##the GRE_VLAN_ID=5 and ETH_IF_NAME=enp7s0
 		vconfig add $ETH_IF_NAME $GRE_VLAN_ID
+		##the LOCAL_EP=11.0.0.6 
 		ip addr add $LOCAL_EP/24 dev $ETH_IF_NAME.$GRE_VLAN_ID
+		##the SEC_LOCAL_EP=11.0.0.110
 		ip addr add $SEC_LOCAL_EP/24 dev $ETH_IF_NAME.$GRE_VLAN_ID
+		## make he enp7s0.5 up.
 		ifconfig $ETH_IF_NAME.$GRE_VLAN_ID up
 	else
 		echo "Assigning ipv6 ip's to local and sec local ep "
@@ -154,14 +160,14 @@ fun_up_intf(){
 		ifconfig $ETH_IF_NAME.$GRE_VLAN_ID up
 	fi
 		
-	echo "Creating veth pipe"
+	echo -e "\033[35mCreating\033[0m veth pipe"
 	ip link add veth0 type veth peer name veth1
 	
 	if [ -z ${VLAN_ID+x} ];
 	then
 		brctl addif $BRCOMNAME veth1
 	else
-		echo "Creating veth1.$VLAN_ID"
+		echo -e "\033[35mCreating\033[0m veth1.$VLAN_ID"
 		vconfig add veth1 $VLAN_ID
 		sleep 1
 		echo "Adding veth1.$VLAN_ID to $BRCOMNAME"
@@ -179,6 +185,7 @@ fun_up_intf(){
 	then
 		ifconfig veth1 up
 	else
+		ifconfig veth1 up
 		ifconfig veth1.$VLAN_ID up
 	fi
 	
