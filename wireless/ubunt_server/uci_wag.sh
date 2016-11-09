@@ -47,11 +47,11 @@ brctl delbr br-tap
 
 if [ -z ${VLAN_ID+x} ];
 then
-echo "VLAN not set"
-brctl delif br-com veth1
+	echo "VLAN not set"
+	brctl delif br-com veth1
 else
-brctl delif br-com veth1.$VLAN_ID
-vconfig rem veth1.$VLAN_ID
+	brctl delif br-com veth1.$VLAN_ID
+	vconfig rem veth1.$VLAN_ID
 fi
 sleep 1
 ip link del dev veth0
@@ -91,12 +91,12 @@ echo "Creating veth1.$VLAN_ID"
 
 if [ -z ${VLAN_ID+x} ];
 then
-brctl addif br-com veth1
+	brctl addif br-com veth1
 else
-vconfig add veth1 $VLAN_ID
-sleep 1
-echo "Adding veth1.$VLAN_ID to br-com"
-brctl addif br-com veth1.$VLAN_ID
+	vconfig add veth1 $VLAN_ID
+	sleep 1
+	echo "Adding veth1.$VLAN_ID to br-com"
+	brctl addif br-com veth1.$VLAN_ID
 fi
 
 echo "Adding $GRE_NAME and veth0 in br-tap"
@@ -111,9 +111,9 @@ ifconfig veth0 up
 ifconfig veth1 up
 if [ -z ${VLAN_ID+x} ];
 then
-ifconfig veth1 up
+	ifconfig veth1 up
 else
-ifconfig veth1.$VLAN_ID up
+	ifconfig veth1.$VLAN_ID up
 fi
 echo "Assigning $LO_IP to loopbak"
 ip addr add $LO_IP/24 dev br-com
@@ -127,12 +127,17 @@ ifconfig br-com up
 echo "Bringing enp7s0.5 up"
 ifconfig enp7s0.5 up
 echo "Starting the Radius service"
-radiusd -Xx &
+
+#radiusd -Xx &
 #radiusd -Xx
+#sudo /etc/init.d/freeradius restart
+
 
 echo "Starting the DHCP service"
-sudo cp /etc/default/isc-dhcp-server_with_vlan /etc/default/isc-dhcp-server
-sudo cp /etc/dhcp/dhcpd_with_vlan.conf /etc/dhcp/dhcpd.conf
-service isc-dhcp-server restart 
-#echo "Adding a route for loopbak via $LOCAL_EP"
-#sudo ip route add 12.0.0.0/24 via $LOCAL_EP
+#sudo cp /etc/default/isc-dhcp-server_with_vlan /etc/default/isc-dhcp-server
+#sudo cp /etc/dhcp/dhcpd_with_vlan.conf /etc/dhcp/dhcpd.conf
+sudo service isc-dhcp-server restart 
+echo "Adding a route for loopbak via $LOCAL_EP"
+sudo ip route add 12.0.0.0/24 via $LOCAL_EP
+
+radiusd -Xx

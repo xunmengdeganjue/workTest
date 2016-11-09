@@ -21,7 +21,15 @@ echo -e "\033[32m Starting chilli\033[0m"
 sudo /etc/init.d/chilli start
 
 echo -e "\033[32m Starting Radiusd\033[0m"
-sudo radiusd -Xx &
+sudo rm -rf /usr/local/var/log/radutmp
+sudo mkdir -m 700 -p /usr/local/var/log/radutmp 
+sudo chown -R radiusd:radiusd /usr/local/var/log/radutmp
+##operation of the folder radutmp is just to avoid a error while the radiusd is running
+
+
+sleep 1
+#sudo radiusd -Xx &
+sudo /etc/init.d/freeradius restart
 
 
 
