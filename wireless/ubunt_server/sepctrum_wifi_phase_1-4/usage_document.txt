@@ -1,0 +1,59 @@
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!! HOW TO GET THINGS DONE !!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+1. When Vlan is enabled in SpectrumWifi with Remote End Points
+   of IPV4
+
+	Run the script "for_vlan_secure.sh" for Secure SSID's 
+	of 2g and 5g Spectrum
+
+	eg -> ./for_vlan_secure.sh start 		-----------------to START
+	eg -> ./for_vlan_secure.sh stop 		-----------------to STOP
+
+	Run the script "for_vlan_clear.sh" for Clear SSID's 
+	of 2g and 5g Spectrum
+
+	eg -> ./for_vlan_clear.sh start 		-----------------to START
+	eg -> ./for_vlan_clear.sh stop 		        -----------------to STOP
+
+	And Run Script "vlanip.sh" to assign IP's to the
+	interface if required for primary and secondary of 
+	secure as well as clear tunnels End Points
+
+2. When Vlan is enabled in SpectrumWifi with Remote End Points
+   of IPV6
+
+        Run the script "for_vlan_secure.sh" for Secure SSID's 
+        of 2g and 5g Spectrum
+
+        eg -> ./for_vlan_secure.sh start 6              -----------------to START
+        eg -> ./for_vlan_secure.sh stop 6               -----------------to STOP
+
+	Run the script "for_vlan_clear.sh" for Clear SSID's 
+	of 2g and 5g Spectrum
+
+	eg -> ./for_vlan_clear.sh start 6        	-----------------to START
+	eg -> ./for_vlan_clear.sh stop 	6	        -----------------to STOP
+
+        And Run Script "vlanip6.sh" to assign IP's to the
+        interface if required for primary and secondary of 
+        secure as well as clear tunnels End Points
+
+
+
+	****NOTE:- For vlan
+		If you want to STOP please STOP both script
+		if both are running at the same time
+		for same mode ( i.e IPV4 or IPV6 ) and then 
+		Run for both or only one as your requirement.
+
+		*********************************************
+
+		Restart Chilli if you change Mode ( i.e IPV4 or IPV6 )
+		or vice versa
+
+3. Same things to be done with wan scripts to get things done
+   with wan IPV4 and IPV6.

@@ -1,0 +1,107 @@
+From 6174c0cb05298be9ec3d26231e7a00c4af43ae90 Mon Sep 17 00:00:00 2001
+From: Navneet Barwal <navneet.barwal@iotina.io>
+Date: Fri, 19 Aug 2016 19:51:43 +0530
+Subject: [PATCH 6/6] added forwarding rules for clr_SSID in spectrum_tcp_mss
+
+---
+ .../skysoft/spectrum-wifi/files/spectrum_tcp_mss   | 70 ++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+
+diff --git a/base/software/common/qsdk/package/skysoft/spectrum-wifi/files/spectrum_tcp_mss b/base/software/common/qsdk/package/skysoft/spectrum-wifi/files/spectrum_tcp_mss
+index c4393c5..16ba03c 100755
+--- a/base/software/common/qsdk/package/skysoft/spectrum-wifi/files/spectrum_tcp_mss
++++ b/base/software/common/qsdk/package/skysoft/spectrum-wifi/files/spectrum_tcp_mss
+@@ -48,6 +48,40 @@ add_mss_rule()
+ 		
+ }
+ 
++add_mss_rule_captive()                                                                                  
++{                                                                                                                     
++        local port                                                                                                   
++        local tap_intf=""                                                                                             
++        local numport=0                                                                                              
++                                                                                                        
++        #get the br-commtap gre tap port and clamp the MSS to avoid the blackhole for TCP pkts                        
++        ls /sys/devices/virtual/net/br-clr_com/brif/ > /tmp/com_ports                                                
++        numport=$(cat /tmp/com_ports | wc -l)                                                                         
++        # if bridge is not crated return                                                                             
++        if [ $numport -eq 0 ]                                                                           
++        then                                                                                  
++                echo "spectrumWiFi: Unable to find bridge port"      
++                return                                                                                                
++        fi                                                                                                           
++        while IFS=, read -r  port ; do                                                                  
++                case "$port" in                                                                                       
++                        "veth2"*)veth_intf=$port;;                                                                   
++                esac                                                                                                  
++        done < /tmp/com_ports                                                                                        
++        # return if not able to find veth intf                                                          
++        if [ -z "$veth_intf" ]                                                                
++        then                                                         
++                echo "spectrumWiFi: Unable to find veth2 in bridge port"                                              
++                return                                                                                                
++        fi                                                                                                           
++        echo "tap interface $veth_intf"                                                                 
++        iptables -t mangle -N mss_clamp_spectrum                     
++        iptables -t mangle -A FORWARD -m physdev --physdev-is-bridged --physdev-out "$veth_intf" -j mss_clamp_spectrum
++        iptables -t mangle -A FORWARD -m physdev --physdev-is-bridged --physdev-in "$veth_intf" -j mss_clamp_spectrum
++        iptables -t mangle -A mss_clamp_spectrum -p tcp --tcp-flags SYN,RST SYN -j TCPMSS --set-mss 1372
++                                                                                                                      
++}
++
+ del_mss_rule()
+ {
+ 	local port
+@@ -80,13 +114,49 @@ del_mss_rule()
+         iptables -t mangle -F mss_clamp_spectrum
+         iptables -t mangle -X mss_clamp_spectrum
+ }
++
++del_mss_rule_captive()                                                                                  
++{                                                                                                                     
++        local port                                                                                                   
++        local veth_intf=""                                                                                            
++        local numport=0                                                                                              
++        # Delete the TCP MSS rules as these physdev-out module will not allow the bridge deletion       
++                                                                                                                      
++        ls /sys/devices/virtual/net/br-clr_com/brif/ > /tmp/com_ports                                                
++        numport=$(cat /tmp/com_ports | wc -l)                                                                         
++        # if bridge is not crated return                                                                             
++        if [ $numport -eq 0 ]                                                                                         
++        then                                                                                                         
++                echo "spectrumWiFi: Unable to find bridge port"                                         
++                return                                                                                                
++        fi                                                                                                           
++        while IFS=, read -r  port ; do                                                                  
++                case "$port" in                                                                                       
++                        "veth2"*)veth_intf=$port;;                                                                   
++                esac                                                                                                  
++        done < /tmp/com_ports                                                                                        
++                                                                                                        
++        # return if not able to find tap intf                                                    
++        if [ -z "$veth_intf" ]                                       
++        then                                                                                                          
++                echo "spectrumWiFi: Unable to find veth2 in bridge port"                                              
++                return                                                                                               
++        fi                                                                                              
++        iptables -t mangle -D FORWARD -m physdev --physdev-is-bridged --physdev-out "$veth_intf" -j mss_clamp_spectrum
++        iptables -t mangle -D FORWARD -m physdev --physdev-is-bridged --physdev-in "$veth_intf" -j mss_clamp_spectrum 
++        iptables -t mangle -F mss_clamp_spectrum                                                                     
++        iptables -t mangle -X mss_clamp_spectrum                                                        
++}
++
+ add_spectrum_rule()
+ {
+ 	add_mss_rule
++	add_mss_rule_captive
+ }
+ del_spectrum_rule()
+ {
+ 	del_mss_rule
++	del_mss_rule_captive
+ }
+ case "$1" in
+         add)
+-- 
+1.9.1
+

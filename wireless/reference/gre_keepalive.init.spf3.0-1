@@ -1,0 +1,110 @@
+#!/bin/sh
+[ -e /lib/functions.sh ] && . /lib/functions.sh || . ./functions.sh
+
+# This script will start/stop the GRE keepalive deamon. This script should be invoked
+# whenever there is  change in GRE TAP configuration parameter.
+file=/tmp/keepalive_start
+start_deamon()
+{
+        local ka_pri_addr
+        local ka_sec_addr
+        local ka_intrvl
+	local ka_thrld
+	local ka_pri_chk_intrvl
+	local ka_intf
+        local cmd_option=""        
+        config_get ka_pri_addr  tap ka_pri_addr
+        config_get ka_sec_addr  tap ka_sec_addr
+        config_get ka_intrvl  tap ka_intrvl
+        config_get ka_thrld  tap ka_thrld
+        config_get ka_pri_chk_intrvl  tap ka_pri_chk_intrvl
+        config_get ka_intf  tap ka_intf
+
+	# check if it is becuse of reload called by daemon then return
+	 if [ -f "$file" ]
+         then
+	    echo "$file found"
+	    rm $file
+	    return
+	 fi    
+	                                     
+       
+        if [ -z "$ka_pri_addr" ]
+        then
+        	echo "Primary is not set"
+        	return
+        fi
+        cmd_option=$cmd_option" -p $ka_pri_addr"      	  
+        if [ -z "$ka_sec_addr" ]
+        then
+        	echo "Secondary is not set"
+        	return
+        fi
+        cmd_option=$cmd_option" -s $ka_sec_addr"
+        
+        if [ -z "$ka_intrvl" ]
+        then
+        	ka_intrvl=20 
+        	echo "Keepalive interval is not set taking default $ka_intrvl sec"
+        fi
+        cmd_option=$cmd_option" -i $ka_intrvl"	
+        	  
+        if [ -z "$ka_thrld" ]
+        then
+        	ka_thrld=3
+        	echo "Keepalive thershold is not set taking default $ka_thrld sec"
+        fi
+      	cmd_option=$cmd_option" -t $ka_thrld"	
+        
+        if [ -z "$ka_pri_chk_intrvl" ]
+        then
+        	ka_pri_chk_intrvl=3
+        	echo "ka_pri_chk_intrvl is not set taking default as $ka_pri_chk_intrvl"
+        fi
+       	cmd_option=$cmd_option" -m $ka_pri_chk_intrvl"	
+
+        if [ -z "$ka_intf" ]
+        then
+        	echo "Keepalive interface is not set taking default as eth0.5"
+        	ka_intf="eth0.5"
+        fi
+   	cmd_option=$cmd_option" -e 1 -n $ka_intf"	
+ 	echo "Keepalive CMD : $cmd_option"       
+        echo "keepalive params $ka_pri_addr  $ka_sec_addr $ka_intrvl $ka_thrld $ka_pri_chk_intrvl $ka_intf" 
+        #/usr/sbin/gre-keepalive -p $ka_pri_addr -s $ka_sec_addr -e 1 -n $ka_intf & 
+        /usr/sbin/gre-keepalive $cmd_option & 
+}
+stop_deamon()
+{
+	# check if it is becuse of reload called by daemon then return
+	if [ -f "$file" ]
+        then
+	    echo "$file found"
+	    return
+	fi                                    
+	killall gre-keepalive
+}
+
+C="0"
+INTERFACES=""
+[ -e ./qos.conf ] && {
+        . ./qos.conf
+        config_cb
+} || config_load network 
+C="0"
+for iface in $INTERFACES; do
+        export C="$(($C + 1))"
+done
+case "$1" in
+        restart)
+        stop_deamon
+	start_deamon		
+        ;;
+        start)
+        stop_deamon
+        start_deamon
+        ;;
+        stop)
+        stop_deamon
+        ;;
+esac
