@@ -10,7 +10,7 @@ int main(){
 	FILE *fp_attach_device;
 	int ch= 0;
 	fp_attach_device = fopen(ATTACH_FILE,"r");
-	 
+	
 	if(NULL != fp_attach_device) {
 		printf("The %s is existing!\n",ATTACH_FILE);
 		ch = fgetc(fp_attach_device);
