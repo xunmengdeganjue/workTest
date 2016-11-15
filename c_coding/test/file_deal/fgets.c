@@ -19,7 +19,7 @@ int main(){
 			printf("The attach_device contains some information!goto netscan!\n");
 			goto netscan;
 		 }
-	}	
+	}	 
 	
 netscan:
 	memset(linebuffer,0x00,sizeof(linebuffer));
