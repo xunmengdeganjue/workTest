@@ -27,7 +27,7 @@ static int data_to_kernel(struct sock *sk, int cmd, void *user,
     case IMP1_SET:
       {
         char umsg[64];
-	memset(umsg, 0, sizeof(char)*64);
+		memset(umsg, 0, sizeof(char)*64);
         copy_from_user(umsg, user, sizeof(char)*64);
         printk("umsg: %s", umsg);
       }

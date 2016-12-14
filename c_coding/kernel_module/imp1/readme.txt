@@ -1,14 +1,35 @@
-ÔËÐÐÔÚÓÃ»§ÉÏÏÂÎÄ»·¾³ÖÐµÄ´úÂëÊÇ¿ÉÒÔ×èÈûµÄ£¬ÕâÑù£¬±ã¿ÉÒÔÊ¹ÓÃÏûÏ¢¶ÓÁÐºÍ 
-UNIX ÓòÌ×½Ó×ÖÀ´ÊµÏÖÄÚºËÌ¬ÓëÓÃ»§Ì¬µÄÍ¨ÐÅ¡£µ«ÕâÐ©·½·¨µÄÊý¾Ý´«ÊäÐ§ÂÊ½ÏµÍ£¬
-Linux ÄÚºËÌá¹© copy_from_user()/copy_to_user() º¯ÊýÀ´ÊµÏÖÄÚºËÌ¬ÓëÓÃ»§
-Ì¬Êý¾ÝµÄ¿½±´£¬µ«ÕâÁ½¸öº¯Êý»áÒý·¢×èÈû£¬ËùÒÔ²»ÄÜÓÃÔÚÓ²¡¢ÈíÖÐ¶ÏÖÐ¡£Ò»°ã
-½«ÕâÁ½¸öÌØÊâ¿½±´º¯ÊýÓÃÔÚÀàËÆÓÚÏµÍ³µ÷ÓÃÒ»ÀàµÄº¯ÊýÖÐ£¬´ËÀàº¯ÊýÔÚÊ¹ÓÃÖÐ
-ÍùÍù"´©Ëó"ÓÚÄÚºËÌ¬ÓëÓÃ»§Ì¬.
 
-ÆäÖÐÏà¹ØµÄÏµÍ³µ÷ÓÃÊÇÐèÒªÓÃ»§×ÔÐÐ±àÐ´²¢ÔØÈëÄÚºË¡£ imp1.tar.gzÊÇÒ»¸öÊ¾Àý£¬
-ÄÚºËÄ£¿é×¢²áÁËÒ»×éÉèÖÃÌ×½Ó×ÖÑ¡ÏîµÄº¯ÊýÊ¹µÃÓÃ»§¿Õ¼ä½ø³Ì¿ÉÒÔµ÷ÓÃ´Ë×éº¯Êý
-¶ÔÄÚºËÌ¬Êý¾Ý½øÐÐ¶ÁÐ´¡£Ô´Âë°üº¬Èý¸öÎÄ¼þ£¬imp1.h ÊÇÍ¨ÓÃÍ·ÎÄ¼þ£¬¶¨ÒåÁËÓÃ
-»§Ì¬ºÍÄÚºËÌ¬¶¼ÒªÓÃµ½µÄºê¡£imp1_k.c ÊÇÄÚºËÄ£¿éµÄÔ´´úÂë¡£imp1_u.c ÊÇÓÃ»§
-Ì¬½ø³ÌµÄÔ´´úÂë¡£Õû¸öÊ¾ÀýÑÝÊ¾ÁËÓÉÒ»¸öÓÃ»§Ì¬½ø³ÌÏòÓÃ»§ÉÏÏÂÎÄ»·¾³·¢ËÍÒ»¸ö
-×Ö·û´®£¬ÄÚÈÝÎª"a message from userspace\n"¡£È»ºóÔÙÓÉÓÃ»§ÉÏÏÂÎÄ»·¾³ÏòÓÃ
-»§Ì¬½ø³Ì·¢ËÍÒ»¸ö×Ö·û´®£¬ÄÚÈÝÎª"a message from kernel\n"¡£
+
+
+è¯´æ˜Žï¼š
+
+    è¿è¡Œåœ¨ç”¨æˆ·ä¸Šä¸‹æ–‡çŽ¯å¢ƒä¸­çš„ä»£ç æ˜¯å¯ä»¥é˜»å¡žçš„ï¼Œè¿™æ ·ï¼Œä¾¿
+å¯ä»¥ä½¿ç”¨æ¶ˆæ¯é˜Ÿåˆ—å’Œ UNIX åŸŸå¥—æŽ¥å­—æ¥å®žçŽ°å†…æ ¸æ€ä¸Žç”¨æˆ·æ€çš„
+é€šä¿¡ã€‚ä½†è¿™äº›æ–¹æ³•çš„æ•°æ®ä¼ è¾“æ•ˆçŽ‡è¾ƒä½Žï¼ŒLinux å†…æ ¸æä¾› 
+copy_from_user()/copy_to_user() å‡½æ•°æ¥å®žçŽ°å†…æ ¸æ€ä¸Žç”¨æˆ·
+æ€æ•°æ®çš„æ‹·è´ï¼Œä½†è¿™ä¸¤ä¸ªå‡½æ•°ä¼šå¼•å‘é˜»å¡žï¼Œæ‰€ä»¥ä¸èƒ½ç”¨åœ¨ç¡¬ã€
+è½¯ä¸­æ–­ä¸­ã€‚ä¸€èˆ¬å°†è¿™ä¸¤ä¸ªç‰¹æ®Šæ‹·è´å‡½æ•°ç”¨åœ¨ç±»ä¼¼äºŽç³»ç»Ÿè°ƒç”¨ä¸€
+ç±»çš„å‡½æ•°ä¸­ï¼Œæ­¤ç±»å‡½æ•°åœ¨ä½¿ç”¨ä¸­å¾€å¾€"ç©¿æ¢­"äºŽå†…æ ¸æ€ä¸Žç”¨æˆ·æ€ã€‚
+
+
+
+
+
+
+Usage:
+
+##compile the kernel module(imp1_k.ko)
+$sudo make
+
+##build the program work in the user-space.
+$gcc -o imp1_u imp1_u.c
+
+##insmod the kernel module.
+$sudo insmode imp1_k.ko
+
+##test the progress.
+$sudo ./imp1_u 
+
+result:
+	kmsg: a message from kernel
+
