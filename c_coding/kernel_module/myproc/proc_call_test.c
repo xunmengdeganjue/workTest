@@ -5,19 +5,18 @@ MODULE_LICENSE("GPL");
 char KERNEL_GOT[128]={0};
 int KERNEL_GOT_LENTH=0;
 
-int send_data_to_user( char *data,int len){
-		
-	if(data!=NULL && len!=0){
-		KERNEL_GOT_LENTH=len;
-		strncpy(KERNEL_GOT,data,KERNEL_GOT_LENTH);
-	}
-}
-EXPORT_SYMBOL(send_data_to_user);
+
+extern int send_data_to_user( char *data,int len);
 
 /* Init function called on module entry */
 int my_module_init( void )
 {
   printk(KERN_INFO "Nick(skysoft):my_module_init called.  Module is now loaded.\n");
+  if(send_data_to_user("hello nickli\n",14)){
+	  printk(KERN_INFO "Nick :call the send_data_to_user successfully!\n");
+  }else{
+	  printk(KERN_INFO "Nick :call the send_data_to_user failed!\n");
+  }
   return 0;
 }
 /* Cleanup function called on module exit */

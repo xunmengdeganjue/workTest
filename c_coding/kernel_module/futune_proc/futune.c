@@ -4,20 +4,19 @@
 #include <linux/string.h>
 #include <linux/vmalloc.h>
 #include <asm/uaccess.h>
+
 MODULE_LICENSE("GPL");
+
 MODULE_DESCRIPTION("Fortune Cookie Kernel Module");
-MODULE_AUTHOR("M. Tim Jones");
+MODULE_AUTHOR("Nick.Li");
 #define MAX_COOKIE_LENGTH       PAGE_SIZE
 
 static struct proc_dir_entry * proc_dir = NULL;
 static struct proc_dir_entry * proc_entry = NULL;
+
 static char *cookie_pot;  // Space for fortune strings
 static int cookie_index;  // Index to write next fortune
 static int next_fortune;  // Index to read next fortune
-
-
-
-
 
 //static struct proc_dir_entry *proc_file = NULL;
 
@@ -74,15 +73,11 @@ int init_fortune_module( void )
     } else {
       cookie_index = 0;
       next_fortune = 0;
-     // proc_entry->read_proc = fortune_read;
-     // proc_entry->write_proc = fortune_write;
-     // proc_entry->owner = THIS_MODULE;
       printk(KERN_INFO "fortune: Module loaded.\n");
     }
   }
   return ret;
 }
-
 
 void cleanup_fortune_module( void )
 {
