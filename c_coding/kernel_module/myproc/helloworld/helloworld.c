@@ -1,40 +1,35 @@
 /*
- *  procfs1.c -  create a "file" in /proc
+ *  helloworld.c -  create a "helloworld" in /proc
+ *  
  *
  */
 
 #include <linux/module.h>	/* Specifically, a module */
 #include <linux/kernel.h>	/* We're doing kernel work */
 #include <linux/proc_fs.h>	/* Necessary because we use the proc fs */
-#include <linux/version.h>
+#include <linux/version.h>  /* For the LINUX_VERSION_CODE*/
+#include <linux/string.h>   /* For the sprintf*/
   
 #define procfs_name "helloworld"
 
 MODULE_LICENSE("GPL");
-
-MODULE_DESCRIPTION("MY LIBACL Kernel Module");
+MODULE_DESCRIPTION("MY Proc Test Kernel Module");
 MODULE_AUTHOR("Nick.Li");
 
 /**
  * This structure hold information about the /proc file
  *
  */
-struct proc_dir_entry *Our_Proc_File;
+static struct proc_dir_entry *Our_Proc_File;
 
 /* Put data into the proc fs file.
  * 
  * Arguments
  * =========
- * 1. The buffer where the data is to be inserted, if
- *    you decide to use it.
- * 2. A pointer to a pointer to characters. This is
- *    useful if you don't want to use the buffer
- *    allocated by the kernel.
- * 3. The current position in the file
- * 4. The size of the buffer in the first argument.
- * 5. Write a "1" here to indicate EOF.
- * 6. A pointer to data (useful in case one common 
- *    read for multiple /proc/... entries)
+ * 1. the struct represent a file that will be used by the module.
+ * 2. the user space buffer to read to
+ * 3. the maximum number of bytes to read
+ * 4. the current position in the buffer.
  *
  * Usage and Return Value
  * ======================
@@ -56,45 +51,36 @@ struct proc_dir_entry *Our_Proc_File;
  * usually the way to go. In Linux we have the great
  * advantage of having the kernel source code for
  * free - use it.
+ 
+		* simple_read_from_buffer - copy data from the buffer to user space
+		* @to: the user space buffer to read to
+		* @count: the maximum number of bytes to read
+		* @ppos: the current position in the buffer
+		* @from: the buffer to read from
+		* @available: the size of the buffer
+		*
+		* The simple_read_from_buffer() function reads up to @count bytes from the
+		* buffer @from at offset @ppos into the user space address starting at @to.
+		*
+		* On success, the number of bytes read is returned and the offset @ppos is
+		  * advanced by this number, or negative value is returned on error.
  */
-int procfile_read(char *buffer,
-	      char **buffer_location,
-	      off_t offset, int buffer_length, int *eof, void *data)
+ssize_t procfile_read(struct file *file, char __user *buf,size_t count, loff_t *ppos)
 {
-	int ret;
+	char val[1016] = {0};
 	
 	printk(KERN_INFO "procfile_read (/proc/%s) called\n", procfs_name);
+	sprintf(val,"hello world !\n");
+	return simple_read_from_buffer(buf, count, ppos, val, strlen(val));
 	
-	/* 
-	 * We give all of our information in one go, so if the
-	 * user asks us if we have more information the
-	 * answer should always be no.
-	 *
-	 * This is important because the standard read
-	 * function from the library would continue to issue
-	 * the read system call until the kernel replies
-	 * that it has no more information, or until its
-	 * buffer is filled.
-	 */
-	if (offset > 0) {
-		/* we have finished to read, return 0 */
-		ret  = 0;
-	} else {
-		/* fill the buffer, return the buffer size */
-		ret = sprintf(buffer, "HelloWorld!\n");
-	}
-
-	return ret;
 }
 
 
-struct file_operations proc_fops=
+static const struct file_operations proc_fops=
 {
     .read = procfile_read,
-    .write = NULL,
     .owner = THIS_MODULE,
 };
-
 
 static int __init my_init_module(void)
 {
@@ -122,9 +108,7 @@ static void __exit my_cleanup_module(void)
 	remove_proc_entry(procfs_name, &proc_root);
 #endif
 	printk(KERN_INFO "/proc/%s removed\n", procfs_name);
-
 }
-
 
 /* Declare entry and exit functions */
 module_init( my_init_module );
