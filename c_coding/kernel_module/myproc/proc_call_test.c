@@ -12,7 +12,7 @@ extern int send_data_to_user( char *data,int len);
 int my_module_init( void )
 {
   printk(KERN_INFO "Nick(skysoft):my_module_init called.  Module is now loaded.\n");
-  if(send_data_to_user("hello nickli\n",14)){
+  if(!send_data_to_user("Hello nickli\n",14)){
 	  printk(KERN_INFO "Nick :call the send_data_to_user successfully!\n");
   }else{
 	  printk(KERN_INFO "Nick :call the send_data_to_user failed!\n");
@@ -23,6 +23,11 @@ int my_module_init( void )
 void my_module_cleanup( void )
 {
   printk(KERN_INFO "Nick(skysoft)my_module_cleanup called.  Module is now unloaded.\n");
+  if(!send_data_to_user("Goodby nickli\n",14)){
+	  printk(KERN_INFO "Nick :call the send_data_to_user successfully!\n");
+  }else{
+	  printk(KERN_INFO "Nick :call the send_data_to_user failed!\n");
+  }
   return;
 }
 /* Declare entry and exit functions */
