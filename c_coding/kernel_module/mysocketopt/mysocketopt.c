@@ -19,18 +19,21 @@
 #define KMSG      "a message from kernel\n"
 #define KMSG_LEN  sizeof("a message from kernel\n")
 
+
+
+
 char KERNEL_GOT[128]={0};
 int KERNEL_GOT_LENTH=0;
 
 
-int send_data_to_user( char *data,int len){
+int send_data_to_user_bysocket( char *data,int len){
 		
 	if(data!=NULL && len!=0){
 		KERNEL_GOT_LENTH=len;
 		strncpy(KERNEL_GOT,data,KERNEL_GOT_LENTH);
 	}
 }
-EXPORT_SYMBOL(send_data_to_user);
+EXPORT_SYMBOL(send_data_to_user_bysocket);
 
 
 static int data_to_kernel(struct sock *sk, int cmd, void *user,
@@ -56,7 +59,7 @@ static int data_from_kernel(struct sock *sk, int cmd, void *user, char *data, in
     {
     case IMP1_GET:
       {
-        #copy_to_user(user, KMSG, KMSG_LEN);
+        //copy_to_user(user, KMSG, KMSG_LEN);
 		copy_to_user(user, KERNEL_GOT, KERNEL_GOT_LENTH);
       }
       break;
@@ -64,7 +67,7 @@ static int data_from_kernel(struct sock *sk, int cmd, void *user, char *data, in
   return 0;
 }
 
-static struct nf_sockopt_ops imp1_sockops =
+static struct nf_sockopt_ops my_sockops =
 {
   .pf = PF_INET,
   .set_optmin = IMP1_SET,
@@ -77,12 +80,12 @@ static struct nf_sockopt_ops imp1_sockops =
 
 static int __init init(void)
 {
-  return nf_register_sockopt(&imp1_sockops);
+  return nf_register_sockopt(&my_sockops);
 }
 
 static void __exit fini(void)
 {
-  nf_unregister_sockopt(&imp1_sockops);
+  nf_unregister_sockopt(&my_sockops);
 }
 
 module_init(init);

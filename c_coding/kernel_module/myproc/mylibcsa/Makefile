@@ -1,4 +1,4 @@
-obj-m += myproc.o  
+
 obj-m += mylibacl.o
 obj-m += proc_call_test.o
 
