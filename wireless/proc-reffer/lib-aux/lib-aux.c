@@ -46,7 +46,7 @@ ssize_t proc_read_pid(struct file *file, char __user *buf,size_t count, loff_t *
 ssize_t proc_write_pid( struct file *file,const char __user *buffer,size_t len,loff_t *offset )
 {
     killpid = simple_strtoul(buffer, NULL, 10);
-     return len;
+    return len;
 }
 ssize_t proc_read_chann(struct file *file, char __user *buf,size_t count, loff_t *ppos)
 {
