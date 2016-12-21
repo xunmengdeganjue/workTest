@@ -2,7 +2,7 @@
 #include $(TOPDIR)/Profile.mak
 
 TARGET=csa_hunter
-OBJS+=main.o
+OBJS+=hunter.o
 CFLAGS+=-g -Wall
 #CFLAGS+=-isystem $(MODEL_APP_DIR)/libstatus/include -isystem $(APPSDIR)/libstatus/include
 #CFLAGS+=-DSAMP_DBUG

@@ -1,0 +1,20 @@
+本文件夹内包三个子目录,这几个目录中各个模块独立或者相互作用演示了以下功能：
+（1）内核与用户空间使用proc文件系统通信；
+（2）内核中不同模块间接口的调用；
+（3）内核与用户空间程序间使用信号通信；
+
+具体内容如下：
+.
+├── module_test         #内核模块：用以测试接口调用功能
+│   ├── Makefile
+│   └── proc_call_test.c
+├── my_csa_hunter	#用户空间程序
+│   ├── hunter.c
+│   ├── hunter.h
+│   ├── Makefile
+│   └── pid_write_test.c
+└── my_lib-csa		#内核模块：提供proc文件读写接口及向用户空间发送数据的接口
+    ├── Makefile
+    └── mylibcsa.c
+
+

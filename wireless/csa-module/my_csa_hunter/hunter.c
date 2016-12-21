@@ -12,7 +12,7 @@
  *
  *
  *
- *       File Name      : account.c
+ *       File Name      : hunter.c
  *       Create Date    : 2012/12/21
  *       Author         : Li Qiyuan
  *       Description    : These program is to capture the Csa and CCA information
@@ -23,14 +23,10 @@
  *  modify history(TransPlant-1st)                                          *
  *  NO.     modify reason              modify date      modify person       *
  *<--1-->   creat                      2016/12/21		Nick.Li             *
-/****************************************************************************/
+****************************************************************************/
 
-#include<stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <signal.h>
+#include "hunter.h"
 
-static void sighandle(int);
 
 int main(int argc,char **argv){
 	
@@ -39,6 +35,8 @@ int main(int argc,char **argv){
 	}
 	
 	daemon(1, 1);
+	/*Write the pid to the /proc/program-pid-file here*/
+	pid_write();	
 	while(1){
 	
 		printf("hello\n");
@@ -51,6 +49,45 @@ int main(int argc,char **argv){
 static void sighandle(int signo){
 	
 	printf("I catch a signal send by user!\n");
-	exit(1);
+	do_capture();
 	
+}
+
+static int pid_write(void){
+	
+	FILE * pid_fp;
+	char pidbuffer[32] = {0};
+	
+	sprintf(pidbuffer,"%d",getpid());
+	pid_fp=fopen(PID_FILE,"w");
+	if(pid_fp){
+		if(!fwrite(pidbuffer,sizeof(pidbuffer),1,pid_fp)){
+			printf("write the pid file failed!\n");
+		}
+		fclose(pid_fp);
+	}
+	
+	return 0;
+}
+
+int do_capture(){
+	FILE *src_fp,*dest_fp;
+	char buffer[512] = {0};
+	
+	if((src_fp=fopen(CSAMESSAGE,"r"))){
+		if((dest_fp=fopen(CSACCALOG,"a"))){
+			while(fgets(buffer,512,src_fp)){
+				fwrite(buffer,sizeof(buffer),1,dest_fp);	
+			}
+			fclose(dest_fp);
+		}else{
+			printf("Open the file [%s] failed!\n",CSACCALOG);
+			return -1;
+		}
+		fclose(src_fp);
+	}else{
+		printf("Open the file [%s] failed!\n",CSAMESSAGE);
+		return -1;
+	}
+	return 0;
 }
