@@ -1,5 +1,28 @@
+#######
 By now I have modified the iwevent to capture the information of the station who
  send the Association Request.
 
-2017-02-16
-nick 
+Nick
+2017-02-16--------------------------------------------------------------------- 
+
+######
+  Now I add the log system to the wireless tools,and make the iwevent can capture 
+the association result of the stations.
+
+  The new version  wireless_tools is located to :
+./new_wireless_tools/wireless_tools_can_capture_stations/
+ 
+ Modification:
+  (1)add the logopt.c logopt.h
+  (2)add the check_dest_station()
+  (3)add the log_stainfo_init() log_sta_info(fmt,...) and so on to write the 
+information of the station who associates to the AP or expire to the AP.
+		  
+
+Nick
+2017-02-24---------------------------------------------------------------------
+
+
+
+
+
