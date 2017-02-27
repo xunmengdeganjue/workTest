@@ -1,0 +1,1829 @@
+--- a/Makefile	2017-02-24 20:20:08.258218543 +0800
++++ b/Makefile	2017-02-24 17:41:08.764703096 +0800
+@@ -46,7 +46,7 @@
+ WEXT_HEADER = wireless.$(WE_VERSION).h
+ 
+ # Targets to build
+-STATIC=libiw.a
++STATIC=libiw.a logopt.a iwevent_stainfo.a
+ DYNAMIC=libiw.so.$(WT_VERSION)
+ PROGS= iwconfig iwlist iwpriv iwspy iwgetid iwevent ifrename
+ MANPAGES8=iwconfig.8 iwlist.8 iwpriv.8 iwspy.8 iwgetid.8 iwevent.8 ifrename.8
+@@ -55,7 +55,7 @@
+ EXTRAPROGS= macaddr iwmulticall
+ 
+ # Composition of the library :
+-OBJS = iwlib.o
++OBJS = iwlib.o logopt.o iwevent_stainfo.o
+ 
+ # Select which library to build and to link tool with
+ ifdef BUILD_STATIC
+@@ -114,7 +114,7 @@
+ 
+ %: %.o
+ 	$(CC) $(LDFLAGS) $(STRIPFLAGS) $(XCFLAGS) -o $@ $^ $(LIBS)
+-%.o: %.c wireless.h
++%.o: %.c wireless.h logopt.h iwevent.h
+ 	$(CC) $(XCFLAGS) -c $<
+ %.so: %.c wireless.h
+ 	$(CC) $(XCFLAGS) $(PICFLAG) -c -o $@ $<
+--- a/iwevent.c	2017-02-24 20:20:08.258218543 +0800
++++ b/iwevent.c	2017-02-24 20:15:50.658236991 +0800
+@@ -26,6 +26,12 @@
+ #include <time.h>
+ #include <sys/time.h>
+ 
++#include "logopt.h"
++#include "iwevent.h"
++
++
++
++
+ /* Ugly backward compatibility :-( */
+ #ifndef IFLA_WIRELESS
+ #define IFLA_WIRELESS	(IFLA_MASTER + 1)
+@@ -290,6 +296,84 @@
+   return buf;
+ }
+ 
++/*
++this function is do the work like atheros_raw_receive  in the hostapd.
++*/
++static void event_to_custom( const u8 *custom,int len,int flags,char *ifname){
++	const struct ieee80211_mgmt *mgmt;
++	u16 fc, stype;
++	int ielen;
++	const u8 *iebuf;
++	log_trace_enter();
++	char buffer[1024]= {0};//just for debug
++	char show_buffer[1024]={0};//just for debug
++	log_dbg("The custom is [%s]\n",custom);
++	memcpy(show_buffer,custom,len);
++	/*here we should fill the custom to the struct mgfm*/
++	if(len<IEEE80211_HDRLEN){
++		log_err("THE length of the header is[%d] too short",len);
++		return ;
++	}
++	mgmt = (const struct ieee80211_mgmt *)custom;
++	fc = le_to_host16(mgmt->frame_control);
++	if (WLAN_FC_GET_TYPE(fc) != WLAN_FC_TYPE_MGMT){
++		log_trace_line();
++		return;
++	}
++	stype = WLAN_FC_GET_STYPE(fc);
++	log_dbg("subtype=[%d],len=[%d]\n",stype,len);
++	if (stype == WLAN_FC_STYPE_PROBE_REQ) {
++		/*TBD:by now we have no time to extend this function*/
++		log_info("The subtype is WLAN_FC_STYPE_PROBE_REQ[%d]\n",WLAN_FC_STYPE_PROBE_REQ);
++	}
++	switch (stype) {
++		case WLAN_FC_STYPE_ASSOC_REQ:
++			if (len < IEEE80211_HDRLEN + sizeof(mgmt->u.assoc_req)){
++				log_err("the len is little than IEEE80211_HDRLEN + sizeof((mgmt->u.assoc_req)\n");
++				break;
++			}
++			log_dbg("hexdump[\033[35m%s\033[0m]\n",iw_hexdump(buffer,sizeof(buffer),show_buffer,len));
++			log_dbg("GET THE \"\033[35mASSOC REQUEST\033[0m\"\n");
++			
++			trace_line();
++			ielen = len - (IEEE80211_HDRLEN + sizeof(mgmt->u.assoc_req));
++			iebuf = mgmt->u.assoc_req.variable;
++			trace_line();
++			log_dbg("The client Mac=[\033[35m%02x:%02x:%02x:%02x:%02x:%02x\033[0m]\n",MAC2STR(mgmt->sa));
++			sleep(1);
++			char dest_client[128]={0};
++			sprintf(dest_client,"%02x:%02x:%02x:%02x:%02x:%02x",MAC2STR(mgmt->sa));
++			if(finde_dest_stations(ifname, (char *)dest_client)){
++				log_dbg("THE STATION ASSOCIATED SUCCESSFULLY\n");
++				log_sta_info("[%s] associated\n",dest_client);
++			}else{
++				sleep(1);
++				if(finde_dest_stations(ifname, dest_client)){
++					log_dbg("THE STATION ASSOCIATED SUCCESSFULLY\n");
++					log_sta_info("[%s] associated\n",dest_client);
++				}else{
++					log_dbg("THE STATION ASSOCIATED FAILED\n");
++					//log_sta_info("[%s] associated\n",dest_client);
++				}
++			}
++			break;
++		case WLAN_FC_STYPE_REASSOC_REQ:
++			printf("\033[33mNICK:[%s]:hexdump[%s]\033[0m\n",__func__,iw_hexdump(buffer,sizeof(buffer),show_buffer,len));
++			printf("\033[36mNICK:[%s]:GET THE \"REASSOC REQEST\" EVENT\033[0m\n",__func__);
++			break;
++		case WLAN_FC_STYPE_ACTION:
++			printf("\033[31mNICK:[%s]:hexdump[%s]\033[0m\n",__func__,iw_hexdump(buffer,sizeof(buffer),show_buffer,len));
++			printf("\033[36mNICK:[%s]:GET THE \"ACTION\" EVENT\033[0m\n",__func__);
++			break;
++		case WLAN_FC_STYPE_AUTH:
++			printf("\033[32mNICK:[%s]:hexdump[%s]\033[0m\n",__func__,iw_hexdump(buffer,sizeof(buffer),show_buffer,len));
++			printf("\033[36mNICK:[%s]:GET THE \"AUTH\" EVENT\033[0m\n",__func__);
++			break;
++		default:
++			break;	
++	}
++	log_trace_exit();
++}
+ /*------------------------------------------------------------------*/
+ /*
+  * Print one element from the scanning results
+@@ -297,14 +381,15 @@
+ static inline int
+ print_event_token(struct iw_event *	event,		/* Extracted token */
+ 		  struct iw_range *	iw_range,	/* Range info */
+-		  int			has_range)
++		  int			has_range, char * ifname)
+ {
+-  char		buffer[128];	/* Temporary buffer */
+-  char		buffer2[30];	/* Temporary buffer */
+-  char *	prefix = (IW_IS_GET(event->cmd) ? "New" : "Set");
++	char		buffer[1024];	/* Temporary buffer */
++	char		buffer2[30];	/* Temporary buffer */
++	char *	prefix = (IW_IS_GET(event->cmd) ? "New" : "Set");
++#define MGMT_FRAM_TAG_SIZE 30 /* hardcoded in driver */
+ 
+-  /* Now, let's decode the event */
+-  switch(event->cmd)
++	/* Now, let's decode the event */
++	switch(event->cmd)
+     {
+       /* ----- set events ----- */
+       /* Events that result from a "SET XXX" operation by the user */
+@@ -399,13 +484,43 @@
+       printf("Tx packet dropped:%s\n",
+ 	     iw_saether_ntop(&event->u.addr, buffer));
+       break;
++	case IWEVASSOCREQIE:
+     case IWEVCUSTOM:
+       {
+-	char custom[IW_CUSTOM_MAX+1];
+-	memset(custom, '\0', sizeof(custom));
+-	if((event->u.data.pointer) && (event->u.data.length))
++		log_info("CUSTOM EVENT IES=%s\n",iw_hexdump(buffer, sizeof(buffer),
++				event->u.data.pointer, event->u.data.length));
++		log_dbg("event->cmd=[0x%x],len=[%d]\n",event->cmd,event->len);
++		
++		char * custom;
++		int len = 0;
++		trace_line();
++		custom = event->u.data.pointer;
+ 	  memcpy(custom, event->u.data.pointer, event->u.data.length);
+-	printf("Custom driver event:%s\n", custom);
++		if(custom){
++			log_dbg("Custom is [%s]\n",custom);
++			if (strncmp(custom, "MLME-MICHAELMICFAILURE.indication", 33) == 0) 
++			{
++				log_dbg(":MLME-MICHAELMICFAILURE.indication\n");
++			}
++			else if (strncmp(custom, "Manage.prob_req ", 16) == 0){
++				log_dbg("Manage.prob_req\n");
++				len = atoi(custom + 16);
++				event_to_custom((u8*)custom+MGMT_FRAM_TAG_SIZE,len,event->u.data.flags,ifname);
++			}else if (strncmp(custom, "Manage.auth ", 12) == 0) {
++				log_dbg("Manage.auth\n");
++				len = atoi(custom + 12);
++				event_to_custom((u8*)custom+MGMT_FRAM_TAG_SIZE,len,event->u.data.flags,ifname);
++			}
++			else if (strncmp(custom, "Manage.assoc_req ", 17) == 0) {
++				log_dbg("Manage.assoc_req\n");
++				len = atoi(custom + 17);
++				event_to_custom((u8*)custom+MGMT_FRAM_TAG_SIZE,len,event->u.data.flags,ifname);
++				
++			}else if (strncmp(custom, "STA-TRAFFIC-STAT", 16) == 0) {
++				log_dbg("STA-TRAFFIC-STAT\n");
++			}
++		}
++		trace_line();
+       }
+       break;
+     case IWEVREGISTERED:
+@@ -415,6 +530,8 @@
+     case IWEVEXPIRED:
+       printf("Expired node:%s\n",
+ 	     iw_saether_ntop(&event->u.addr, buffer));
++	log_info("Expired node [\033[35m%s\033[0m]\n",iw_saether_ntop(&event->u.addr, buffer));
++	log_sta_info("[%s] expired\n",iw_saether_ntop(&event->u.addr, buffer));
+       break;
+     case SIOCGIWTHRSPY:
+       {
+@@ -433,6 +550,7 @@
+ 	  printf("Invalid Spy Threshold event\n");
+       }
+       break;
++	  
+       /* ----- driver WPA events ----- */
+       /* Events generated by the driver, used for WPA operation */
+     case IWEVMICHAELMICFAILURE:
+@@ -447,11 +565,13 @@
+ 			    mf.tsc, IW_ENCODE_SEQ_MAX_SIZE));
+ 	}
+       break;
++#if 0	  
+     case IWEVASSOCREQIE:
+       printf("Association Request IEs:%s\n",
+ 	     iw_hexdump(buffer, sizeof(buffer),
+ 			event->u.data.pointer, event->u.data.length));
+       break;
++#endif
+     case IWEVASSOCRESPIE:
+       printf("Association Response IEs:%s\n",
+ 	     iw_hexdump(buffer, sizeof(buffer),
+@@ -534,7 +654,7 @@
+ 	    printf("                           ");
+ 	  if(ret > 0)
+ 	    print_event_token(&iwe,
+-			      &wireless_data->range, wireless_data->has_range);
++			      &wireless_data->range, wireless_data->has_range,wireless_data->ifname);
+ 	  else
+ 	    printf("(Invalid event)\n");
+ 	  /* Push data out *now*, in case we are redirected to a pipe */
+@@ -760,7 +880,11 @@
+ {
+   struct rtnl_handle	rth;
+   int opt;
+-
++  	
++  log_log_init();
++  
++  log_stainfo_init();
++  
+   /* Check command line options */
+   while((opt = getopt_long(argc, argv, "hv", long_opts, NULL)) > 0)
+     {
+--- /dev/null	2017-02-23 09:17:25.642061118 +0800
++++ b/logopt.c	2017-02-24 17:41:08.764703096 +0800
+@@ -0,0 +1,242 @@
++/**
++	@file logopt.c
++**/ 
++
++/* Include files. */
++
++#include <stdio.h>
++#include <stdlib.h>
++#include <stdarg.h>
++#include <string.h>
++#include <time.h>
++#include <fcntl.h>
++#include <unistd.h>
++
++#include <sys/types.h>
++#include <sys/stat.h>
++#include <sys/time.h>
++
++#include "logopt.h"
++
++/* Macro constant definitions. */
++
++#define CON_COLOR_GREEN         	"\033[1;32m"
++#define CON_COLOR_RED           	"\033[1;31m"
++#define CON_COLOR_PURPLE        	"\033[1;35m"
++#define CON_COLOR_YELLOW        	"\033[1;33m"
++#define CON_COLOR_CYAN          	"\033[1;36m"
++#define CON_COLOR_END				"\033[m"
++
++#define LOGIN_USER				"system.sauth.login_user"
++
++/* Type definitions. */
++
++typedef struct debug_log {
++	FILE *fp;
++	unsigned char use_stdout;
++	unsigned int level;
++	unsigned long attr;
++	unsigned long msg_buf_len;
++	char *msg_buf;
++	char *log_filename;
++} t_log;
++
++/* Local function declarations. */
++
++/* Macro API definitions. */
++
++/* Global variable declarations. */
++
++int debug_log_init(t_log_p * log_p, const char *log_file, unsigned long attr, int init_level)
++{
++
++	t_log_p log;
++	char tmparray[128] = {0};
++	char command[128] = {0};
++
++	FILE *pf = NULL;
++	int ret = 0;
++	
++	log = malloc(sizeof(t_log));
++	if (log == NULL) {
++		return (-1);
++	}
++	
++	
++	if (log_file != NULL) {
++		log->fp = fopen(log_file, "a+");
++		if (log->fp == NULL) {
++			fprintf(stderr, "Open[%s] failed, USE Stdout as debug output.\n", log_file);
++			log->log_filename = NULL;
++			log->use_stdout = 1;
++			log->fp = stdout;
++		} else {
++			log->log_filename = strdup(log_file);
++			log->use_stdout = 0;
++		}
++	} else {
++		fprintf(stderr, "USE Stdout as debug output.\n");
++		log->use_stdout = 1;
++		log->log_filename = NULL;
++		log->fp = stdout;
++	}
++
++	log->msg_buf_len = LOG_DEBUG_DEFAULT_BUF_LEN;
++	log->msg_buf = malloc(log->msg_buf_len);
++	if (log->msg_buf == NULL) {
++		if (log->log_filename) {
++			free(log->log_filename);
++		}
++		if (!log->use_stdout) {
++		fclose(log->fp);
++		}
++		free(log);
++		return (-2);
++	}
++
++	log->level = init_level;
++	log->attr = attr;
++
++	*log_p = log;
++
++	return (0);
++}
++
++static inline void _get_time(char *buff, int buff_len)
++{
++	struct timeval tv = { 0 };
++	struct tm *time_v = NULL, time_value = { 0 };
++
++	gettimeofday(&tv, NULL);
++	/* time_v = localtime(&tv.tv_sec); */
++	time_v = localtime_r(&tv.tv_sec, &time_value);
++	if (NULL != time_v) {
++		snprintf(buff, buff_len, "%d-%02d-%02d %02d:%02d:%02d ",
++			 time_v->tm_year + 1900, time_v->tm_mon + 1,
++			 time_v->tm_mday, time_v->tm_hour, time_v->tm_min, time_v->tm_sec);
++	}
++}
++
++int debug_log_print(t_log_p log, int level, const char *func,
++		    const char *file, unsigned long line, const char *fmt, ...)
++{
++	va_list args;
++	int rc = 0;
++	int buf_len;
++	char *new_buf;
++	char time[64];
++	long fsize;
++
++	if ((level <= LOG_DEBUG_DEFAULT_LEVEL) || (level <= log->level)) {
++		_get_time(time, sizeof(time));
++		if (!log->use_stdout) {
++			fsize = ftell(log->fp);
++			if (fsize > LOG_DEBUG_FILE_SIZE) {
++				int fd;
++				fclose(log->fp);
++				fd = open(log->log_filename, O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0666);
++				if (fd >= 0) {
++					close(fd);
++				}
++				log->fp = fopen(log->log_filename, "w+");
++				if (log->fp == NULL) {
++					log->fp = stdout;
++					log->use_stdout = 1;
++				}
++				fprintf(log->fp, "%s" CON_COLOR_RED "[!!!!!!]" CON_COLOR_END
++					CON_COLOR_RED " FILE truncate!(size: %ld)" CON_COLOR_END "\n", time, fsize);
++			}
++		}
++
++		va_start(args, fmt);
++		do {
++			buf_len = log->msg_buf_len;
++			rc = vsnprintf(log->msg_buf, log->msg_buf_len, fmt, args);
++			if (rc >= buf_len) {
++				//printf("Need relloc buf to %lu\n", log->msg_buf_len);
++				new_buf = malloc(buf_len * 2);
++				if (new_buf == NULL) {
++					break;
++				} else {
++					free(log->msg_buf);
++					log->msg_buf = new_buf;
++					log->msg_buf_len = buf_len * 2;
++				}
++			}
++		} while (rc >= buf_len);
++		va_end(args);
++
++#define LINE_FILE_FUNC_FMT   "[%4lu][%-25s]"
++
++		switch (level) {
++		case eLOG_LEVEL_TRACE:
++			rc = fprintf(log->fp, "%s" CON_COLOR_GREEN "[TRACE]" CON_COLOR_END
++				     CON_COLOR_CYAN LINE_FILE_FUNC_FMT CON_COLOR_END CON_COLOR_GREEN
++				     " %s" CON_COLOR_END, time, line, func, log->msg_buf);
++			break;
++		case eLOG_LEVEL_DEBUG:
++			rc = fprintf(log->fp, "%s" CON_COLOR_GREEN "[DEBUG]" CON_COLOR_END
++				     CON_COLOR_CYAN LINE_FILE_FUNC_FMT CON_COLOR_END CON_COLOR_GREEN
++				     " %s" CON_COLOR_END, time, line, func, log->msg_buf);
++			break;
++		case eLOG_LEVEL_INFOR:
++			if(line){
++				rc = fprintf(log->fp, "%s" CON_COLOR_YELLOW "[INFO ]" CON_COLOR_END
++				     CON_COLOR_CYAN LINE_FILE_FUNC_FMT CON_COLOR_END CON_COLOR_YELLOW
++				     " %s" CON_COLOR_END, time, line, func, log->msg_buf);
++			}else{
++				rc = fprintf(log->fp, "%s  %s" , time, log->msg_buf);
++			}	
++			break;
++		case eLOG_LEVEL_WARNING:
++			rc = fprintf(log->fp, "%s" CON_COLOR_PURPLE "[WARN ]" CON_COLOR_END
++				     CON_COLOR_CYAN LINE_FILE_FUNC_FMT CON_COLOR_END CON_COLOR_PURPLE
++				     " %s" CON_COLOR_END, time, line, func, log->msg_buf);
++			break;
++		case eLOG_LEVEL_ERROR:
++			rc = fprintf(log->fp, "%s" CON_COLOR_RED "[ERROR]" CON_COLOR_END
++				     CON_COLOR_CYAN LINE_FILE_FUNC_FMT CON_COLOR_END CON_COLOR_RED
++				     " %s" CON_COLOR_END, time, line, func, log->msg_buf);
++			break;
++		case eLOG_LEVEL_CRITICAL:
++			rc = fprintf(log->fp, "%s" CON_COLOR_RED "[!!!!!]" CON_COLOR_END
++				     CON_COLOR_CYAN LINE_FILE_FUNC_FMT CON_COLOR_END CON_COLOR_RED
++				     " %s" CON_COLOR_END, time, line, func, log->msg_buf);
++			break;
++		default:
++			rc = fprintf(log->fp, "%s[DEBUG]" LINE_FILE_FUNC_FMT "%s",
++				     time, line, func, log->msg_buf);
++			break;
++		}
++#undef LINE_FILE_FUNC_FMT
++		fflush(log->fp);
++	}
++
++	return (rc);
++}
++
++void debug_log_clean(t_log_p * log_p)
++{
++	t_log_p log = *log_p;
++
++	if (log != NULL) {
++		log->msg_buf_len = 0;
++
++		if (log->msg_buf != NULL) {
++			free(log->msg_buf);
++			log->msg_buf = NULL;
++		}
++
++		if ((!log->use_stdout) && (log->fp != NULL)) {
++			fclose(log->fp);
++			log->fp = NULL;
++		}
++
++		if (log->log_filename != NULL) {
++			free(log->log_filename);
++			log->log_filename = NULL;
++		}
++		free(log);
++	}
++	*log_p = NULL;
++}
+\ No newline at end of file
+--- /dev/null	2017-02-23 09:17:25.642061118 +0800
++++ b/logopt.h	2017-02-24 17:41:08.764703096 +0800
+@@ -0,0 +1,94 @@
++ /**
++	@file log_for_debug.h
++**/ 
++
++#ifndef __LOG_OPT_H__
++#define __LOG_OPT_H__
++
++
++/* Include files. */
++
++/* Macro constant definitions. */
++#define LOG_FILE				"/var/log/iwevent.log"
++
++
++/** default iwevent log debug level */
++#define LOG_LEVEL							eLOG_LEVEL_TRACE
++#define LOG_DEBUG_DEFAULT_LEVEL			eLOG_LEVEL_ERROR
++#define LOG_DEBUG_DEFAULT_BUF_LEN		128
++#define LOG_DEBUG_FILE_SIZE				(512 * 1024)
++
++/* Type definitions. */
++
++enum e_log_level{
++	eLOG_LEVEL_CRITICAL = 1,
++	eLOG_LEVEL_ERROR,
++	eLOG_LEVEL_WARNING,
++	eLOG_LEVEL_INFOR ,
++	eLOG_LEVEL_DEBUG ,
++	eLOG_LEVEL_TRACE ,
++};
++
++typedef struct debug_log *t_log_p;
++
++/* External function declarations. */
++
++extern int debug_log_init(t_log_p * log_p, const char *log_file, unsigned long attr, int init_level);
++extern int debug_log_print(t_log_p log, int level, const char *func,
++			   const char *file, unsigned long line, const char *fmt, ...);
++extern void debug_log_clean(t_log_p * log_p);
++
++/* Macro API definitions. */
++/** opt log pointer */
++t_log_p logopt_log;
++
++/* Macro API definitions. */
++
++#define log_crit(fmt,...) \
++		do { \
++			debug_log_print(logopt_log, eLOG_LEVEL_CRITICAL, __FUNCTION__, \
++				__FILE__, __LINE__, (fmt), ##__VA_ARGS__); \
++		} while(0)
++
++#define log_err(fmt,...) \
++	do { \
++		debug_log_print(logopt_log, eLOG_LEVEL_ERROR, __FUNCTION__, \
++			__FILE__, __LINE__, (fmt), ##__VA_ARGS__); \
++	} while(0)
++
++#define log_info(fmt,...) \
++	do { \
++		debug_log_print(logopt_log, eLOG_LEVEL_INFOR, __FUNCTION__, \
++			__FILE__, __LINE__, (fmt), ##__VA_ARGS__); \
++	} while(0)
++
++#define log_dbg(fmt,...) \
++	do { \
++		debug_log_print(logopt_log, eLOG_LEVEL_DEBUG, __FUNCTION__, \
++			__FILE__, __LINE__, (fmt), ##__VA_ARGS__); \
++	} while(0)
++
++#define log_trace_enter() \
++	do { \
++		debug_log_print(logopt_log, eLOG_LEVEL_TRACE, __FUNCTION__, \
++			__FILE__, __LINE__, "[ENTER]\n"); \
++	} while(0)
++
++#define log_trace_exit() \
++	do { \
++		debug_log_print(logopt_log, eLOG_LEVEL_TRACE, __FUNCTION__, \
++			__FILE__, __LINE__, "[EXIT]\n"); \
++	} while(0)
++
++#define log_trace_line() \
++	do { \
++		debug_log_print(logopt_log, eLOG_LEVEL_TRACE, __FUNCTION__, \
++			__FILE__, __LINE__, "[CHECK]\n"); \
++	} while(0)
++
++#define log_log_init() \
++	debug_log_init(&logopt_log, LOG_FILE, 0, LOG_LEVEL)
++	
++/* Global variable declarations. */
++
++#endif				/* __LOG_OPT_H__ */
+\ No newline at end of file
+--- /dev/null	2017-02-23 09:17:25.642061118 +0800
++++ b/iwevent.h	2017-02-24 19:41:52.709119361 +0800
+@@ -0,0 +1,467 @@
++/******************************************************************************/
++/*-----------------Following Code Added by Skysoft--------------------------------*/
++
++#ifndef __IWEVENT__H__
++#define __IWEVENT__H__
++
++ #include <sys/socket.h>
++ #include <sys/un.h> /*for   struct sockaddr_un*/
++
++#include <stdint.h>	
++#include <err.h>
++#include "logopt.h"
++//typedef unsigned long mp_digit;
++//typedef u64 mp_word;
++
++
++//#ifdef __GNUC__
++//#define PRINTF_FORMAT(a,b) __attribute__ ((format (printf, (a), (b))))
++//#define STRUCT_PACKED __attribute__ ((packed))
++//#else
++#define PRINTF_FORMAT(a,b)
++#define STRUCT_PACKED
++//#endif
++
++
++/*
++ * Definitions for sparse validation
++ * (http://kernel.org/pub/linux/kernel/people/josh/sparse/)
++ */
++//#ifdef __CHECKER__
++//#define __force __attribute__((force))
++//#define __bitwise __attribute__((bitwise))
++//#else
++#define __force
++#define __bitwise
++//#endif
++
++typedef uint64_t u64;
++typedef uint32_t u32;
++typedef uint16_t u16;
++typedef uint8_t u8;
++
++//typedef int64_t s64;
++typedef int32_t s32;
++
++//typedef int16_t s16;
++//typedef int8_t s8;
++
++
++typedef u16 __bitwise be16;
++typedef u16 __bitwise le16;
++typedef u32 __bitwise be32;
++typedef u32 __bitwise le32;
++typedef u64 __bitwise be64;
++typedef u64 __bitwise le64;
++
++struct ieee80211_hdr {
++	le16 frame_control;
++	le16 duration_id;
++	u8 addr1[6];
++	u8 addr2[6];
++	u8 addr3[6];
++	le16 seq_ctrl;
++	/* followed by 'u8 addr4[6];' if ToDS and FromDS is set in data frame
++	 */
++} STRUCT_PACKED;
++
++
++#define WLAN_SA_QUERY_TR_ID_LEN 2
++#ifndef ETH_ALEN
++#define ETH_ALEN 6
++#endif
++
++
++struct ieee80211_mgmt {
++	le16 frame_control;	/*2 bytes*/
++	le16 duration;		/*2 bytes*/
++	u8 da[6];			/*1 x 6 = 6 bytes*/
++	u8 sa[6];				/*1 x 6 = 6 bytes*/
++	u8 bssid[6];			/*1 x 6 = 6 bytes*/
++	le16 seq_ctrl;		/*2 bytes*/
++	union {
++		struct {
++			le16 auth_alg;
++			le16 auth_transaction;
++			le16 status_code;
++			/* possibly followed by Challenge text */
++			u8 variable[];
++		} STRUCT_PACKED auth;
++		struct {
++			le16 reason_code;
++			u8 variable[];
++		} STRUCT_PACKED deauth;
++		struct {
++			le16 capab_info;
++			le16 listen_interval;
++			/* followed by SSID and Supported rates */
++			u8 variable[];
++		} STRUCT_PACKED assoc_req;
++		struct {
++			le16 capab_info;
++			le16 status_code;
++			le16 aid;
++			/* followed by Supported rates */
++			u8 variable[];
++		} STRUCT_PACKED assoc_resp, reassoc_resp;
++		struct {
++			le16 capab_info;
++			le16 listen_interval;
++			u8 current_ap[6];
++			/* followed by SSID and Supported rates */
++			u8 variable[];
++		} STRUCT_PACKED reassoc_req;
++		struct {
++			le16 reason_code;
++			u8 variable[];
++		} STRUCT_PACKED disassoc;
++		struct {
++			u8 timestamp[8];
++			le16 beacon_int;
++			le16 capab_info;
++			/* followed by some of SSID, Supported rates,
++			 * FH Params, DS Params, CF Params, IBSS Params, TIM */
++			u8 variable[];
++		} STRUCT_PACKED beacon;
++		struct {
++			/* only variable items: SSID, Supported rates */
++			u8 variable[0];
++		} STRUCT_PACKED probe_req;
++		struct {
++			u8 timestamp[8];
++			le16 beacon_int;
++			le16 capab_info;
++			/* followed by some of SSID, Supported rates,
++			 * FH Params, DS Params, CF Params, IBSS Params */
++			u8 variable[];
++		} STRUCT_PACKED probe_resp;
++		struct {
++			u8 category;
++			union {
++				struct {
++					u8 action_code;
++					u8 dialog_token;
++					u8 status_code;
++					u8 variable[];
++				} STRUCT_PACKED wmm_action;
++				struct{
++					u8 action_code;
++					u8 element_id;
++					u8 length;
++					u8 switch_mode;
++					u8 new_chan;
++					u8 switch_count;
++				} STRUCT_PACKED chan_switch;
++				struct {
++					u8 action;
++					u8 sta_addr[ETH_ALEN];
++					u8 target_ap_addr[ETH_ALEN];
++					u8 variable[]; /* FT Request */
++				} STRUCT_PACKED ft_action_req;
++				struct {
++					u8 action;
++					u8 sta_addr[ETH_ALEN];
++					u8 target_ap_addr[ETH_ALEN];
++					le16 status_code;
++					u8 variable[]; /* FT Request */
++				} STRUCT_PACKED ft_action_resp;
++				struct {
++					u8 action;
++					u8 trans_id[WLAN_SA_QUERY_TR_ID_LEN];
++				} STRUCT_PACKED sa_query_req;
++				struct {
++					u8 action; /* */
++					u8 trans_id[WLAN_SA_QUERY_TR_ID_LEN];
++				} STRUCT_PACKED sa_query_resp;
++				struct {
++					u8 action;
++					u8 dialogtoken;
++					u8 variable[];
++				} STRUCT_PACKED wnm_sleep_req;
++				struct {
++					u8 action;
++					u8 dialogtoken;
++					le16 keydata_len;
++					u8 variable[];
++				} STRUCT_PACKED wnm_sleep_resp;
++				struct {
++					u8 action;
++					u8 variable[];
++				} STRUCT_PACKED public_action;
++				struct {
++					u8 action; /* 9 */
++					u8 oui[3];
++					/* Vendor-specific content */
++					u8 variable[];
++				} STRUCT_PACKED vs_public_action;
++				struct {
++					u8 action; /* 7 */
++					u8 dialog_token;
++					u8 req_mode;
++					le16 disassoc_timer;
++					u8 validity_interval;
++					/* BSS Termination Duration (optional),
++					 * Session Information URL (optional),
++					 * BSS Transition Candidate List
++					 * Entries */
++					u8 variable[];
++				} STRUCT_PACKED bss_tm_req;
++				struct {
++					u8 action; /* 8 */
++					u8 dialog_token;
++					u8 status_code;
++					u8 bss_termination_delay;
++					/* Target BSSID (optional),
++					 * BSS Transition Candidate List
++					 * Entries (optional) */
++					u8 variable[];
++				} STRUCT_PACKED bss_tm_resp;
++				struct {
++					u8 action; /* 6 */
++					u8 dialog_token;
++					u8 query_reason;
++					/* BSS Transition Candidate List
++					 * Entries (optional) */
++					u8 variable[];
++				} STRUCT_PACKED bss_tm_query;
++				struct {
++					u8 action; /* 15 */
++					u8 variable[];
++				} STRUCT_PACKED slf_prot_action;
++				struct {
++					u8 action;
++					u8 variable[];
++				} STRUCT_PACKED fst_action;
++			} u;
++		} STRUCT_PACKED action;
++	} u;
++} STRUCT_PACKED;
++
++#ifndef __func__
++#define __func__ __FUNCTION__
++#endif
++
++#ifndef bswap_16
++#define bswap_16(a) ((((u16) (a) << 8) & 0xff00) | (((u16) (a) >> 8) & 0xff))
++#endif
++
++#ifndef __BYTE_ORDER
++#ifndef __LITTLE_ENDIAN
++#ifndef __BIG_ENDIAN
++#define __LITTLE_ENDIAN 1234
++#define __BIG_ENDIAN 4321
++#if defined(sparc)
++#define __BYTE_ORDER __BIG_ENDIAN
++#endif
++#endif /* __BIG_ENDIAN */
++#endif /* __LITTLE_ENDIAN */
++#endif /* __BYTE_ORDER */
++
++#if __BYTE_ORDER == __LITTLE_ENDIAN
++/*now i know that rt4230w is the little_endian mode*/
++#define le_to_host16(n) ((__force u16) (le16) (n))
++
++#elif __BYTE_ORDER == __BIG_ENDIAN
++/*we know the arm is BIG_ENDIAN mode*/
++#define le_to_host16(n) bswap_16(n)
++
++#endif
++
++#define WLAN_FC_GET_TYPE(fc)	(((fc) & 0x000c) >> 2)
++#define WLAN_FC_GET_STYPE(fc)	(((fc) & 0x00f0) >> 4)
++
++#define WLAN_FC_TYPE_MGMT		0
++#define WLAN_FC_TYPE_CTRL		1
++#define WLAN_FC_TYPE_DATA		2
++
++
++/* management */
++#define WLAN_FC_STYPE_ASSOC_REQ		0
++#define WLAN_FC_STYPE_ASSOC_RESP	1
++#define WLAN_FC_STYPE_REASSOC_REQ	2
++#define WLAN_FC_STYPE_REASSOC_RESP	3
++#define WLAN_FC_STYPE_PROBE_REQ		4
++#define WLAN_FC_STYPE_PROBE_RESP	5
++#define WLAN_FC_STYPE_BEACON		8
++#define WLAN_FC_STYPE_ATIM		9
++#define WLAN_FC_STYPE_DISASSOC		10
++#define WLAN_FC_STYPE_AUTH		11
++#define WLAN_FC_STYPE_DEAUTH		12
++#define WLAN_FC_STYPE_ACTION		13
++
++#define IEEE80211_HDRLEN (sizeof(struct ieee80211_hdr))
++
++#ifndef MAC2STR
++#define MAC2STR(a) (a)[0], (a)[1], (a)[2], (a)[3], (a)[4], (a)[5]
++#define MACSTR  "%02x:%02x:%02x:%02x:%02x:%02x"
++#endif
++
++#define trace_enter() \
++	do { \
++		printf("\033[32mNICK:[%s]:[%d]:Enter\033[0m\n",__FUNCTION__,__LINE__);\
++		}while(0)
++#define trace_exit() \
++	do{\
++		printf("\033[32mNICK:[%s]:[%d]:Exit\033[0m\n",__FUNCTION__,__LINE__);\
++		}while(0)
++#define trace_line() \
++	do{\
++		printf("\033[32m[%s]:[%s]:[%d]:Trace line\033[0m\n",__FILE__,__FUNCTION__,__LINE__);\
++		}while(0)
++
++/******************************2017-02-24***************************************/
++
++
++#ifndef     IFNAMSIZ
++#define     IFNAMSIZ    16
++#endif
++
++/* Element ID  */
++#define IEEE80211_ELEMID_RSN 48
++#define IEEE80211_ELEMID_VENDOR 221
++#define IEEE80211_CAPINFO_PRIVACY           0x0010
++
++#define IEEE80211_ADDR_LEN  6       /* size of 802.11 address */
++
++#define IEEE80211_RATE_MAXSIZE  44              /* max rates we'll handle */
++
++
++/*
++ * Scan result data returned for IEEE80211_IOC_SCAN_RESULTS.
++ */
++struct ieee80211req_scan_result {
++	u_int16_t	isr_len;		/* length (mult of 4) */
++	u_int16_t	isr_freq;		/* MHz */
++	u_int32_t	isr_flags;		/* channel flags */
++	u_int8_t	isr_noise;
++	u_int8_t	isr_rssi;
++	u_int8_t	isr_intval;		/* beacon interval */
++	u_int16_t	isr_capinfo;		/* capabilities */
++	u_int8_t	isr_erp;		/* ERP element */
++	u_int8_t	isr_bssid[IEEE80211_ADDR_LEN];
++	u_int8_t	isr_nrates;
++	u_int8_t	isr_rates[IEEE80211_RATE_MAXSIZE];
++	u_int8_t	isr_ssid_len;		/* SSID length */
++	u_int16_t	isr_ie_len;		/* IE length */
++	u_int8_t	isr_pad[4];
++	/* variable length SSID followed by IE data */
++};
++
++#define IEEE80211_CAPINFO_ESS               0x0001
++#define IEEE80211_CAPINFO_IBSS              0x0002
++#define IEEE80211_CAPINFO_CF_POLLABLE       0x0004
++#define IEEE80211_CAPINFO_CF_POLLREQ        0x0008
++#define IEEE80211_CAPINFO_PRIVACY           0x0010
++#define IEEE80211_CAPINFO_SHORT_PREAMBLE    0x0020
++#define IEEE80211_CAPINFO_PBCC              0x0040
++#define IEEE80211_CAPINFO_CHNL_AGILITY      0x0080
++#define IEEE80211_CAPINFO_SPECTRUM_MGMT     0x0100
++#define IEEE80211_CAPINFO_QOS               0x0200
++#define IEEE80211_CAPINFO_SHORT_SLOTTIME    0x0400
++#define IEEE80211_CAPINFO_APSD              0x0800
++#define IEEE80211_CAPINFO_RADIOMEAS         0x1000
++#define IEEE80211_CAPINFO_DSSSOFDM          0x2000
++
++#define IEEE80211_RATE_VAL              0x7f
++
++
++void list_scan(const char *ifname);
++
++
++/*
++ * Station information block; the mac address is used
++ * to retrieve other data like stats, unicast key, etc.
++ */
++struct ieee80211req_sta_info {
++        u_int16_t       isi_len;                /* length (mult of 4) */
++        u_int16_t       isi_freq;               /* MHz */
++    u_int32_t   isi_flags;      /* channel flags */
++        u_int16_t       isi_state;              /* state flags */
++        u_int8_t        isi_authmode;           /* authentication algorithm */
++        int8_t          isi_rssi;
++    int8_t          isi_min_rssi;
++    int8_t          isi_max_rssi;
++        u_int16_t       isi_capinfo;            /* capabilities */
++        u_int8_t        isi_athflags;           /* Atheros capabilities */
++        u_int8_t        isi_erp;                /* ERP element */
++    u_int8_t    isi_ps;         /* psmode */
++        u_int8_t        isi_macaddr[IEEE80211_ADDR_LEN];
++        u_int8_t        isi_nrates;
++                                                /* negotiated rates */
++        u_int8_t        isi_rates[IEEE80211_RATE_MAXSIZE];
++        u_int8_t        isi_txrate;             /* index to isi_rates[] */
++    u_int32_t   isi_txratekbps; /* tx rate in Kbps, for 11n */
++        u_int16_t       isi_ie_len;             /* IE length */
++        u_int16_t       isi_associd;            /* assoc response */
++        u_int16_t       isi_txpower;            /* current tx power */
++        u_int16_t       isi_vlan;               /* vlan tag */
++        u_int16_t       isi_txseqs[17];         /* seq to be transmitted */
++        u_int16_t       isi_rxseqs[17];         /* seq previous for qos frames*/
++        u_int16_t       isi_inact;              /* inactivity timer */
++        u_int8_t        isi_uapsd;              /* UAPSD queues */
++        u_int8_t        isi_opmode;             /* sta operating mode */
++        u_int8_t        isi_cipher;
++        u_int32_t       isi_assoc_time;         /* sta association time */
++        struct timespec isi_tr069_assoc_time;   /* sta association time in timespec format */
++
++
++    u_int16_t   isi_htcap;      /* HT capabilities */
++    u_int32_t   isi_rxratekbps; /* rx rate in Kbps */
++                                /* We use this as a common variable for legacy rates
++                                   and lln. We do not attempt to make it symmetrical
++                                   to isi_txratekbps and isi_txrate, which seem to be
++                                   separate due to legacy code. */
++        /* XXX frag state? */
++        /* variable length IE data */
++    u_int8_t isi_maxrate_per_client; /* Max rate per client */
++        u_int16_t   isi_stamode;        /* Wireless mode for connected sta */
++    u_int32_t isi_ext_cap;              /* Extended capabilities */
++    u_int8_t isi_nss;         /* number of tx and rx chains */
++    u_int8_t isi_is_256qam;    /* 256 QAM support */
++};
++
++
++/* HT capability flags */
++#define IEEE80211_HTCAP_C_ADVCODING             0x0001
++#define IEEE80211_HTCAP_C_CHWIDTH40             0x0002
++#define IEEE80211_HTCAP_C_SMPOWERSAVE_STATIC    0x0000 /* Capable of SM Power Save (Static) */
++#define IEEE80211_HTCAP_C_SMPOWERSAVE_DYNAMIC   0x0004 /* Capable of SM Power Save (Dynamic) */
++#define IEEE80211_HTCAP_C_SM_RESERVED           0x0008 /* Reserved */
++#define IEEE80211_HTCAP_C_SMPOWERSAVE_DISABLED            0x000c /* SM enabled, no SM Power Save */
++#define IEEE80211_HTCAP_C_GREENFIELD            0x0010
++#define IEEE80211_HTCAP_C_SHORTGI20             0x0020
++#define IEEE80211_HTCAP_C_SHORTGI40             0x0040
++#define IEEE80211_HTCAP_C_TXSTBC                0x0080
++#define IEEE80211_HTCAP_C_TXSTBC_S                   7
++#define IEEE80211_HTCAP_C_RXSTBC                0x0300  /* 2 bits */
++#define IEEE80211_HTCAP_C_RXSTBC_S                   8
++#define IEEE80211_HTCAP_C_DELAYEDBLKACK         0x0400
++#define IEEE80211_HTCAP_C_MAXAMSDUSIZE          0x0800  /* 1 = 8K, 0 = 3839B */
++#define IEEE80211_HTCAP_C_DSSSCCK40             0x1000
++#define IEEE80211_HTCAP_C_PSMP                  0x2000
++#define IEEE80211_HTCAP_C_INTOLERANT40          0x4000
++#define IEEE80211_HTCAP_C_LSIGTXOPPROT          0x8000
++
++#define IEEE80211_HTCAP_C_SM_MASK               0x000c /* Spatial Multiplexing (SM) capabitlity bitmask */
++
++
++void list_stations(const char *ifname);
++
++t_log_p logopt_stainfo;
++/* Macro constant definitions. */
++#define LOG_STA_FILE				"/tmp/historical_stations.log"
++#define log_sta_info(fmt,...) \
++	do { \
++		debug_log_print(logopt_stainfo, eLOG_LEVEL_INFOR, NULL, \
++			0, 0, (fmt), ##__VA_ARGS__); \
++	} while(0)
++
++#define log_stainfo_init() \
++	debug_log_init(&logopt_stainfo, LOG_STA_FILE, 0, LOG_LEVEL)
++
++
++#endif  /*__IWEVENT__H__*/
++
++
++
++
+--- /dev/null	2017-02-23 09:17:25.642061118 +0800
++++ b/iwevent_stainfo.c	2017-02-24 17:41:08.764703096 +0800
+@@ -0,0 +1,760 @@
++
++#include "iwlib.h"		/* Header */
++#include "iwevent.h"
++#include "logopt.h"
++
++
++#define	IEEE80211_IOCTL_STA_INFO	(SIOCDEVPRIVATE+6)
++#define	IEEE80211_IOCTL_SCAN_RESULTS	(SIOCDEVPRIVATE+9)
++
++#define err(_s, args...) do { \
++    fprintf(stderr, "%s: line %d ", __FILE__, __LINE__); \
++    fprintf(stderr, args); fprintf(stderr, ": %d\n", errno); \
++    exit(_s); } while (0)
++    
++
++int	verbose = 0;
++
++
++static int getsocket(void)
++{
++	static int s = -1;
++
++	if (s < 0) {
++		s = socket(AF_INET, SOCK_DGRAM, 0);
++		if (s < 0)
++			err(1, "socket(SOCK_DRAGM)");
++	}
++	return s;
++}
++
++
++static int do80211priv(struct iwreq *iwr, const char *ifname, int op, void *data, size_t len)
++{
++#define	N(a)	(sizeof(a)/sizeof(a[0]))
++
++	memset(iwr, 0, sizeof(iwr));
++	strncpy(iwr->ifr_name, ifname, IFNAMSIZ);
++	if (len < IFNAMSIZ) {
++		/*
++		 * Argument data fits inline; put it there.
++		 */
++		memcpy(iwr->u.name, data, len);
++	} else {
++		/*
++		 * Argument data too big for inline transfer; setup a
++		 * parameter block instead; the kernel will transfer
++		 * the data for the driver.
++		 */
++		iwr->u.data.pointer = data;
++		iwr->u.data.length = len;
++	}
++
++	if (ioctl(getsocket(), op, iwr) < 0) {
++		static const char *opnames[] = {
++			"ioctl[IEEE80211_IOCTL_SETPARAM]",
++			"ioctl[IEEE80211_IOCTL_GETPARAM]",
++			"ioctl[IEEE80211_IOCTL_SETKEY]",
++			"ioctl[SIOCIWFIRSTPRIV+3]",
++			"ioctl[IEEE80211_IOCTL_DELKEY]",
++			"ioctl[SIOCIWFIRSTPRIV+5]",
++			"ioctl[IEEE80211_IOCTL_SETMLME]",
++			"ioctl[SIOCIWFIRSTPRIV+7]",
++			"ioctl[IEEE80211_IOCTL_SETOPTIE]",
++			"ioctl[IEEE80211_IOCTL_GETOPTIE]",
++			"ioctl[IEEE80211_IOCTL_ADDMAC]",
++			"ioctl[SIOCIWFIRSTPRIV+11]",
++			"ioctl[IEEE80211_IOCTL_DELMAC]",
++			"ioctl[SIOCIWFIRSTPRIV+13]",
++			"ioctl[IEEE80211_IOCTL_CHANLIST]",
++			"ioctl[SIOCIWFIRSTPRIV+15]",
++			"ioctl[IEEE80211_IOCTL_GETRSN]",
++			"ioctl[SIOCIWFIRSTPRIV+17]",
++			"ioctl[IEEE80211_IOCTL_GETKEY]",
++		};
++		op -= SIOCIWFIRSTPRIV;
++		if (0 <= op && op < N(opnames))
++			perror(opnames[op]);
++		else
++			perror("ioctl[unknown???]");
++		return -1;
++	}
++	return 0;
++#undef N
++}
++
++
++static int get80211priv(const char *ifname, int op, void *data, size_t len)
++{
++	struct iwreq iwr;
++
++	if (do80211priv(&iwr, ifname, op, data, len) < 0)
++		return -1;
++	if (len < IFNAMSIZ)
++		memcpy(data, iwr.u.name, len);
++	return iwr.u.data.length;
++}
++
++static const char *
++ieee80211_ntoa(const uint8_t mac[IEEE80211_ADDR_LEN])
++{
++	static char a[18];
++	int i;
++
++	i = snprintf(a, sizeof(a), "%02x:%02x:%02x:%02x:%02x:%02x",
++		mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
++	return (i < 17 ? NULL : a);
++}
++
++
++/*
++ * Copy the ssid string contents into buf, truncating to fit.  If the
++ * ssid is entirely printable then just copy intact.  Otherwise convert
++ * to hexadecimal.  If the result is truncated then replace the last
++ * three characters with "...".
++ */
++static size_t
++copy_essid(char buf[], size_t bufsize, const u_int8_t *essid, size_t essid_len)
++{
++	const u_int8_t *p;
++	size_t maxlen;
++	int i;
++	size_t orig_bufsize =  bufsize;
++
++	if (essid_len > bufsize)
++		maxlen = bufsize;
++	else
++		maxlen = essid_len;
++	/* determine printable or not */
++	for (i = 0, p = essid; i < maxlen; i++, p++) {
++		if (*p < ' ' || *p > 0x7e)
++			break;
++	}
++	if (i != maxlen) {		/* not printable, print as hex */
++		if (bufsize < 3)
++			return 0;
++#if 0
++		strlcpy(buf, "0x", bufsize);
++#else
++		strncpy(buf, "0x", bufsize);
++#endif
++		bufsize -= 2;
++		p = essid;
++		for (i = 0; i < maxlen && bufsize >= 2; i++) {
++			sprintf(&buf[2+2*i], "%02x", *p++);
++			bufsize -= 2;
++		}
++		maxlen = 2+2*i;
++	} else {			/* printable, truncate as needed */
++		memcpy(buf, essid, maxlen);
++	}
++	if (maxlen != essid_len)
++		memcpy(buf+maxlen-3, "...", 3);
++
++	/* Modify for static analysis, protect for buffer overflow */
++	buf[orig_bufsize-1] = '\0';
++
++	return maxlen;
++}
++
++/*
++ * Convert MHz frequency to IEEE channel number.
++ */
++static u_int
++ieee80211_mhz2ieee(u_int freq)
++{
++#define IS_CHAN_IN_PUBLIC_SAFETY_BAND(_c) ((_c) > 4940 && (_c) < 4990)
++
++	if (freq == 2484)
++        return 14;
++    if (freq < 2484)
++        return (freq - 2407) / 5;
++    if (freq < 5000) {
++        if (IS_CHAN_IN_PUBLIC_SAFETY_BAND(freq)) {
++            return ((freq * 10) +
++                (((freq % 5) == 2) ? 5 : 0) - 49400)/5;
++        } else if (freq > 4900) {
++            return (freq - 4000) / 5;
++        } else {
++            return 15 + ((freq - 2512) / 20);
++        }
++    }
++    return (freq - 5000) / 5;
++}
++
++
++//typedef u_int8_t uint8_t;
++
++static int
++getmaxrate(uint8_t rates[15], uint8_t nrates)
++{
++	int i, maxrate = -1;
++
++	for (i = 0; i < nrates; i++) {
++		int rate = rates[i] & IEEE80211_RATE_VAL;
++		if (rate > maxrate)
++			maxrate = rate;
++	}
++	return maxrate / 2;
++}
++
++static const char *
++getcaps(int capinfo)
++{
++	static char capstring[32];
++	char *cp = capstring;
++
++	if (capinfo & IEEE80211_CAPINFO_ESS)
++		*cp++ = 'E';
++	if (capinfo & IEEE80211_CAPINFO_IBSS)
++		*cp++ = 'I';
++	if (capinfo & IEEE80211_CAPINFO_CF_POLLABLE)
++		*cp++ = 'c';
++	if (capinfo & IEEE80211_CAPINFO_CF_POLLREQ)
++		*cp++ = 'C';
++	if (capinfo & IEEE80211_CAPINFO_PRIVACY)
++		*cp++ = 'P';
++	if (capinfo & IEEE80211_CAPINFO_SHORT_PREAMBLE)
++		*cp++ = 'S';
++	if (capinfo & IEEE80211_CAPINFO_PBCC)
++		*cp++ = 'B';
++	if (capinfo & IEEE80211_CAPINFO_CHNL_AGILITY)
++		*cp++ = 'A';
++	if (capinfo & IEEE80211_CAPINFO_SHORT_SLOTTIME)
++		*cp++ = 's';
++	if (capinfo & IEEE80211_CAPINFO_DSSSOFDM)
++		*cp++ = 'D';
++	*cp = '\0';
++	return capstring;
++}
++
++static void printie(const char* tag, const uint8_t *ie, size_t ielen, int maxlen)
++{
++	printf("%s", tag);
++	if (verbose) {
++		maxlen -= strlen(tag)+2;
++		if (2*ielen > maxlen)
++			maxlen--;
++		printf("<");
++		for (; ielen > 0; ie++, ielen--) {
++			if (maxlen-- <= 0)
++				break;
++			printf("%02x", *ie);
++		}
++		if (ielen != 0)
++			printf("-");
++		printf(">");
++	}
++}
++//typedef char               A_INT8,  int8_t, A_CHAR;
++//typedef __a_int8_t      a_int8_t; /**< 1 Byte */
++
++#define a_int32_t   signed int 
++#define a_uint8_t   unsigned char     
++#define a_uint16_t  unsigned short int
++#define a_uint64_t  unsigned long long
++#define a_uint32_t  unsigned int
++#define a_int8_t    signed char
++#define a_int16_t   signed short int   
++
++#ifndef LE_READ_4
++#define LE_READ_4(p)                            \
++    ((u_int32_t)                                \
++    ((((const u_int8_t *)(p))[0]      ) |       \
++    (((const u_int8_t *)(p))[1] <<  8) |        \
++    (((const u_int8_t *)(p))[2] << 16) |        \
++    (((const u_int8_t *)(p))[3] << 24)))
++#endif
++
++#define ATH_OUI_TYPE                    0x01
++#define ATH_OUI_SUBTYPE                 0x01
++#define WPA_OUI                     0xf25000
++#define WPA_OUI_TYPE                    0x01
++#define WPA_VERSION                        1    /* current supported version */
++#define WME_OUI                     0xf25000
++#define WME_OUI_TYPE                    0x02
++#define WME_INFO_OUI_SUBTYPE            0x00
++#define WME_PARAM_OUI_SUBTYPE           0x01
++#define WME_TSPEC_OUI_SUBTYPE           0x02
++#define	ATH_OUI			0x7f0300		/* Atheros OUI */
++#define	ATH_OUI_TYPE		0x01
++
++static inline a_int8_t
++iswpaoui(const a_uint8_t *frm)
++{
++    return frm[1] > 3 && LE_READ_4(frm+2) == ((WPA_OUI_TYPE<<24)|WPA_OUI);
++}
++
++static inline a_int8_t
++iswmeoui(const uint8_t *frm)
++{
++    return frm[1] > 3 && LE_READ_4(frm+2) == ((WME_OUI_TYPE<<24)|WME_OUI);
++}
++
++static inline a_int8_t
++iswmeparam(const u_int8_t *frm)
++{
++    return ((frm[1] > 5) && (LE_READ_4(frm+2) == 
++                ((WME_OUI_TYPE<<24)|WME_OUI)) && 
++            (frm[6] == WME_PARAM_OUI_SUBTYPE));
++}
++
++static inline a_int8_t
++isatherosoui(const a_uint8_t *frm)
++{
++    return frm[1] > 3 && LE_READ_4(frm+2) == ((ATH_OUI_TYPE<<24)|ATH_OUI);
++}
++
++static void
++printies(const u_int8_t *vp, int ielen, int maxcols)
++{
++	while (ielen > 0) {
++		switch (vp[0]) {
++		case IEEE80211_ELEMID_VENDOR:
++			if (iswpaoui(vp))
++				printie(" WPA", vp, 2+vp[1], maxcols);
++			else if (iswmeoui(vp))
++				printie(" WME", vp, 2+vp[1], maxcols);
++			else if (isatherosoui(vp))
++				printie(" ATH", vp, 2+vp[1], maxcols);
++			else
++				printie(" VEN", vp, 2+vp[1], maxcols);
++			break;
++        case IEEE80211_ELEMID_RSN:
++            printie(" RSN", vp, 2+vp[1], maxcols);
++            break;
++		default:
++			printie(" ???", vp, 2+vp[1], maxcols);
++			break;
++		}
++		ielen -= 2+vp[1];
++		vp += 2+vp[1];
++	}
++}
++
++
++void list_scan(const char *ifname)
++{
++	uint8_t buf[24*1024];
++	struct iwreq iwr;
++	char ssid[14];
++	uint8_t *cp;
++	int len;
++
++	log_dbg("\033[31mTHE he interface is [%s]\033[0m\n",ifname);
++
++	len = get80211priv(ifname, IEEE80211_IOCTL_SCAN_RESULTS,
++			    buf, sizeof(buf));
++	if (len == -1)
++		errx(1, "unable to get scan results");
++	if (len < sizeof(struct ieee80211req_scan_result))
++		return;
++
++	printf("%-14.14s  %-17.17s  %4s %4s  %-5s %3s %4s\n"
++		, "SSID"
++		, "BSSID"
++		, "CHAN"
++		, "RATE"
++		, "S:N"
++		, "INT"
++		, "CAPS"
++	);
++	cp = buf;
++	do {
++		struct ieee80211req_scan_result *sr;
++		uint8_t *vp;
++        const char *ntoa;
++
++		sr = (struct ieee80211req_scan_result *) cp;
++		vp = (u_int8_t *)(sr+1);
++                ntoa = ieee80211_ntoa(sr->isr_bssid);
++		printf("%-14.*s  %s  %3d  %3dM %2d:%-2d  %3d %-4.4s"
++			, copy_essid(ssid, sizeof(ssid), vp, sr->isr_ssid_len)
++				, ssid
++			, (ntoa != NULL) ? ntoa:"WRONG MAC"
++			, ieee80211_mhz2ieee(sr->isr_freq)
++			, getmaxrate(sr->isr_rates, sr->isr_nrates)
++			, (int8_t) sr->isr_rssi, sr->isr_noise
++			, sr->isr_intval
++			, getcaps(sr->isr_capinfo)
++		);
++		printies(vp + sr->isr_ssid_len, sr->isr_ie_len, 24);;
++		printf("\n");
++		cp += sr->isr_len, len -= sr->isr_len;
++	} while (len >= sizeof(struct ieee80211req_scan_result));
++}
++
++
++/*for stations info*/
++/*
++ * These are taken from ieee80211_node.h
++ */
++
++#define IEEE80211_NODE_TURBOP	0x0001		/* Turbo prime enable */
++#define IEEE80211_NODE_AR	0x0010		/* AR capable */
++#define IEEE80211_NODE_BOOST	0x0080
++#define MACSTR_LEN 18
++
++static const char *
++getathcaps(int capinfo)
++{
++	static char capstring[32];
++	char *cp = capstring;
++
++	if (capinfo & IEEE80211_NODE_TURBOP)
++		*cp++ = 'D';
++	if (capinfo & IEEE80211_NODE_AR)
++		*cp++ = 'A';
++	if (capinfo & IEEE80211_NODE_BOOST)
++		*cp++ = 'T';
++	*cp = '\0';
++	return capstring;
++}
++
++static const char *
++gethtcaps(int capinfo)
++{
++	static char capstring[32];
++	char *cp = capstring;
++
++	if (capinfo & IEEE80211_HTCAP_C_ADVCODING)
++		*cp++ = 'A';
++	if (capinfo & IEEE80211_HTCAP_C_CHWIDTH40)
++		*cp++ = 'W';
++	if ((capinfo & IEEE80211_HTCAP_C_SM_MASK) ==
++             IEEE80211_HTCAP_C_SMPOWERSAVE_DISABLED)
++		*cp++ = 'P';
++	if ((capinfo & IEEE80211_HTCAP_C_SM_MASK) ==
++             IEEE80211_HTCAP_C_SMPOWERSAVE_STATIC)
++		*cp++ = 'Q';
++	if ((capinfo & IEEE80211_HTCAP_C_SM_MASK) ==
++             IEEE80211_HTCAP_C_SMPOWERSAVE_DYNAMIC)
++		*cp++ = 'R';
++	if (capinfo & IEEE80211_HTCAP_C_GREENFIELD)
++		*cp++ = 'G';
++	if (capinfo & IEEE80211_HTCAP_C_SHORTGI40)
++		*cp++ = 'S';
++	if (capinfo & IEEE80211_HTCAP_C_DELAYEDBLKACK)
++		*cp++ = 'D';
++	if (capinfo & IEEE80211_HTCAP_C_MAXAMSDUSIZE)
++		*cp++ = 'M';
++	*cp = '\0';
++	return capstring;
++}
++
++#define LIST_STATION_ALLOC_SIZE 24*1024
++#define IEEE80211_AID(b)    ((b) &~ 0xc000)
++
++void list_stations(const char *ifname)
++{
++    char *ieee80211_phymode_str[23] =  {
++        "IEEE80211_MODE_AUTO",
++        "IEEE80211_MODE_11A",
++        "IEEE80211_MODE_11B",
++        "IEEE80211_MODE_11G",
++        "IEEE80211_MODE_FH",
++        "IEEE80211_MODE_TURBO_A",
++        "IEEE80211_MODE_TURBO_G",
++        "IEEE80211_MODE_11NA_HT20",
++        "IEEE80211_MODE_11NG_HT20",
++        "IEEE80211_MODE_11NA_HT40PLUS",
++        "IEEE80211_MODE_11NA_HT40MINUS",
++        "IEEE80211_MODE_11NG_HT40PLUS",
++        "IEEE80211_MODE_11NG_HT40MINUS",
++        "IEEE80211_MODE_11NG_HT40",
++        "IEEE80211_MODE_11NA_HT40",
++        "IEEE80211_MODE_11AC_VHT20",
++        "IEEE80211_MODE_11AC_VHT40PLUS",
++        "IEEE80211_MODE_11AC_VHT40MINUS",
++        "IEEE80211_MODE_11AC_VHT40",
++        "IEEE80211_MODE_11AC_VHT80",
++        "IEEE80211_MODE_11AC_VHT160",
++        "IEEE80211_MODE_11AC_VHT80_80",
++        (char *)NULL,
++    };
++
++    uint8_t *buf;
++    struct iwreq iwr;
++    uint8_t *cp;
++    int s;
++    u_int32_t txrate, rxrate = 0, maxrate = 0;
++    u_int32_t time_val=0, hour_val=0, min_val=0, sec_val=0;
++    const char *ntoa = NULL;
++    int req_space = 0;
++    u_int64_t len = 0;
++
++	buf = malloc(LIST_STATION_ALLOC_SIZE);
++	if(!buf) {
++	  fprintf (stderr, "Unable to allocate memory for station list\n");
++	  return;
++	}
++
++	s = socket(AF_INET, SOCK_DGRAM, 0);
++	if (s < 0){
++		free(buf);
++		err(1, "socket(SOCK_DRAGM)");
++	}
++
++	if (!strncmp(ifname, "wifi", 4)) {
++		free(buf);
++		err(1, "Not a valid interface");
++	}
++
++	(void) memset(&iwr, 0, sizeof(iwr));
++	(void) strncpy(iwr.ifr_name, ifname, sizeof(iwr.ifr_name));
++	iwr.u.data.pointer = (void *) buf;
++	iwr.u.data.length = LIST_STATION_ALLOC_SIZE;
++
++    iwr.u.data.flags = 0;
++    //Support for 512 client
++    req_space = ioctl(s, IEEE80211_IOCTL_STA_INFO, &iwr);
++	if (req_space < 0 ){
++		free(buf);
++		errx(1, "unable to get station information");
++    }
++    else if(req_space > 0) {
++        free(buf);
++        buf = malloc(req_space);
++        if(!buf) {
++            fprintf (stderr, "Unable to allocate memory for station list\n");
++            return;
++        }
++        iwr.u.data.pointer = (void *) buf;
++        iwr.u.data.length = req_space;
++        if(iwr.u.data.length < req_space)
++            iwr.u.data.flags = 1;
++        if (ioctl(s, IEEE80211_IOCTL_STA_INFO, &iwr) < 0 ){
++            free(buf);
++            errx(1, "unable to get station information");
++        }
++        len = req_space;
++
++    }
++    else {
++        len = iwr.u.data.length;
++    }
++
++    if (len < sizeof(struct ieee80211req_sta_info)){
++        free(buf);
++        return;
++    }
++	cp = buf;
++	printf("%-17.17s %4s %4s %4s %4s %4s %7s %7s %4s %6s %6s %5s %12s %7s %8s %14s %6s %9s %6s %6s %6s\n"
++		, "ADDR"
++		, "AID"
++		, "CHAN"
++		, "TXRATE"
++		, "RXRATE"
++		, "RSSI"
++        , "MINRSSI"
++        , "MAXRSSI"
++		, "IDLE"
++		, "TXSEQ"
++		, "RXSEQ"
++		, "CAPS"
++	    , "ACAPS"
++		, "ERP"
++		, "STATE"
++        , "MAXRATE(DOT11)"
++	    , "HTCAPS"
++		, "ASSOCTIME"
++		, "IEs"
++	    , "MODE"
++		, "PSMODE"
++	);
++	cp = buf;
++	do {
++		struct ieee80211req_sta_info *si;
++		uint8_t *vp;
++
++		si = (struct ieee80211req_sta_info *) cp;
++		time_val = si->isi_tr069_assoc_time.tv_sec;
++	 	hour_val = time_val / 3600;
++ 	 	time_val = time_val % 3600;
++ 	 	min_val = time_val / 60;
++ 	 	sec_val = time_val % 60;
++		vp = (u_int8_t *)(si+1);
++        if(si->isi_txratekbps == 0)
++           txrate = (si->isi_rates[si->isi_txrate] & IEEE80211_RATE_VAL)/2;
++        else
++            txrate = si->isi_txratekbps / 1000;
++        if(si->isi_rxratekbps >= 0) {
++            rxrate = si->isi_rxratekbps / 1000;
++		}
++
++        maxrate = si->isi_maxrate_per_client;
++
++        if (maxrate & 0x80) maxrate &= 0x7f;
++                ntoa = ieee80211_ntoa(si->isi_macaddr);
++		printf("%s %4u %4d %3dM %6dM %4d %7d %7d %4d %6d %7d %5.4s %-5.5s %3x %10x %14d %14.6s %02u:%02u:%02u"
++			, (ntoa != NULL) ? ntoa:"WRONG MAC"
++			, IEEE80211_AID(si->isi_associd)
++			, ieee80211_mhz2ieee(si->isi_freq)
++			, txrate
++			, rxrate
++			, si->isi_rssi
++            , si->isi_min_rssi
++            , si->isi_max_rssi
++			, si->isi_inact
++			, si->isi_txseqs[0]
++			, si->isi_rxseqs[0]
++		    , getcaps(si->isi_capinfo)
++		    , getathcaps(si->isi_athflags)
++			, si->isi_erp
++			, si->isi_state
++            , maxrate
++		    , gethtcaps(si->isi_htcap)
++			, hour_val
++			, min_val
++			, sec_val
++		);
++		printies(vp, si->isi_ie_len, 24);
++		printf (" %s ",(si->isi_stamode < 22)?ieee80211_phymode_str[si->isi_stamode]:"IEEE80211_MODE_11B");
++		printf(" %d \r\n",si->isi_ps);
++		cp += si->isi_len, len -= si->isi_len;
++	} while (len >= sizeof(struct ieee80211req_sta_info));
++
++	free(buf);
++}
++
++
++
++int finde_dest_stations(const char *ifname, const char *statocheck)
++{
++	log_trace_enter();
++	trace_line();
++	char *ieee80211_phymode_str[23] =  {
++		"IEEE80211_MODE_AUTO",
++		"IEEE80211_MODE_11A",
++		"IEEE80211_MODE_11B",
++		"IEEE80211_MODE_11G",
++		"IEEE80211_MODE_FH",
++		"IEEE80211_MODE_TURBO_A",
++		"IEEE80211_MODE_TURBO_G",
++		"IEEE80211_MODE_11NA_HT20",
++		"IEEE80211_MODE_11NG_HT20",
++		"IEEE80211_MODE_11NA_HT40PLUS",
++		"IEEE80211_MODE_11NA_HT40MINUS",
++		"IEEE80211_MODE_11NG_HT40PLUS",
++		"IEEE80211_MODE_11NG_HT40MINUS",
++		"IEEE80211_MODE_11NG_HT40",
++		"IEEE80211_MODE_11NA_HT40",
++		"IEEE80211_MODE_11AC_VHT20",
++		"IEEE80211_MODE_11AC_VHT40PLUS",
++		"IEEE80211_MODE_11AC_VHT40MINUS",
++		"IEEE80211_MODE_11AC_VHT40",
++		"IEEE80211_MODE_11AC_VHT80",
++		"IEEE80211_MODE_11AC_VHT160",
++		"IEEE80211_MODE_11AC_VHT80_80",
++		(char *)NULL,
++	};
++
++	uint8_t *buf;
++	struct iwreq iwr;
++	uint8_t *cp;
++	int s;
++	u_int32_t txrate, rxrate = 0, maxrate = 0;
++	u_int32_t time_val=0, hour_val=0, min_val=0, sec_val=0;
++	const char *ntoa = NULL;
++	int req_space = 0;
++	u_int64_t len = 0;
++
++	buf = malloc(LIST_STATION_ALLOC_SIZE);
++	if(!buf) {
++		fprintf (stderr, "Unable to allocate memory for station list\n");
++		return 0;
++	}
++
++	s = socket(AF_INET, SOCK_DGRAM, 0);
++	if (s < 0){
++		free(buf);
++		log_err("socket(SOCK_DRAGM)\n");
++		return 0;
++	}
++
++	if (!strncmp(ifname, "wifi", 4)) {
++		free(buf);
++		log_err("Not a valid interface\n");
++		return 0;
++	}
++
++	(void) memset(&iwr, 0, sizeof(iwr));
++	(void) strncpy(iwr.ifr_name, ifname, sizeof(iwr.ifr_name));
++	iwr.u.data.pointer = (void *) buf;
++	iwr.u.data.length = LIST_STATION_ALLOC_SIZE;
++
++	iwr.u.data.flags = 0;
++	//Support for 512 client
++	req_space = ioctl(s, IEEE80211_IOCTL_STA_INFO, &iwr);
++	if (req_space < 0 ){
++		free(buf);
++		log_err("unable to get station information\n");
++		return 0;
++	}
++	else if(req_space > 0) {
++		free(buf);
++		buf = malloc(req_space);
++		if(!buf) {
++			log_err("Unable to allocate memory for station list\n");
++			return 0;
++		}
++		iwr.u.data.pointer = (void *) buf;
++		iwr.u.data.length = req_space;
++		if(iwr.u.data.length < req_space)
++			iwr.u.data.flags = 1;
++		if (ioctl(s, IEEE80211_IOCTL_STA_INFO, &iwr) < 0 ){
++			free(buf);
++			log_err("unable to get station information\n");
++		}
++		len = req_space;
++
++	}
++	else {
++		len = iwr.u.data.length;
++	}
++
++	if (len < sizeof(struct ieee80211req_sta_info)){
++		free(buf);
++		return 0;
++	}
++	cp = buf;
++	do {
++		log_trace_line();
++		
++		struct ieee80211req_sta_info *si;
++		uint8_t *vp;
++
++		si = (struct ieee80211req_sta_info *) cp;
++		vp = (u_int8_t *)(si+1);
++		if(si->isi_txratekbps == 0)
++			txrate = (si->isi_rates[si->isi_txrate] & IEEE80211_RATE_VAL)/2;
++		else
++			txrate = si->isi_txratekbps / 1000;
++		if(si->isi_rxratekbps >= 0) {
++			rxrate = si->isi_rxratekbps / 1000;
++		}
++
++		maxrate = si->isi_maxrate_per_client;
++
++		if (maxrate & 0x80) maxrate &= 0x7f;
++			ntoa = ieee80211_ntoa(si->isi_macaddr);
++		if(ntoa){
++			if(!strcmp(ntoa,statocheck)){
++				free(buf);
++				log_trace_line();
++				return 1;
++			}
++
++		}
++
++		cp += si->isi_len, len -= si->isi_len;
++		log_trace_line();
++	} while (len >= sizeof(struct ieee80211req_sta_info));
++
++	free(buf);
++	log_trace_exit();
++	trace_exit();
++	return 0;
++
++	
++}

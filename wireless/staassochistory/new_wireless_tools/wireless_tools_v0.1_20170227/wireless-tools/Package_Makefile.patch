@@ -1,0 +1,28 @@
+--- a/spf_org_170216/qualcomm_sdk/qsdk/package/network/utils/wireless-tools/Makefile	2017-02-16 10:32:46.737134303 +0800
++++ b/spf_org_170216/qualcomm_sdk/qsdk/package/network/utils/wireless-tools/Makefile	2016-12-20 17:49:28.000000000 +0800
+@@ -60,12 +60,13 @@
+ 		CFLAGS="$(TARGET_CFLAGS) -I." \
+ 		BUILD_WE_ESSENTIAL=y \
+ 		LIBS="-lm -Wl,--gc-sections" \
+-		libiw.so.$(PKG_VERSION) iwmulticall
++		libiw.so.$(PKG_VERSION) iwmulticall iwevent
+ 	$(MAKE) -C $(PKG_BUILD_DIR) \
+ 		PREFIX="$(PKG_INSTALL_DIR)" \
+ 		INSTALL_DIR="$(PKG_INSTALL_DIR)/usr/sbin" \
+ 		INSTALL_LIB="$(PKG_INSTALL_DIR)/usr/lib" \
+-		install-iwmulticall
++		install-iwmulticall \
++		install-iwevent 
+ endef
+ 
+ define Build/InstallDev
+@@ -81,6 +82,9 @@
+ 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/iwconfig $(1)/usr/sbin/
+ 	$(LN) iwconfig $(1)/usr/sbin/iwlist
+ 	$(LN) iwconfig $(1)/usr/sbin/iwpriv
++	$(INSTALL_DIR) $(1)/usr/lib
++	$(CP) $(PKG_BUILD_DIR)/libiw.so.* $(1)/usr/lib/
++	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/iwevent $(1)/usr/sbin/
+ endef
+ 
+ define Package/libiw/install
