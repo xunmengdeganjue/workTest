@@ -52,12 +52,38 @@ void log_printf(const char *file,const long line, const char*func, const char *f
 	log_printf(__FILE__,__LINE__,__FUNCTION__,(fmt), ##__VA_ARGS__);\
 }while(0)
 
+/*
+* Function Name : simple_print
+* Create Date : 2017/03/20
+* Author : Nick
+* Description : 更加简化的，执行任意长度的信息打印动作函数
+* Param : 
+* Output：
+* Input：
+* Return Code : .
+*/
+void simple_print(const char *fmt,...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	printf("\033[32m[%s][%ld][%s]\033[0m",__FILE__,__LINE__,__FUNCTION__);
+	vprintf(fmt, ap);
+	printf("\n");
+	va_end(ap);
+	
+}
+	
+#define trace_info(fmt,...) do{\
+	simple_print(fmt,##__VA_ARGS__);\
+}while(0)	
+
 
 int main(int argc,char **argv){
 	
 	trace_line();
+	int num=100;
 	dbg_print("hello %s","how are you");
-
+	trace_info("nihao %d",num);
 	return 0;
 
 }
