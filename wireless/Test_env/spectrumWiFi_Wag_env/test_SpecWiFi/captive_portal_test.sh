@@ -1,8 +1,18 @@
 #! /bin/bash 
 
+sudo killall chilli
+sudo killall freeradius
+sudo killall apache2
+
+
+
 ##deal with the network interface
 
-sudo ./for_vlan_clear.sh
+sudo ./for_vlan_clear.sh start
+
+
+##start the apache2
+sudo /etc/init.d/apache2 start
 
 ##start the chilli
 
