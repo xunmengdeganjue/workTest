@@ -39,11 +39,12 @@
 #include <sys/event.h>
 #endif /* CONFIG_ELOOP_KQUEUE */
 
+//eloop_sock表示一个注册的socket 
 struct eloop_sock {
-	int sock;
-	void *eloop_data;
-	void *user_data;
-	eloop_sock_handler handler;
+	int sock;//socket 的描述符
+	void *eloop_data;//回调函数的第一个参数  
+	void *user_data;//回调函数的第二个参数  
+	eloop_sock_handler handler; //当事件发生时调用的回调函数入口 
 	WPA_TRACE_REF(eloop);
 	WPA_TRACE_REF(user);
 	WPA_TRACE_INFO
@@ -66,16 +67,17 @@ struct eloop_signal {
 	eloop_signal_handler handler;
 	int signaled;
 };
-
+//eloop_sock_table表示已经注册的socket列表
 struct eloop_sock_table {
-	int count;
-	struct eloop_sock *table;
+	int count;//已注册的socket个数 
+	struct eloop_sock *table;/具体的socket注册信息（描述符，回调函数参数，回调函数入口等）  
 	eloop_event_type type;
 	int changed;
 };
 
+//eloop_data表示所有的socket事件
 struct eloop_data {
-	int max_sock;
+	int max_sock;//所有socket描述符中的最大值  
 
 	int count; /* sum of all table counts */
 #ifdef CONFIG_ELOOP_POLL
@@ -98,9 +100,9 @@ struct eloop_data {
 	int kqueue_nevents;
 	struct kevent *kqueue_events;
 #endif /* CONFIG_ELOOP_KQUEUE */
-	struct eloop_sock_table readers;
-	struct eloop_sock_table writers;
-	struct eloop_sock_table exceptions;
+	struct eloop_sock_table readers;//socket“读事件”列表 
+	struct eloop_sock_table writers;//socket“写事件”列表  
+	struct eloop_sock_table exceptions;//socket“意外事件”列表
 
 	struct dl_list timeout;
 
@@ -1188,7 +1190,7 @@ void eloop_run(void)
 				eloop_timeout_handler handler =
 					timeout->handler;
 				eloop_remove_timeout(timeout);
-				handler(eloop_data, user_data);
+				handler(eloop_data, user_data);/*超时回调执行*/
 			}
 
 		}

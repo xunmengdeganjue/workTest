@@ -56,6 +56,8 @@
 #include "config_file.h"
 #include "ctrl_iface.h"
 
+#include "utils/logopt.h"
+
 
 #define HOSTAPD_CLI_DUP_VALUE_MAX_LEN 256
 
@@ -3453,6 +3455,7 @@ static char * hostapd_global_ctrl_iface_path(struct hapd_interfaces *interface)
 
 int hostapd_global_ctrl_iface_init(struct hapd_interfaces *interface)
 {
+	trace_enter();
 #ifdef CONFIG_CTRL_IFACE_UDP
 	int port = HOSTAPD_GLOBAL_CTRL_IFACE_PORT;
 	char p[32] = { 0 };
