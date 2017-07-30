@@ -57,10 +57,8 @@ int init_module()
 }
 void cleanup_module( )
 {
-        
+        ；
 }
-
-
 
 
 MODULE_LICENSE("GPL");
