@@ -4,8 +4,8 @@
 #include <linux/skbuff.h>
 #include <linux/netlink.h>
 
-#ifndef NETLINK_EXAMPLE 17
-#define NETLINK_EXAMPLE 17
+#ifndef NETLINK_EXAMPLE
+#define NETLINK_EXAMPLE 21
 #endif
 
 #define NLEX_GRP_MAX 0
@@ -18,7 +18,7 @@ static void nl_callback(struct sk_buff *skb,int len){
 	
 }
 struct netlink_kernel_cfg cfg = {
-    .input = nl_callback
+    .input = nl_callback,
 };
 
 static int __init nlexample_init(void){
@@ -34,6 +34,7 @@ static int __init nlexample_init(void){
 
 void __exit nlexample_exit(void){
 	
+	printk("remove the kernel module netlink_hello_kernel_module.ko\n!");
 	netlink_kernel_release(nlsk);
 	
 }
