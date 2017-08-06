@@ -1,0 +1,38 @@
+Description:
+	This folder contain a simple example that use the netlink to show the comulicate bewteen
+the kernel module and the user-space program.
+	It just implement the function that the user space program ask the kernel module print 
+a "hellow world".
+	In my test i built all the code in both the Ubuntu-14.04 and Ubuntu-16.04.
+	
+	You can learn more about the netlink on the page:
+
+	https://wiki.linuxfoundation.org/networking/generic_netlink_howto
+
+
+
+File Introduce:
+
+├── Makefile      :The basic rule that can build the kernel module and user-space program.
+├── netlink_hello_kernel_module.c    : The source code of the kernel module.
+├── nlexample.h   :The header used by the user-space program sender.c
+├── Readme        :It's me
+└── sender.c      :The source code of the program run in the user-space.
+
+
+Build:
+	make
+
+Usage:
+	(1)monitoring the kernel information 
+	  while true;do sudo dmesg -c ;sleep 1;done
+	(2)insmod the kernel moudule we built up step.
+	  sudo insomd netlink_hello_kernel_moduel.ko
+	(3)excute the program of the user-space to send the signal to the kernel module
+	  ./sender
+	then the console opend by the step(1) will display the "hello world".
+
+Nick
+2017-08-06
+
+ 

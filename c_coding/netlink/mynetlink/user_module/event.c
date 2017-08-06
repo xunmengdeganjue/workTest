@@ -4,20 +4,19 @@
 
 #include <libmnl/libmnl.h>
 
-#include " nlexample.h"
+#include "nlexample.h"
 
 static int
 data_cb ( const struct nlmsghdr * nlh , void * data )
 {
-   struct nlattr * tb [NLE MAX+1];
-   struct nlattr * attr;
+    struct nlattr * tb [NLE MAX+1];
+    struct nlattr * attr;
 
-   mnl_attr_parse( nlh , tb ,NLE_MAX ) ;
-   if( tb [NLE_MYVAR] )
-   printf( "myvar=%unn" ,
-           mnl_attr_get_u32( tb [NLE_MYVAR] ) ) ;
+    mnl_attr_parse( nlh , tb ,NLE_MAX ) ;
+    if( tb [NLE_MYVAR] )
+        printf( "myvar = %u\n" , mnl_attr_get_u32( tb [NLE_MYVAR] ) ) ;
 
-   return MNL_CB_OK;
+    return MNL_CB_OK;
 }
 
 int main ( )
@@ -27,7 +26,7 @@ int main ( )
    struct nlmsghdr *nlh = ( struct nlmsghdr *) buf ;
    int ret;
 
-   nl = mnl_socket_open (NETLINK_EXAMPLE ) ;
+   nl = mnl_socket_open( NETLINK_EXAMPLE ) ;
    if ( nl == NULL) {
        perror( " mnl_socket_open " ) ;
        exit(EXIT_FAILURE );
@@ -38,13 +37,12 @@ int main ( )
        exit(EXIT_FAILURE ) ;
    }
 
-   ret = mnl_socket_recvfrom ( nl , buf , sizeof ( buf ) ) ;
+   ret = mnl_socket_recvfrom ( nl , buf , sizeof( buf ) ) ;
    while ( ret > 0 ){
        ret = mnl_cb_run ( buf , ret , 0 , data_cb ,NULL ) ;
        if( ret <= 0 )
            break ;
-       ret = mnl_socket_recvfrom ( nl , buf ,
-                                  sizeof ( buf ) );
+       ret = mnl_socket_recvfrom ( nl , buf , sizeof( buf ) );
    }
    if( ret == -1){
        perror( " error " );

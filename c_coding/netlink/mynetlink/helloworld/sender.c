@@ -1,3 +1,30 @@
+/*
+ ******************************************************************************
+ *
+ *    Copyright (C) 2015-2016 by Nick Li. All rights reserved.
+ *    All source codes is distributed under the U-License.
+ *
+ *    CPU               :   ARM9
+ *    OS                 :   OpenWRT
+ *    Version          :   0.10
+ *    Released by Nick Li
+ *                      2015.12.31
+ *
+ *
+ *
+ *       File Name      : func.c
+ *       Create Date  : 2015/12/31
+ *       Author         	: Nick Li 
+ *       Description    : 
+ ******************************************************************************
+*/
+
+/****************************************************************************
+ *  modify history(TransPlant-1st)                                         								 *
+ *  NO.     modify reason              modify date      modify person      						 *
+ *<--1-->                      
+*****************************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -36,13 +63,13 @@ int main ( void )
        perror( " mnl_socket_bind " ) ;
        exit(EXIT_FAILURE ) ;
    }
-
+	printf("send to the kernel module!\n");
    ret = mnl_socket_sendto ( nl , nlh , numbytes ) ;
    if( ret == -1) {
        perror( "mnl_socket_send" ) ;
        exit(EXIT_FAILURE ) ;
    }
-
+#if 0
    ret = mnl_socket_recvfrom( nl , buf , sizeof( buf ) ) ;
    if( ret == -1){
        perror( " recvfrom " ) ;
@@ -54,6 +81,11 @@ int main ( void )
        perror( "callback" );
        exit(EXIT_FAILURE );
    }
+#endif
    mnl_socket_close( nl );
+   
+   
+   
+   
 }
 
