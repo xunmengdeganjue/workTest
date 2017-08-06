@@ -1,6 +1,6 @@
 static const struct nla_policy nlex_policy[ NLE_MAX+1 ] = {
 	[ NLE_MYVAR ] = {  .type = NLA_U32  } ,
-} ;
+};
 
 static int nl_step( struct sk_buff *skb , struct nlmsghdr * nlh )
 {

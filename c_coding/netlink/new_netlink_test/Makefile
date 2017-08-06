@@ -1,11 +1,11 @@
-obj-m := netlink_kernel_module.o
+obj-m := kernel_space.o
 KERNELBUILD :=/lib/modules/$(shell uname -r)/build
 default:  
 	make -C $(KERNELBUILD) M=$(shell pwd) modules  
-	gcc -o sender netlink_user_daemon.c
+	gcc -o sender user_space.c
 install:
-	sudo insmod netlink_kernel_module.ko
+	sudo insmod kernel_space.ko
 uninstall:
-	sudo rmmod netlink_kernel_module.ko
+	sudo rmmod kernel_space.ko
 clean:  
 	rm -rf *.o *.ko *.mod.c .*.cmd *.markers *.order *.symvers .tmp_versions 

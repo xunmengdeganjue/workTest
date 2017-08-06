@@ -30,6 +30,7 @@ int main(int argc, char* argv[])
         src_addr.nl_groups = 1;
         bind(sock_fd, (struct sockaddr*)&src_addr, sizeof(src_addr));
         memset(&dest_addr, 0, sizeof(dest_addr));
+		
         nlh = (struct nlmsghdr *)malloc(NLMSG_SPACE(MAX_PAYLOAD));
         memset(nlh, 0, NLMSG_SPACE(MAX_PAYLOAD));
 
@@ -46,5 +47,6 @@ int main(int argc, char* argv[])
         recvmsg(sock_fd, &msg, 0);
         
         printf("Received message payload: %s\n", NLMSG_DATA(nlh));
+		
         close(sock_fd);         
 }

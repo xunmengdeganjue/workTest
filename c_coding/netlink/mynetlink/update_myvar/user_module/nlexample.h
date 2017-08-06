@@ -22,7 +22,7 @@ enum nlexample_attr{
     __NLE_MAX,
 };
 
-#define NLE_MAX  ( NLE_MAX - 1 )
+#define NLE_MAX  ( __NLE_MAX - 1 )
 
 #define NLEX_GRP_MYVAR  (1 << 0 )
 
