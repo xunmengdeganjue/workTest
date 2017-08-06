@@ -19,7 +19,7 @@ MODULE_AUTHOR("Nick.Li");
 
 static struct sock *nlsk;
 
-static void nl_callback(struct sk_buff *skb,int len){
+static void nl_callback(struct sk_buff *skb, int len){
 	
 	printk(KERN_INFO "hello world!\n");
 	
@@ -32,7 +32,6 @@ static int __init nlexample_init(void){
 	
 	printk(KERN_INFO "insmod the kernel module %s\n", kernel_module);
 
-	//printk("insmod the kernel module !\n");
 	nlsk = netlink_kernel_create(&init_net, NETLINK_EXAMPLE, &cfg); /*different linux kernel has different prototype*/
 	if(nlsk == NULL){
 		printk(KERN_ERR"Can't create netlink\n");

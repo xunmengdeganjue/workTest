@@ -6,4 +6,4 @@ all:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD)
 	#gcc -o sender sender.c
 clean:
-	rm -fr *.ko *.o *.cmd  $(MODULE_NAME).mod.c
+	rm -fr *.ko *.o *.cmd  $(MODULE_NAME).mod.c modules.order  Module.symvers
