@@ -9,7 +9,7 @@
 #include <linux/netlink.h>
 #include <linux/socket.h>
 
-#define NETLINK_TEST 17
+#define NETLINK_TEST NETLINK_USERSOCK
 #define MAX_PAYLOAD 1024  /* maximum payload size*/
 
 
@@ -19,14 +19,22 @@ int open_netlink(void){
 	struct sockaddr_nl src_addr;
 	
 	sock_fd=socket(PF_NETLINK, SOCK_RAW, NETLINK_TEST);
+	if(sock_fd < 0){
+		printf("socket created failed!\n");
+		return sock_fd;
+	}
+	
 	memset(&src_addr, 0, sizeof(src_addr));
 	
-
 	src_addr.nl_family = AF_NETLINK;
 	src_addr.nl_pid = getpid();  /* self pid */
 	/* interested in group 1<<0 */
-	src_addr.nl_groups = 1;
-	bind(sock_fd, (struct sockaddr*)&src_addr, sizeof(src_addr));
+	//src_addr.nl_groups = 1; //此句必须干掉，否则bind会失败！
+	
+	if(bind(sock_fd, (struct sockaddr*)&src_addr, sizeof(src_addr)) < 0){
+		printf("bind failed!\n");
+		return -1;
+	}
 	
 	return sock_fd;
 }

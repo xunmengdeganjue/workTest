@@ -39,10 +39,10 @@ int open_netlink(void)
      * and
      * http://stackoverflow.com/questions/17732044/
      */
-    if (setsockopt(sock, 270, NETLINK_ADD_MEMBERSHIP, &group, sizeof(group)) < 0) {
+    /*if (setsockopt(sock, 270, NETLINK_ADD_MEMBERSHIP, &group, sizeof(group)) < 0) {
         printf("setsockopt < 0\n");
         return -1;
-    }
+    }*/
 
     return sock;
 }

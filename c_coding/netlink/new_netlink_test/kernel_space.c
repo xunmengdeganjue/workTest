@@ -41,13 +41,14 @@ static int __init hello_init(void)
 {
     pr_info("Inserting hello module.\n");
 
-    nl_sk = netlink_kernel_create(&init_net, MYPROTO, NULL);
+   // nl_sk = netlink_kernel_create(&init_net, MYPROTO, NULL);
+	nl_sk = netlink_kernel_create(&init_net, MYPROTO, &send_to_user);
     if (!nl_sk) {
         pr_err("Error creating socket.\n");
         return -10;
     }
 
-    send_to_user();
+    //send_to_user();
 
     netlink_kernel_release(nl_sk);
     return 0;

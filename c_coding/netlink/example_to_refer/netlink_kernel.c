@@ -6,7 +6,7 @@
 #include <linux/netlink.h>
 
 #define MAX_PAYLOAD 1024
-#define NETLINK_TEST 17
+#define NETLINK_TEST NETLINK_USERSOCK
 
 struct sock *nl_sk = NULL;
 
@@ -33,7 +33,6 @@ void test_netlink(void)
     	.input = nl_data_ready,
 	};
 
-		
 	nl_sk = netlink_kernel_create(&init_net, NETLINK_TEST, &cfg);
 
 	skb = alloc_skb(NLMSG_SPACE(MAX_PAYLOAD),GFP_KERNEL);

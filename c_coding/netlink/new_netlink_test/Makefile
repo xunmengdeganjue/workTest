@@ -8,4 +8,4 @@ install:
 uninstall:
 	sudo rmmod kernel_space.ko
 clean:  
-	rm -rf *.o *.ko *.mod.c .*.cmd *.markers *.order *.symvers .tmp_versions 
+	rm -rf *.o *.ko *.mod.c .*.cmd *.markers *.order *.symvers .tmp_versions sender
