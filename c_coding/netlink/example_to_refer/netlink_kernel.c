@@ -1,3 +1,12 @@
+/*
+	Refference:
+	https://stackoverflow.com/questions/22691305/multicast-from-kernel-to-user-
+space-via-netlink-in-c
+	For Kernel send to user space:
+	http://www.linuxjournal.com/node/7356/print
+	
+*/
+
 #include <linux/kernel.h>
 #include <linux/module.h>
 #include <linux/types.h>
@@ -19,6 +28,8 @@
 //#define NETLINK_TEST NETLINK_USERSOCK
 
 struct sock *nl_sk = NULL;
+#define MYMGRP 1
+
 
 void nl_data_ready(struct sock *sk, int len)
 {
@@ -40,30 +51,51 @@ void send_to_user(struct sk_buff *skb_recv)
     struct sk_buff *skb = NULL;
     struct nlmsghdr *nlh;
 	int ret = 0;
-
+	char *message = "Hello from the kernel!";
+	int msg_size = strlen(message) + 1;
+	
+	
 	printk("Eneter the send_to_user!\n");
 	
-	skb = alloc_skb(NLMSG_SPACE(MAX_PAYLOAD),GFP_KERNEL);
+	//skb = alloc_skb(NLMSG_SPACE(MAX_PAYLOAD),GFP_KERNEL);
+	skb = nlmsg_new(NLMSG_ALIGN(msg_size + 1), GFP_KERNEL);
 	
+	//skb = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
+	if(!skb){
+		printk("Allocation failure!\n");
+		return -1;
+	}
+
+	nlh = nlmsg_put(skb, 0, 1, NLMSG_DONE, msg_size + 1, 0);/*must*/
+	
+#if 0	
 	nlh = (struct nlmsghdr *)skb->data;
 	nlh->nlmsg_len = NLMSG_SPACE(MAX_PAYLOAD);
 	nlh->nlmsg_pid = 0;  /* from kernel */
 	nlh->nlmsg_flags = 0;
 	nlh = (struct nlmsghdr *) skb_put(skb, NLMSG_SPACE(MAX_PAYLOAD));
-	strcpy(NLMSG_DATA(nlh), "Greeting from kernel!");
+#endif
+	
+	strcpy(NLMSG_DATA(nlh), message);
+
+	//u32 pid;
+	//pid = nlh->nlmsg_pid; /*pid of sending process */
 
 	NETLINK_CB(skb).portid = 0;
-	NETLINK_CB(skb).dst_group = 0;
-	
+	NETLINK_CB(skb).dst_group = MYMGRP;
+
+	printk("send skb message!\n");
+
 	/*multicast the message to all listening processes*/
-	ret = netlink_broadcast(nl_sk, skb, 0, 1, GFP_KERNEL);
-	//ret = nlmsg_multicast(nl_sk, skb, 0, 1, GFP_KERNEL);
+	//ret = netlink_broadcast(nl_sk, skb, 0, 1, GFP_KERNEL);
+	ret = nlmsg_multicast(nl_sk, skb, 0, 1, GFP_KERNEL);
+	//ret = netlink_unicast(nl_sk, skb, pid, MSG_DONTWAIT);
 	if(ret < 0){
 		printk("message send error! [%d]\n",ret);
 	}
 	printk("The data is:[%s]\n", NLMSG_DATA(nlh));
 	
-	sock_release(nl_sk->sk_socket);  	
+	//sock_release(nl_sk->sk_socket);  	
 	
 }
 

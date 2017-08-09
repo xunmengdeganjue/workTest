@@ -15,14 +15,15 @@
 #ifndef NETLINK_EXAMPLE
 #define NETLINK_EXAMPLE 17
 #endif
-
+#define MYMGRP 1
 
 int open_netlink(void){
 	
 	int sock_fd;
 	struct sockaddr_nl src_addr;
+	int group = MYMGRP;
 	
-	sock_fd=socket(AF_NETLINK, SOCK_RAW, NETLINK_EXAMPLE);
+	sock_fd=socket(PF_NETLINK, SOCK_RAW, NETLINK_EXAMPLE);
 	if(sock_fd < 0){
 		printf("socket created failed!\n");
 		return sock_fd;
@@ -31,14 +32,21 @@ int open_netlink(void){
 	memset(&src_addr, 0, sizeof(src_addr));
 	
 	src_addr.nl_family = AF_NETLINK;
+	src_addr.nl_pad = 0;
 	src_addr.nl_pid = getpid();  /* self pid */
 	/* interested in group 1<<0 */
-	//src_addr.nl_groups = 1; //此句必须干掉，否则bind会失败！
+	//src_addr.nl_groups = MYMGRP; //此句必须干掉，否则bind会失败！
 	
 	if(bind(sock_fd, (struct sockaddr*)&src_addr, sizeof(src_addr)) < 0){
 		printf("bind failed!\n");
 		return -1;
 	}
+	
+	/*
+	if (setsockopt(sock_fd, 270, NETLINK_ADD_MEMBERSHIP, &group, sizeof(group)) < 0){
+        printf("setsockopt < 0\n");
+        return -1;
+    }*/
 	
 	return sock_fd;
 }

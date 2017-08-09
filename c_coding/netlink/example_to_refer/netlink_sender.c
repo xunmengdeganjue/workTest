@@ -42,6 +42,7 @@ int open_netlink(void){
 	src_addr.nl_pid = getpid();  /* self pid */
 	/* interested in group 1<<0 */
 	//src_addr.nl_groups = 1; //此句必须干掉，否则bind会失败！
+	//src_addr.nl_groups = 0;
 	
 	if(bind(sock_fd, (struct sockaddr*)&src_addr, sizeof(src_addr)) < 0){
 		printf("bind failed!\n");
@@ -91,6 +92,18 @@ int send_infomation( int sock_fd){
 	}else{
 		printf("Message send successfully!\n");
 	}
+
+#if 0
+FORRECEIVE:
+
+	/* Read message from kernel */
+	memset(nlh, 0, NLMSG_SPACE(MAX_PAYLOAD));
+	recvmsg(sock_fd, &message, 0);
+	printf(" Received message payload: %s\n",
+	   NLMSG_DATA(nlh));
+
+#endif
+
 
 
 }
