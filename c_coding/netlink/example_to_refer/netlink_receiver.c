@@ -43,10 +43,15 @@ int open_netlink(void){
 	}
 	
 	/*
+	 * 270 is SOL_NETLINK. See
+	 * http://lxr.free-electrons.com/source/include/linux/socket.h?v=4.1#L314
+	 * and
+	 * http://stackoverflow.com/questions/17732044/
+	 */
 	if (setsockopt(sock_fd, 270, NETLINK_ADD_MEMBERSHIP, &group, sizeof(group)) < 0){
-        printf("setsockopt < 0\n");
-        return -1;
-    }*/
+	    printf("setsockopt < 0\n");
+	    return -1;
+	}
 	
 	return sock_fd;
 }
@@ -54,18 +59,21 @@ int open_netlink(void){
 int read_infomation( int sock_fd){
 	
 	int ret = 0;
-	struct nlmsghdr *nlh = NULL;
+	//struct nlmsghdr *nlh = NULL;
 	struct iovec iov;
 	struct msghdr msg;
 	struct sockaddr_nl dest_addr;
-	
-	nlh = (struct nlmsghdr *)malloc(NLMSG_SPACE(MAX_PAYLOAD));
-	memset(nlh, 0, NLMSG_SPACE(MAX_PAYLOAD));
+	char buffer[getpagesize()];
+	 
+	//nlh = (struct nlmsghdr *)malloc(NLMSG_SPACE(MAX_PAYLOAD));
+	//memset(nlh, 0, NLMSG_SPACE(MAX_PAYLOAD));
 	memset(&msg, 0, sizeof(msg));
 	memset(&dest_addr, 0, sizeof(dest_addr));
 	
-	iov.iov_base = (void *)nlh;
-	iov.iov_len = NLMSG_SPACE(MAX_PAYLOAD);
+//	iov.iov_base = (void *)nlh;
+//	iov.iov_len = NLMSG_SPACE(MAX_PAYLOAD);
+    iov.iov_base = (void *) buffer;
+    iov.iov_len = sizeof(buffer);
 	msg.msg_name = (void *)&dest_addr;
 	msg.msg_namelen = sizeof(dest_addr);
 	msg.msg_iov = &iov;
@@ -77,8 +85,10 @@ int read_infomation( int sock_fd){
 	ret = recvmsg(sock_fd, &msg, 0);
 	if(ret <0 ){	
 		 printf("ret < 0.\n");
+	}else{
+		printf("Received message payload:\033[31m[ %s ]\033[0m\n", NLMSG_DATA((struct nlmsghdr *) &buffer));
 	}
-	 printf("Received message payload: %s\n", NLMSG_DATA((struct nlmsghdr *) &nlh));
+	
 }
 
 int main(int argc, char* argv[]) 
@@ -91,7 +101,5 @@ int main(int argc, char* argv[])
 
 	while (1)
 		read_infomation(nls);
-        //printf("Received message payload: %s\n", NLMSG_DATA(nlh));
-	close(nls);         
-	
+	close(nls);
 }

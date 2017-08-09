@@ -14,6 +14,8 @@ space-via-netlink-in-c
 #include <net/sock.h>
 
 #include <linux/netlink.h>
+#include <linux/skbuff.h>
+
 //#include <net/netlink.h>
 
 //#include <net/net_namespace.h>
@@ -30,6 +32,7 @@ space-via-netlink-in-c
 struct sock *nl_sk = NULL;
 #define MYMGRP 1
 
+#define PARSE_PAKET  0
 
 void nl_data_ready(struct sock *sk, int len)
 {
@@ -46,20 +49,32 @@ void nl_data_ready(struct sock *sk, int len)
 			
 }
 
-void send_to_user(struct sk_buff *skb_recv) 
+void send_to_user(void) 
 {
     struct sk_buff *skb = NULL;
     struct nlmsghdr *nlh;
 	int ret = 0;
 	char *message = "Hello from the kernel!";
 	int msg_size = strlen(message) + 1;
-	
-	
+
 	printk("Eneter the send_to_user!\n");
 	
-	//skb = alloc_skb(NLMSG_SPACE(MAX_PAYLOAD),GFP_KERNEL);
-	skb = nlmsg_new(NLMSG_ALIGN(msg_size + 1), GFP_KERNEL);
+#if PARSE_PAKET
+	/*TBD*/
+	int err;
+	printk("TEST THE PARISE PACKET!\n");
+	skb = skb_recv_datagram(nl_sk, 0, 0, &err);
+	if (!skb) {
+		printk(KERN_ERR"netlink_test: skb_recv_datagram!\n");
+		return;
+	}
 	
+	nlh = (struct nlmsghdr *)skb->data;
+	printk("%s:received netlink message payload:%s\n",__FUNCTION__,NLMSG_DATA(nlh));
+
+#else
+	//skb = alloc_skb(NLMSG_SPACE(MAX_PAYLOAD),GFP_KERNEL);
+	skb = nlmsg_new(NLMSG_ALIGN(msg_size + 1), GFP_KERNEL);	
 	//skb = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
 	if(!skb){
 		printk("Allocation failure!\n");
@@ -68,32 +83,29 @@ void send_to_user(struct sk_buff *skb_recv)
 
 	nlh = nlmsg_put(skb, 0, 1, NLMSG_DONE, msg_size + 1, 0);/*must*/
 	
-#if 0	
-	nlh = (struct nlmsghdr *)skb->data;
-	nlh->nlmsg_len = NLMSG_SPACE(MAX_PAYLOAD);
-	nlh->nlmsg_pid = 0;  /* from kernel */
-	nlh->nlmsg_flags = 0;
-	nlh = (struct nlmsghdr *) skb_put(skb, NLMSG_SPACE(MAX_PAYLOAD));
-#endif
-	
 	strcpy(NLMSG_DATA(nlh), message);
+
+
+#endif	
 
 	//u32 pid;
 	//pid = nlh->nlmsg_pid; /*pid of sending process */
 
-	NETLINK_CB(skb).portid = 0;
-	NETLINK_CB(skb).dst_group = MYMGRP;
+	//NETLINK_CB(skb).portid = 0;
+	//NETLINK_CB(skb).dst_group = MYMGRP;
 
 	printk("send skb message!\n");
 
 	/*multicast the message to all listening processes*/
 	//ret = netlink_broadcast(nl_sk, skb, 0, 1, GFP_KERNEL);
-	ret = nlmsg_multicast(nl_sk, skb, 0, 1, GFP_KERNEL);
+	ret = nlmsg_multicast(nl_sk, skb, 0, MYMGRP, GFP_KERNEL);
 	//ret = netlink_unicast(nl_sk, skb, pid, MSG_DONTWAIT);
 	if(ret < 0){
 		printk("message send error! [%d]\n",ret);
+	}else{
+		printk("Send successfully! The data is:\033[32m[%s]\033[0m\n", NLMSG_DATA(nlh));
+		
 	}
-	printk("The data is:[%s]\n", NLMSG_DATA(nlh));
 	
 	//sock_release(nl_sk->sk_socket);  	
 	
@@ -101,6 +113,7 @@ void send_to_user(struct sk_buff *skb_recv)
 
 struct netlink_kernel_cfg cfg = {
     .input = send_to_user,
+		
 };
 
 static int __init testnetlink_init(void)
