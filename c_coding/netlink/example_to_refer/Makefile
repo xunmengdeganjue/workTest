@@ -9,4 +9,4 @@ install:
 uninstall:
 	sudo rmmod netlink_kernel.ko
 clean:  
-	rm -rf *.o *.ko *.mod.c .*.cmd *.markers *.order *.symvers .tmp_versions sender
+	rm -rf *.o *.ko *.mod.c .*.cmd *.markers *.order *.symvers .tmp_versions sender receiver

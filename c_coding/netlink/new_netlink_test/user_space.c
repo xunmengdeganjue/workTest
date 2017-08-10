@@ -7,6 +7,7 @@
 
 /* Protocol family, consistent in both kernel prog and user prog. */
 #define MYPROTO NETLINK_USERSOCK
+
 /* Multicast group, consistent in both kernel prog and user prog. */
 #define MYMGRP 21
 
@@ -16,7 +17,7 @@ int open_netlink(void)
     struct sockaddr_nl addr;
     int group = MYMGRP;
 
-    sock = socket(AF_NETLINK, SOCK_RAW, MYPROTO);
+    sock = socket(PF_NETLINK, SOCK_RAW, MYPROTO);
     if (sock < 0) {
         printf("sock < 0.\n");
         return sock;
@@ -39,11 +40,12 @@ int open_netlink(void)
      * and
      * http://stackoverflow.com/questions/17732044/
      */
-    /*if (setsockopt(sock, 270, NETLINK_ADD_MEMBERSHIP, &group, sizeof(group)) < 0) {
+     /*
+    if (setsockopt(sock, 270, NETLINK_ADD_MEMBERSHIP, &group, sizeof(group)) < 0) {
         printf("setsockopt < 0\n");
         return -1;
-    }*/
-
+    }
+	*/
     return sock;
 }
 

@@ -9,8 +9,12 @@
 #include <linux/netlink.h>
 #include <linux/socket.h>
 
-#define NETLINK_TEST NETLINK_USERSOCK
+//#define NETLINK_TEST NETLINK_USERSOCK
 #define MAX_PAYLOAD 1024  /* maximum payload size*/
+
+#ifndef NETLINK_EXAMPLE
+#define NETLINK_EXAMPLE 17
+#endif
 
 
 int open_netlink(void){
@@ -18,7 +22,7 @@ int open_netlink(void){
 	int sock_fd;
 	struct sockaddr_nl src_addr;
 	
-	sock_fd=socket(PF_NETLINK, SOCK_RAW, NETLINK_TEST);
+	sock_fd=socket(AF_NETLINK, SOCK_RAW, NETLINK_EXAMPLE);
 	if(sock_fd < 0){
 		printf("socket created failed!\n");
 		return sock_fd;

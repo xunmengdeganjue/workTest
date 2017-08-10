@@ -31,10 +31,12 @@ static void send_to_user(void)
 
     pr_info("Sending skb.\n");
     res = nlmsg_multicast(nl_sk, skb, 0, MYGRP, GFP_KERNEL);
+	printk("The message is %s\n",nlmsg_data(nlh));
     if (res < 0)
         pr_info("nlmsg_multicast() error: %d\n", res);
     else
         pr_info("Success.\n");
+	
 }
 
 static int __init hello_init(void)
@@ -42,13 +44,13 @@ static int __init hello_init(void)
     pr_info("Inserting hello module.\n");
 
    // nl_sk = netlink_kernel_create(&init_net, MYPROTO, NULL);
-	nl_sk = netlink_kernel_create(&init_net, MYPROTO, &send_to_user);
+	nl_sk = netlink_kernel_create(&init_net, MYPROTO, NULL);
     if (!nl_sk) {
         pr_err("Error creating socket.\n");
         return -10;
     }
 
-    //send_to_user();
+    send_to_user();
 
     netlink_kernel_release(nl_sk);
     return 0;

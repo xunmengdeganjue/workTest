@@ -9,24 +9,28 @@
 #include <linux/netlink.h>
 #include <linux/socket.h>
 
-#define NETLINK_TEST NETLINK_USERSOCK
+//#define NETLINK_TEST NETLINK_USERSOCK
 #define MAX_PAYLOAD 1024  /* maximum payload size*/
 
-#define SEND_TEST_DATA "Hello Word" 
+#ifndef NETLINK_EXAMPLE
+#define NETLINK_EXAMPLE 17
+#endif
 
-struct event_msg{  
-	unsigned int event;  
-	unsigned int sub_event;  
-	unsigned int len;  
-	unsigned char data[0];  
-}; 
+struct nlmsghdr *nlh = NULL;
+struct iovec iov;
+struct msghdr message;
+struct sockaddr_nl dest_addr;
+struct sockaddr_nl src_addr;
+
+
+#define SEND_TEST_DATA "Hello Word" 
 
 int open_netlink(void){
 	
 	int sock_fd;
-	struct sockaddr_nl src_addr;
+	//struct sockaddr_nl src_addr;
 	
-	sock_fd=socket(AF_NETLINK, SOCK_RAW, NETLINK_TEST);
+	sock_fd=socket(PF_NETLINK, SOCK_RAW, NETLINK_EXAMPLE);
 	if(sock_fd < 0){
 		printf("socket created failed!\n");
 		return sock_fd;
@@ -43,7 +47,7 @@ int open_netlink(void){
 		printf("bind failed!\n");
 		return -1;
 	}
-	
+	printf("The sock_fd = %d\n",sock_fd);
 	return sock_fd;
 }
 
@@ -52,19 +56,26 @@ int send_infomation( int sock_fd){
 	/*参考：http://blog.csdn.net/shichaog/article/details/44682613*/
 	
 	int ret = 0;
-	struct nlmsghdr *nlh = NULL;
-	struct iovec iov;
-	struct msghdr message;
-	struct event_msg *msg; 
-	struct sockaddr_nl dest_addr;
+	//struct nlmsghdr *nlh = NULL;
+	//struct iovec iov;
+	//struct msghdr message;
+	//struct sockaddr_nl dest_addr;
 
-	msg = NLMSG_DATA(nlh); //消息头的首部存放netlink的头，见图14.1。  
-	msg->event = 0;  
-	msg->sub_event = 1;  
-	msg->len = sizeof(SEND_TEST_DATA);//Hello Word字符串在payload里了，见图14.1。  
-	printf("prepare the message!\n");
-	strcpy(msg->data, SEND_TEST_DATA);  
 	printf("prepare for the header!\n");
+	nlh=(struct nlmsghdr *)malloc(NLMSG_SPACE(MAX_PAYLOAD));
+	/*fill the netlink message header*/
+	nlh->nlmsg_len = NLMSG_SPACE(MAX_PAYLOAD);/*每个netlink消息头后跟零个或多个字节的辅助数据。 
+												该4字节字段记录消息中的数据总量，包括报头本身*/
+	nlh->nlmsg_pid = getpid(); /*For Linux kernel*/
+	nlh->nlmsg_flags = 0;/*这个2字节字段或逻辑或运算位定义了各种控制标志，它们决
+                          定了哪些消息被处理和解释*/
+	/*Fill in the netlink message payload*/
+	strcpy(NLMSG_DATA(nlh),"How are you!\n");
+						  
+	memset(&dest_addr, 0, sizeof(dest_addr));
+	dest_addr.nl_family = AF_NETLINK;	/*必须设置目标地址族*/
+	dest_addr.nl_pid = 0;				/*0表示目标针对内核*/
+	
 	//printf("test %d time; %s\n",i,(msg->sub_event == LOOP_UNICAST) ? "UNICAST" : "BROADCAST");  
 	iov.iov_base = (void *)nlh; //这边管理netlink头，也是关联msg，在70行，netlink和msg的关系就确定了。  
 	iov.iov_len = nlh->nlmsg_len;  
@@ -74,10 +85,17 @@ int send_infomation( int sock_fd){
 	message.msg_iovlen = 1;  
 	
 	printf("send message!\n");
-	sendmsg(sock_fd, &message, 0); //发送消息给内核  
+	ret = sendmsg(sock_fd, &message, 0); //发送消息给内核  
+	if(ret < 0){
+		printf("Message send failed [ret=%d]\n",ret);
+	}else{
+		printf("Message send successfully!\n");
+	}
 
 
 }
+
+
 
 int main(int argc, char* argv[]) 
 {
@@ -88,7 +106,7 @@ int main(int argc, char* argv[])
 	if (nls < 0)
 		return nls;
 	else
-		printf("netlink socket opened successuflly!\n");
+		printf("netlink socket opened successuflly[nls = %d]!\n",nls);
 	//while (1)
 	//	read_infomation(nls);
         //printf("Received message payload: %s\n", NLMSG_DATA(nlh));
