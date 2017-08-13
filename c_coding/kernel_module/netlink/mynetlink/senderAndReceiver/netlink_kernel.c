@@ -32,13 +32,14 @@ void send_to_user(void)
 
 	printk("Eneter the send_to_user!\n");
 	
+	/*开辟一个新的套接字缓存*/
 	skb = nlmsg_new(NLMSG_ALIGN(msg_size + 1), GFP_KERNEL);	
 	//skb = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
 	if(!skb){
 		printk("Allocation failure!\n");
 		return -1;
 	}
-
+	/*填写数据报相关信息*/
 	nlh = nlmsg_put(skb, 0, 1, NLMSG_DONE, msg_size + 1, 0);/*must*/
 	
 	strcpy(NLMSG_DATA(nlh), message);
