@@ -9,7 +9,6 @@
 #include <linux/netlink.h>
 #include <linux/socket.h>
 
-//#define NETLINK_TEST NETLINK_USERSOCK
 #define MAX_PAYLOAD 1024  /* maximum payload size*/
 
 #ifndef NETLINK_EXAMPLE
@@ -57,10 +56,6 @@ int send_infomation( int sock_fd){
 	/*参考：http://blog.csdn.net/shichaog/article/details/44682613*/
 	
 	int ret = 0;
-	//struct nlmsghdr *nlh = NULL;
-	//struct iovec iov;
-	//struct msghdr message;
-	//struct sockaddr_nl dest_addr;
 
 	printf("prepare for the header!\n");
 	nlh=(struct nlmsghdr *)malloc(NLMSG_SPACE(MAX_PAYLOAD));
@@ -93,19 +88,6 @@ int send_infomation( int sock_fd){
 		printf("Message send successfully!\n");
 	}
 
-#if 0
-FORRECEIVE:
-
-	/* Read message from kernel */
-	memset(nlh, 0, NLMSG_SPACE(MAX_PAYLOAD));
-	recvmsg(sock_fd, &message, 0);
-	printf(" Received message payload: %s\n",
-	   NLMSG_DATA(nlh));
-
-#endif
-
-
-
 }
 
 
@@ -120,9 +102,6 @@ int main(int argc, char* argv[])
 		return nls;
 	else
 		printf("netlink socket opened successuflly[nls = %d]!\n",nls);
-	//while (1)
-	//	read_infomation(nls);
-        //printf("Received message payload: %s\n", NLMSG_DATA(nlh));
 		
 	send_infomation(nls);	
 		

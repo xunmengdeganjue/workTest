@@ -1,5 +1,5 @@
 
-obj-m += mylibacl.o
+obj-m += proc_kernel_lib.o
 obj-m += proc_call_test.o
 
 KERNELBUILD :=/lib/modules/$(shell uname -r)/build  

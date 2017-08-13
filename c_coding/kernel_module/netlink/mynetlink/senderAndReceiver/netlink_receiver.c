@@ -9,7 +9,6 @@
 #include <linux/netlink.h>
 #include <linux/socket.h>
 
-//#define NETLINK_TEST NETLINK_USERSOCK
 #define MAX_PAYLOAD 1024  /* maximum payload size*/
 
 #ifndef NETLINK_EXAMPLE
@@ -70,8 +69,6 @@ int read_infomation( int sock_fd){
 	memset(&msg, 0, sizeof(msg));
 	memset(&dest_addr, 0, sizeof(dest_addr));
 	
-//	iov.iov_base = (void *)nlh;
-//	iov.iov_len = NLMSG_SPACE(MAX_PAYLOAD);
     iov.iov_base = (void *) buffer;
     iov.iov_len = sizeof(buffer);
 	msg.msg_name = (void *)&dest_addr;

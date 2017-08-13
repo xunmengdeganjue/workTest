@@ -45,8 +45,7 @@ void nl_data_ready(struct sock *sk, int len)
 		/* process netlink message pointed by skb->data */ 
 		nlh = (struct nlmsghdr *)skb->data; 
 		data = NLMSG_DATA(nlh); /* process netlink message with header pointed by * nlh and data pointed by data */ 
-	} 
-			
+	} 		
 }
 
 void send_to_user(void) 
@@ -73,6 +72,7 @@ void send_to_user(void)
 	printk("%s:received netlink message payload:%s\n",__FUNCTION__,NLMSG_DATA(nlh));
 
 #else
+	/*开辟一个新的套接字缓存*/
 	//skb = alloc_skb(NLMSG_SPACE(MAX_PAYLOAD),GFP_KERNEL);
 	skb = nlmsg_new(NLMSG_ALIGN(msg_size + 1), GFP_KERNEL);	
 	//skb = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
@@ -80,7 +80,7 @@ void send_to_user(void)
 		printk("Allocation failure!\n");
 		return -1;
 	}
-
+	/*填写数据报相关信息*/
 	nlh = nlmsg_put(skb, 0, 1, NLMSG_DONE, msg_size + 1, 0);/*must*/
 	
 	strcpy(NLMSG_DATA(nlh), message);
@@ -112,8 +112,7 @@ void send_to_user(void)
 }
 
 struct netlink_kernel_cfg cfg = {
-    .input = send_to_user,
-		
+    .input = send_to_user,	
 };
 
 static int __init testnetlink_init(void)

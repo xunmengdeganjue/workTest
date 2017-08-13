@@ -6,19 +6,16 @@
 #include <asm/uaccess.h>
 
 MODULE_LICENSE("GPL");
-
 MODULE_DESCRIPTION("MY LIBACL Kernel Module");
 MODULE_AUTHOR("Nick.Li");
 //#define MAX_COOKIE_LENGTH       PAGE_SIZE
+#define  proc_name "my_proc_lib_test"
 
-#define  proc_name "mylibacl"
 static struct proc_dir_entry * proc_dir = NULL;
 static struct proc_dir_entry * proc_entry = NULL;
 
-
-//static struct proc_dir_entry *proc_file = NULL;
-
 char KERNEL_GOT[512]={0};
+//char KERNEL_GOT[PAGE_SIZE]={0};
 int KERNEL_GOT_LENTH=0;
 
 int send_data_to_user( char *data,int len){
@@ -33,10 +30,9 @@ int send_data_to_user( char *data,int len){
 }
 EXPORT_SYMBOL(send_data_to_user);
 
-
-ssize_t libacl_read( struct file *file, char __user *buf,size_t count, loff_t *ppos )
+ssize_t libproc_read( struct file *file, char __user *buf,size_t count, loff_t *ppos )
 {
-	char val[1016] = {0};
+	char val[1024] = {0};
 	
 	printk(KERN_INFO "procfile_read (/proc/%s) called\n", proc_name);
 	sprintf(val,KERNEL_GOT);
@@ -45,19 +41,19 @@ ssize_t libacl_read( struct file *file, char __user *buf,size_t count, loff_t *p
 
 struct file_operations proc_fops=
 {
-    .read = libacl_read,
+    .read = libproc_read,
     .owner = THIS_MODULE,
 };
 
 int init_libacl_module( void )
 {
 	int ret = 0;
-
+	printk("PAGE SIZE = %ld\n",PAGE_SIZE);
 	proc_entry = proc_create( proc_name, 0644, proc_dir,&proc_fops);
 	if (proc_entry == NULL) {
-		printk(KERN_INFO "libacl: Couldn't create proc entry\n");
+		printk(KERN_INFO "%s: Couldn't create proc entry\n",proc_name);
 	} else {
-		printk(KERN_INFO "libacl: Module loaded.\n");
+		printk(KERN_INFO "%s: Module loaded.\n",proc_name);
 	}
 
 	return ret;
@@ -66,8 +62,7 @@ int init_libacl_module( void )
 void cleanup_libacl_module( void )
 {
   remove_proc_entry(proc_name,NULL);
-  //vfree(cookie_pot);
-  printk(KERN_INFO "Nick---libacl: Module unloaded.\n");
+  printk(KERN_INFO "Nick: Module unloaded.\n");
 }
 module_init( init_libacl_module );
 module_exit( cleanup_libacl_module );
