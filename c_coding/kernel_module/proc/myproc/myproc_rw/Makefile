@@ -8,9 +8,9 @@ KBUILD_EXTRA_SYMBOLS :=$(PWD)/Module.symvers
 
 lib:  
 	make -C $(KERNELBUILD) M=$(shell pwd) modules
-	gcc -o hunter hunter.c hunter.h	
+	gcc -o message_hunter hunter.c hunter.h	
 default:lib
 	make -C $(KERNELBUILD) $(KBUILD_EXTRA_SYMBOLS) M=$(shell pwd) modules  
 	
 clean:  
-	rm -rf *.o *.ko *.mod.c .*.cmd *.markers *.order *.symvers .tmp_versions hunter
+	rm -rf *.o *.ko *.mod.c .*.cmd *.markers *.order *.symvers .tmp_versions message_hunter

@@ -38,9 +38,9 @@
 #include <errno.h>
 #include <time.h>  /*For nanosleep(const struct timespec *req, struct timespec *rem)*/
 
-#define PID_FILE 	"/proc/csahunter"
-#define CSAMESSAGE	"/proc/mycsainfo"
-#define CSACCALOG	"/tmp/csacca.log"
+#define PID_FILE 	"/proc/message_hunter"
+#define CSAMESSAGE	"/proc/myproc_message"
+#define CSACCALOG	"/tmp/proc_test.log"
 
 int read_write(int fd, unsigned char *packet, int size, int rw);
 

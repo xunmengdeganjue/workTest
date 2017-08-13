@@ -13,8 +13,8 @@ MODULE_DESCRIPTION("MY LIBACL Kernel Module");
 MODULE_AUTHOR("Nick.Li");
 //#define MAX_COOKIE_LENGTH       PAGE_SIZE
 
-#define PROCCSA_NAME "mycsainfo"  	/*The proc file contain all the csa or the cca information*/
-#define PROCPID_NAME "csahunter" 	/*The pid of the user space deamon.*/
+#define PROCCSA_NAME "myproc_message"  	/*The proc file contain all the csa or the cca information*/
+#define PROCPID_NAME "message_hunter" 	/*The pid of the user space deamon.*/
 
 static struct proc_dir_entry * proc_pid = NULL;
 static struct proc_dir_entry * proc_csa = NULL;
@@ -34,6 +34,7 @@ int send_data_to_user( char *data,int len){
 	/*Deal with the data*/	
 	if(data!=NULL && len!=0){
 		KERNEL_GOT_LENTH=len;
+		memset(KERNEL_GOT,0x00,sizeof(KERNEL_GOT));
 		strncpy(KERNEL_GOT,data,KERNEL_GOT_LENTH);
 	}else{
 		return -1;	
@@ -49,7 +50,7 @@ int send_data_to_user( char *data,int len){
 	}
 
 	if(task->pid == csa_hunter_pid)
-		force_sig(10,task);
+		force_sig(10,task);/*发送信号，如kill -USR1 message_hunter <=> kill -10 message_hunter */
 	else 
 		csa_hunter_pid = 0;
 	
