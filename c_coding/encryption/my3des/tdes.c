@@ -120,8 +120,13 @@ int des3_ebc_encrypt_new(){
 	char *key1 = "0000000000000000";  /* 原始密钥, 十六进制字符串 */
 	char *key2 = "0000000000000000";  /* 原始密钥, 十六进制字符串 */
 	char *key3 = "0000000000000000";  /* 原始密钥, 十六进制字符串 */
-	char *data = "abcde1234567";  /* 原始明文, 
-	十六进制字符串 */
+	//char *data = "68656c6c6f686f77617265796f75";  /* 原始明文, 十六进制字符串 */
+	char *data_string = "helloworld!";
+	char *data = (char *)malloc(strlen(data_string)+1);
+
+	strtohex(data_string,data);
+	
+	printf("\nthe data_string[%s] conver to hex[%x]\n",data_string,data);
 	unsigned char src[64] = {0};
 	unsigned char out[64] = {0};
 	unsigned char tmp[64] = {0};
