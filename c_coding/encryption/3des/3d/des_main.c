@@ -1,16 +1,13 @@
 // des_test.c
-//
- 
 
-
-#include "cencode.h"
-#include "cdecode.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 
 #include "des.h"
+#include "cencode.h"
+#include "cdecode.h"
 
 
 /* arbitrary buffer size */
@@ -82,12 +79,10 @@ int main()
 	char* encoded;
 	char* decoded;
 
-	
-
+#if 0
     //DES加密  
     DES_Encrypt_File(file_In,key,file_tmp);   
     printf("DES_E OK!\n");
-
     //DES解密  
     DES_Decrypt_File(file_tmp,key,file_Out);
     if(remove(file_tmp)){}   
@@ -97,10 +92,15 @@ int main()
 	D3DES_Encrypt_File(file_In,key,file_tmp);   
 	printf("D3DES_E OK!\n");
 
+#endif
+
+	/*
 	//3重DES解密  
 	//D3DES_Decrypt_File(file_tmp,key,file_Out);
 	//if(remove(file_tmp)){}   
 	//printf("D3DES_D OK!\n");
+	*/
+	
 	printf("encrypt the strings!\n");
 	char * stringbuffer = "123456789";
 	char * result = (char *)malloc(sizeof(char) * (strlen(stringbuffer) +1));
@@ -113,23 +113,30 @@ int main()
 	
 	D3DES_Encrypt(stringbuffer,keycont,result,strlen(stringbuffer));
 	
-	printf("the result convert to [%ld] \n",strtol(result,NULL,16));
+	printf("the result convert to [%s] \n",result);
+
 
 	/*使用base64来讲3des加密后的数据进行重新编码以方便传输给前台*/
 	char *basetest="123456789";
 	encoded = encode(basetest);/*base64 加密算法经验证是ok的*/
 	printf("the encode by base64 is [%s]\n",encoded);
 	
+	basetest="VTJGc2RHVmtYMTg1SEYwanNxbGdXZjE3cHRCVTBuRm03ODNJTzV2WWNZbz0=";
+	printf("the basetest = %s\n",basetest);
+	decoded = decode(basetest);
+	//decoded = decode(encoded);
+	printf("the decoded by base64 is [%s]\n",decoded);
 	
-	printf("the %s is encrypted to [%s]\n",stringbuffer,result);
 
+	//printf("the %s is encrypted to [%s]\n",stringbuffer,result);
+#if 0
 	char *newcc="0x702e9bd6606d63485e72a26c1b5197a0";
-
 	char *decrypt_tmp = (char *)malloc(sizeof(char) * (strlen(newcc)+1));
 	printf("Now decrypt the password!\n");
 	D3DES_Decrypt(newcc, keycont, decrypt_tmp, strlen(result));
 	printf("the result is [%s] \n",decrypt_tmp);
 
+#endif
 
     return 0;   
 }   

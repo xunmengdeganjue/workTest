@@ -3,11 +3,12 @@
 
 #include "des.h"
 
-//字节转换成二进制  
+//字节转换成二进制
 int ByteToBit(ElemType ch, ElemType bit[8]){   
     int cnt;   
     for(cnt = 0;cnt < 8; cnt++){   
-        *(bit+cnt) = (ch>>cnt)&1;   
+        *(bit+cnt) = (ch>>cnt)&1;
+		printf("the bit %d = [%d]\n",cnt,*(bit+cnt));
     }   
     return 0;   
 }   
@@ -423,10 +424,12 @@ int D3DES_Encrypt(ElemType *plainBuffer, ElemType *keyBuffer, ElemType *cipherBu
 
 	for (i = 0; i < 3 ; i++)
 	{
-		//设置密钥   
+		//设置密钥
 		memcpy(keyBlock+i*8,keyBuffer+i*8,8);
 		//将密钥转换为二进制流   
-		Char8ToBit64(keyBlock+i*8,bKey[i]);   
+		Char8ToBit64(keyBlock+i*8,bKey[i]);
+		printf("the bkey[%d] = [%s]\n",i,bKey[i]);
+		
 		//生成子密钥   
 		DES_MakeSubKeys(bKey[i],subKeys[i]); 
 	}

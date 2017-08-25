@@ -162,6 +162,8 @@ The following methods of encryption and redirection are several examples of how 
 
 ./des --3des2key --cbc -decrypt -k1 aabbccdd123456af -k2 0123456789aabbcc -txt ciphertext.bin -iv 0000000000000000 > output.txt
 
+##mytest
+./des --3des3key --cbc --encrypt -k1 1234567890123456 -k2 1234567890123456 -k3 1234567890123456 -txt input.txt -iv 0000000000000000 > output.bin
 
 
 #######################################################################################################

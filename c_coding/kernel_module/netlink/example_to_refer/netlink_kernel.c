@@ -7,13 +7,13 @@ space-via-netlink-in-c
 	
 */
 
-#include <linux/kernel.h>
+#include <linux/kernel.h>  /**/
 #include <linux/module.h>
 #include <linux/types.h>
 #include <linux/sched.h>
 #include <net/sock.h>
 
-#include <linux/netlink.h>
+#include <linux/netlink.h>  /**/
 #include <linux/skbuff.h>
 
 //#include <net/netlink.h>
@@ -32,7 +32,7 @@ space-via-netlink-in-c
 struct sock *nl_sk = NULL;
 #define MYMGRP 1
 
-#define PARSE_PAKET  0
+#define PARSE_PAKET  1
 
 void nl_data_ready(struct sock *sk, int len)
 {
