@@ -106,3 +106,35 @@ unsigned char *hex2bin(const char *data, int size, int *outlen)
  
     return out;
 }
+
+int strtohex(char *srcstr,char *hexbuf ){
+
+	char *c;
+	int i = 0;
+	//hexbuf = (char *)malloc(sizeof(char) * (strlen(srcstr) + 1));
+	
+	printf("Func[%s] the string is [%s]\n",__FUNCTION__,srcstr);
+	
+	for(c = srcstr; *c != '\0' ; ++c){
+
+		//sprintf(hexbuf[i],"%x",c);
+		fprintf(hexbuf,"%x", *c);
+		hexbuf++;
+	
+		//hexbuf[i] = *c;
+		//strcpy(hexbuf[i],c);
+		i++;
+		printf("%x",*c);
+	}
+	printf("\n");
+	return 0;
+
+}
+unsigned char *hextostr(){
+;
+
+
+
+}
+
+
