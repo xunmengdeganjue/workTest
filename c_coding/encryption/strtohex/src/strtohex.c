@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
 
   for (i = 1; i < argc; ++i) {
     for (c = argv[i]; *c != '\0'; ++c) {
-      printf("%x", *c);
+      printf("%x\n", *c);
     }
     if (i != argc - 1)
       printf(" ");

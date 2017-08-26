@@ -6,7 +6,22 @@
 #include <openssl/rand.h>
  
 #include "hex.h"
- 
+
+
+char * strTohex(char *string){
+	char *ch;
+	char *hexstr = (char *)malloc(2* sizeof(char) * strlen(string));
+	
+	for(ch = string; *ch != '\0'; ++ch){
+		sprintf(hexstr,"%s%02x",hexstr,*ch);
+		printf("the code is %c\n",*ch);
+	}
+	
+	return hexstr;
+
+}
+
+
 /************************************************************************
  * 3DES-CBC 加密方式
  * 8字节密钥，加密内容8位补齐，补齐方式为：PKCS7。
@@ -23,7 +38,7 @@ unsigned int des3_cbc_encrypt(void)
 	int i = 0;
 	int len = 0;
 	int nlen = 0;
-
+	
 	char ch = '\0';
 //#if 0
 	char *key1 = "0000000000000000";  /* 原始密钥, 十六进制字符串 */
@@ -32,11 +47,13 @@ unsigned int des3_cbc_encrypt(void)
 //#endif 
 
 	
-	char *data = "12345678912121212121121212121221";  /* 原始明文, 十六进制字符串 */
+	char *data = "123456789911223344";  /* 原始明文, 十六进制字符串 */
 	unsigned char src[64] = {0};
 	unsigned char out[64] = {0};
 	unsigned char tmp[64] = {0};
 
+	
+	printf("[%s] trace 111\n",__FUNCTION__);
 	unsigned char *ptr  = NULL;
 	unsigned char block[8] = {0};
 	DES_key_schedule ks1, ks2, ks3;
@@ -58,8 +75,11 @@ unsigned int des3_cbc_encrypt(void)
 	memcpy(block, ptr, sizeof(block));
 	free(ptr);
 	DES_set_key_unchecked((C_Block *)block, &ks3);
-
+	
+	printf("[%s] trace 222\n",__FUNCTION__);
 	ptr = hex2bin(data, strlen(data), &nlen);
+	printf("[%s] trace 333\n",__FUNCTION__);
+	
 	memcpy(src, ptr, nlen);
 	free(ptr);
 
@@ -120,16 +140,20 @@ int des3_ebc_encrypt_new(){
 	char *key1 = "0000000000000000";  /* 原始密钥, 十六进制字符串 */
 	char *key2 = "0000000000000000";  /* 原始密钥, 十六进制字符串 */
 	char *key3 = "0000000000000000";  /* 原始密钥, 十六进制字符串 */
+
 	//char *data = "68656c6c6f686f77617265796f75";  /* 原始明文, 十六进制字符串 */
 	char *data_string = "helloworld!";
-	char *data = (char *)malloc(strlen(data_string)+1);
+	char *data = (char *)malloc(sizeof(char) * 2 * (strlen(data_string)+1));
 
-	strtohex(data_string,data);
+	data = strTohex(data_string);
 	
-	printf("\nthe data_string[%s] conver to hex[%x]\n",data_string,data);
+	printf("\nthe data_string[%s] conver to hex[%s]\n",data_string,data);
+
+	
 	unsigned char src[64] = {0};
 	unsigned char out[64] = {0};
 	unsigned char tmp[64] = {0};
+	
 
 	unsigned char *ptr	= NULL;
 	unsigned char block[8] = {0};
@@ -314,12 +338,12 @@ int des3_ebc_encrypt(){
 int main(int argc, char *argv[])
 {
 
-	printf("\033[32m[****************Test of the 3DES encryption******************]\033[0m\n");
+	printf("\033[32m[****************Test of the 3DES CBC encryption******************]\033[0m\n");
 	/*cbc加密方式，经测试功能ok！*/
 	//测试站点：http://tripledes.online-domain-tools.com/
 	//参考：http://www.qmailer.net/archives/208.html
 	des3_cbc_encrypt();
-
+	printf("\033[32m[****************Test of the 3DES EBC encryption******************]\033[0m\n");
 	/*ebc加密方式，经测试功能ok！*/
 	//测试站点：http://tripledes.online-domain-tools.com/
 	//参考：http://www.qmailer.net/archives/208.html	

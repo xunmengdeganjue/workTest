@@ -54,12 +54,15 @@ unsigned char *hex2bin(const char *data, int size, int *outlen)
     unsigned char *out = NULL;
  
     if (size % 2 != 0) {
+		printf("[%s] trace 000 ERROR\n",__FUNCTION__);
         return NULL;
     }
- 
+ 	printf("[%s] trace 111\n",__FUNCTION__);
+	
     len = size / 2;
     out = (unsigned char *)malloc(len * sizeof(char) + 1);
     if (out == NULL) {
+		printf("[%s] trace 222\n",__FUNCTION__);
         return NULL;
     }
  
@@ -75,6 +78,7 @@ unsigned char *hex2bin(const char *data, int size, int *outlen)
             value = (char1 - 'A' + 10) << 4;
         }
         else {
+			printf("\033[31m[%s]ERROR\033[0m",__FUNCTION__);
             free(out);
             return NULL;
         }
@@ -91,6 +95,7 @@ unsigned char *hex2bin(const char *data, int size, int *outlen)
             value |= char2 - 'A' + 10;
         }
         else {
+			printf("[%s] trace 333\n",__FUNCTION__);
             free(out);
             return NULL;
         }
@@ -103,7 +108,7 @@ unsigned char *hex2bin(const char *data, int size, int *outlen)
     if (outlen != NULL) {
         *outlen = i;
     }
- 
+ 	printf("[%s] trace 444\n",__FUNCTION__);
     return out;
 }
 
@@ -114,18 +119,20 @@ int strtohex(char *srcstr,char *hexbuf ){
 	//hexbuf = (char *)malloc(sizeof(char) * (strlen(srcstr) + 1));
 	
 	printf("Func[%s] the string is [%s]\n",__FUNCTION__,srcstr);
-	
+#if 0	
 	for(c = srcstr; *c != '\0' ; ++c){
 
 		//sprintf(hexbuf[i],"%x",c);
-		fprintf(hexbuf,"%x", *c);
-		hexbuf++;
+		sprintf(hexbuf[i],"%x", *c);
+		//hexbuf++;
 	
-		//hexbuf[i] = *c;
+		//hexbuf[i] = ()*c;
 		//strcpy(hexbuf[i],c);
 		i++;
 		printf("%x",*c);
 	}
+#endif
+	sprintf(hexbuf,"%x",strtol(srcstr,NULL,16));
 	printf("\n");
 	return 0;
 
@@ -136,5 +143,24 @@ unsigned char *hextostr(){
 
 
 }
+
+#if 0
+unsigned char *stringToBin(const char *data, int size, int *outlen){
+
+	int cnt;
+	char *outbit = NULL;
+	char *char1 = NULL;
+	char *char2 = NULL;
+	
+	int outlen = size;
+	
+	for(cnt = 0; cnt < size; cnt++){
+		*(outbit+cnt) = (data>>cnt)&1;
+	}
+	return 0;
+}
+
+int charToBit64
+#endif
 
 
