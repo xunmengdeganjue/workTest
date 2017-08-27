@@ -150,8 +150,8 @@ char * strTohex(char *string){
 	return hexstr;
 
 }
-
-int getSubKeys(char * keysrc, char key[3][8]){
+#if 0
+int getSubKeys(char * keysrc, char key[][8]){
 
 	char *p = NULL;
 	int i  = 0;
@@ -173,6 +173,31 @@ int getSubKeys(char * keysrc, char key[3][8]){
 
 }
 
+#endif
+int getSubKeys(char * keysrc, char *key1,char *key2,char *key3){
+
+        char *p = NULL;
+        int ret = -1;
+
+        p =  keysrc;
+        if(strncpy(key1, p, 8)){
+                ret = 0;
+        }
+        p +=8;
+        if(strncpy(key2, p, 8)){
+                ret = 0;
+        }
+        p +=8;
+        if(strncpy(key3, p, 8)){
+                ret = 0;
+        }
+
+        return ret;
+
+}
+
+
+
 int des3_cbc_encryption(char * source_data, char * key, char *encrypted_data){	
 ;
 }
@@ -181,12 +206,14 @@ int des3_cbc_decryption(char * source_data, char * key, char *unencrypted_data){
 ;
 }
 
-int des3_ebc_encryption(char * source_data, char * key, char *encrypted_data){
+char * des3_ebc_encryption(char * source_data, char * key/*, char *encrypted_data*/){
 
 	/*deal with the keys*/
-	char subkey[3][8] = {{0}};
-
-
+	char *subkey1 = (char *)malloc(8);
+	char *subkey2 = (char *)malloc(8);
+	char *subkey3 = (char *)malloc(8);
+	
+	char * encrypted_data = (char *)malloc(64);
 	unsigned char *ptr = NULL;
 	unsigned block[8] = {0};
 	int len  = 0;
@@ -197,26 +224,29 @@ int des3_ebc_encryption(char * source_data, char * key, char *encrypted_data){
 	char ch = '\0';
 
 	
-	getSubKeys(key,subkey);
-	printf("the subkey[0]=[%s]\n",subkey[0]);
-	printf("the subkey[1]=[%s]\n",subkey[1]);
-	printf("the subkey[2]=[%s]\n",subkey[2]);
+	getSubKeys(key,subkey1,subkey2,subkey3);
+	
+	printf("the subkey[0]=[%s]\n",subkey1);
+	printf("the subkey[1]=[%s]\n",subkey2);
+	printf("the subkey[2]=[%s]\n",subkey3);
 
-	char key1[16] = {0};
-	char key2[16] = {0};
-	char key3[16] = {0};
+	char *key1 = (char *)malloc(sizeof(char)*16);
+	char *key2 = (char *)malloc(sizeof(char)*16);
+	char *key3 = (char *)malloc(sizeof(char)*16);
 
-	ptr = strTohex(subkey[0]);
-	memcpy( key1, ptr, sizeof(key1) );
+	ptr = strTohex(subkey1);
+	strncpy( key1, ptr, SUBKEY_LEN );
 	printf("ptr = %s\n",ptr);
 	free(ptr);
 	
-	ptr = strTohex(subkey[1]);
-	memcpy( key2, ptr, sizeof(key2) );
+	ptr = strTohex(subkey2);
+	strncpy( key2, ptr, SUBKEY_LEN );
+	printf("ptr = %s\n",ptr);
 	free(ptr);
 
-	ptr = strTohex(subkey[2]);
-	memcpy( key3, ptr, sizeof(key3) );
+	ptr = strTohex(subkey3);
+	strncpy( key3, ptr, SUBKEY_LEN );
+	printf("ptr = %s\n",ptr);
 	free(ptr);
 	
 
@@ -267,14 +297,26 @@ int des3_ebc_encryption(char * source_data, char * key, char *encrypted_data){
 	}
 	
 	printf("加密后的数据：");
-	for( i = 0; i < len; i += 8 ){
+	for( i = 0; i < len; i ++ ){
 		printf("%02x" , *(data_out + i));
+		sprintf(encrypted_data,"%s%02x",encrypted_data,*(data_out + i));
 	}
+	//encrypted_data = strTohex(data_out);
+	//strncpy(encrypted_data,data_out,sizeof(data_out));
+
 	printf("\n");
+	free(key1);
+	free(key2);
+	free(key3);
+	free(subkey1);
+	free(subkey2);
+	free(subkey3);
+	
+	return encrypted_data;
 
 }
 
-int des3_ebc_decryption(char * source_data, char * key, char *unencrypted_data){
+char *des3_ebc_decryption(char * source_data, char * key){
 
 }
 

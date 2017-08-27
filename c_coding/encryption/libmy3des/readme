@@ -1,0 +1,10 @@
+
+
+ecb加密接口测试方法：
+
+ ./testmain ecb 'hello123!@#' 123456788765432100000000 encoded
+
+验证网站：
+	http://tripledes.online-domain-tools.com/
+
+
