@@ -40,6 +40,7 @@ int main(int argc, char **argv){
 	char * data_converted = (char *)malloc(64 * sizeof(char));
 	char * opt = (char*) malloc(8);
 	int decode_method = 0;
+	char * data_coverted_string = (char *)malloc(64);
 
 	if(argc < 5){
 		print_usage(argc,argv);
@@ -71,8 +72,13 @@ int main(int argc, char **argv){
 				data_converted = des3_ebc_encryption(argv[2],argv[3]);
 				printf("the data [%s] encoded to [%s]\n",argv[2],data_converted);
 			}else{
-				data_converted = des3_ebc_decryption(data,key);
-				printf("the data [%s] decoded to [%s]\n",argv[2],data_converted);
+				data_converted = des3_ebc_decryption(data,key);/*returned the hex string*/
+				printf("the decoded data by hex format:[%s]\n",data_converted);
+				
+				
+				data_coverted_string = hexTostr(data_converted); 
+				/*convert the hex string to the ASCII string*/
+				printf("the data [%s] decoded to [%s]\n",argv[2],data_coverted_string);
 			}	
 			break;
 		default:
