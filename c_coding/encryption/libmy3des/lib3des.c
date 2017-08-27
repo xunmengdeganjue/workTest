@@ -150,7 +150,7 @@ char * strTohex(char *string){
 	return hexstr;
 
 }
-
+#if 0
 int hex_to_int(char c){
         int first = c / 16 - 3;
         int second = c % 16;
@@ -158,17 +158,41 @@ int hex_to_int(char c){
         if(result > 9) result--;
         return result;
 }
+#endif
+
+/**
+ * hex2int
+ * take a hex string and convert it to a 32bit number (max 8 hex digits)
+ */
+int hex2int(char hex) {
+    int val = 0;
+ 
+	// get current character then increment
+	// char byte = *hex++;
+	char byte = hex;
+	// transform hex character to the 4bit equivalent number, using the ascii table indexes
+	if (byte >= '0' && byte <= '9') byte = byte - '0';
+	else if (byte >= 'a' && byte <='f') byte = byte - 'a' + 10;
+	else if (byte >= 'A' && byte <='F') byte = byte - 'A' + 10;    
+	// shift 4 to make space for new digit, and add the 4 bits of the new digit 
+	val = (val << 4) | (byte & 0xF);
+
+    return val;
+}
+
 
 int hex_to_ascii(char c, char d){
         int high = hex_to_int(c) * 16;
         int low = hex_to_int(d);
         return high+low;
 }
+/*
+convert the hex strings to the normal strings(ASCII strings)
 
+*/
 char * hexTostr(char *hexstring){
 	char* str_out = (char *)malloc(strlen(hexstring)/2);
 
-	//"68656C6C6F2140233132330505050505";
 	int length = strlen(hexstring);
 	int i;
 	char buf = 0;

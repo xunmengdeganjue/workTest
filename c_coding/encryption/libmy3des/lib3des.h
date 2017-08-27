@@ -36,13 +36,16 @@
 
 #define SUBKEY_LEN 16
 
+
+char * strTohex(char *string);
 char * hexTostr(char *hexstring);
+unsigned char *hex2bin(const char *data, int size, int *outlen);
+char *bin2hex(unsigned char *data, int size);
+
 
 int getSubKeys(char * keysrc, char *key1,char *key2,char *key3);
 
-
 int des3_cbc_encryption(char * source_data, char * key, char *encrypted_data);
-
 int des3_cbc_decryption(char * source_data, char * key, char *unencrypted_data);
 
 char * des3_ebc_encryption(char * source_data, char * key/*, char *encrypted_data*/);
