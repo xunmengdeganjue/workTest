@@ -74,9 +74,14 @@ int main(int argc, char **argv){
 		case 1:/*ecb mode*/
 			printf("ecb mode\n");
 			if(!strncmp(opt,"encode",3)){
+			#if 0	
 				data_converted = des3_ebc_encryption(argv[2],argv[3]);
-				printf("the data [%s] encoded to [%s]\n",argv[2],data_converted);
+			#endif 
+				dataEncryption(data, key, data_converted);
+				printf("the data [%s] encoded to [%s]\n",data,data_converted);
 			}else if(!strncmp(opt,"decode",3)){
+
+			#if 0
 				data_converted = des3_ebc_decryption(data,key);/*returned the hex string*/
 				printf("the decoded data by hex format:[%s]\n",data_converted);
 				
@@ -85,7 +90,8 @@ int main(int argc, char **argv){
 				printf("convert the hex string to the ASCII string\n");
 				data_decoded_string = hexTostr(data_converted); 
 				//free(data_converted);
-				
+			#endif
+				dataDecryption(data,key,data_decoded_string);
 				printf("the data [%s] decoded to\n [%s]\n",data,data_decoded_string);
 				//free(data);
 				//free(data_coverted_string);

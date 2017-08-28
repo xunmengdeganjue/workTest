@@ -55,6 +55,11 @@ char * des3_ebc_encryption(char * source_data, char * key/*, char *encrypted_dat
 char * des3_ebc_decryption(char * source_data, char * key);
 
 
+int dataEncryption(char *plaintext, char *key, char *data_encrypted);
+
+int dataDecryption(char *data_encrypted, char *key, char *plaintext);
+
+
 
 #endif
 

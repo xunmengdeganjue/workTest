@@ -505,6 +505,34 @@ char *des3_ebc_decryption(char * source_data, char * key){
 
 }
 
+int dataEncryption(char *plaintext, char *key, char *data_encrypted){
+
+	/*encrypt the data by ecb mode of the 3DES*/
+	char * data_encoded = (char *)malloc( 2 * strlen(plaintext) );
+	
+	data_encoded = des3_ebc_encryption(plaintext,key);
+
+	strncpy(data_encrypted,data_encoded,strlen(data_encoded));
+	
+	return 0;
+}
+
+
+int  dataDecryption(char *data_encrypted, char *key, char *plaintext){
+
+	char * data_decoded = (char *)malloc(strlen(data_encrypted)); 
+	char * data_plaintext = (char *)malloc(strlen(data_encrypted));
+	
+	/*decrypt the data by ecb mode of the 3DES*/
+	data_decoded = des3_ebc_decryption(data_encrypted,key);
+	data_plaintext = hexTostr(data_decoded);
+	
+	strncpy(plaintext,data_plaintext,strlen(data_plaintext));
+
+	return 0;
+
+}
+
 
 
 
