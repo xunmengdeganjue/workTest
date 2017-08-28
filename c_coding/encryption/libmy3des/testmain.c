@@ -35,12 +35,17 @@ void print_usage(int argc,char **argv){
 int main(int argc, char **argv){
 
 
-	char * key = (char *)malloc(128);
-	char * data = (char *)malloc(128);
-	char * data_converted = (char *)malloc(64 * sizeof(char));
+	char * key = (char *)malloc(strlen(argv[3]));
+	char * data = (char *)malloc(strlen(argv[2]));
+
+	char * data_converted = (char *)malloc( strlen(argv[2]) );
 	char * opt = (char*) malloc(8);
 	int decode_method = 0;
-	char * data_coverted_string = (char *)malloc(128);
+	char * data_decoded_string = (char *)malloc(2 * strlen(argv[2]));
+
+
+	printf("data length = [%d]\n",(int)strlen(argv[2]));
+
 
 	if(argc < 5){
 		print_usage(argc,argv);
@@ -68,18 +73,23 @@ int main(int argc, char **argv){
 			break;
 		case 1:/*ecb mode*/
 			printf("ecb mode\n");
-			if(!strcmp(opt,"encoded")){
+			if(!strncmp(opt,"encode",3)){
 				data_converted = des3_ebc_encryption(argv[2],argv[3]);
 				printf("the data [%s] encoded to [%s]\n",argv[2],data_converted);
-			}else{
+			}else if(!strncmp(opt,"decode",3)){
 				data_converted = des3_ebc_decryption(data,key);/*returned the hex string*/
 				printf("the decoded data by hex format:[%s]\n",data_converted);
 				
 				/*convert the hex string to the ASCII string*/
 				//memset(data_coverted_string,0,128);
-				data_coverted_string = hexTostr(data_converted); 
+				printf("convert the hex string to the ASCII string\n");
+				data_decoded_string = hexTostr(data_converted); 
+				//free(data_converted);
 				
-				printf("the data [%s] decoded to [%s]\n",argv[2],data_coverted_string);
+				printf("the data [%s] decoded to\n [%s]\n",data,data_decoded_string);
+				//free(data);
+				//free(data_coverted_string);
+				
 			}	
 			break;
 		default:
@@ -89,16 +99,15 @@ int main(int argc, char **argv){
 	}
 
 
-	printf("++++++Test the lib3des++++++++\n");
-/*	
-	data_encoded = des3_ebc_encryption(data,key);
+	printf("\n\033[32m++++++Test the lib3des++++++++\033[0m\n");
 
-	printf("the encoded password = [%s]\n",data_encoded);
+
 	
-*/
-
-
-	free(data_coverted_string);
+/*	free(data_converted);
+	free(key);
+	free(data);
+	free(opt);
+*/	
 	return 0;
 
 }

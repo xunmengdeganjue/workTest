@@ -198,7 +198,11 @@ convert the hex strings to the normal strings(ASCII strings)
 
 */
 char * hexTostr(char *hexstring){
-	char * str_out = (char *)malloc( strlen(hexstring) );/*the length must be dynamic*/
+	printf("[%s] str_out = [%s]\n",__FUNCTION__,"enter");
+	
+	char * str_out = (char *)malloc( 2 * strlen(hexstring) );/*the length must be dynamic*/
+	//char * str_out = (char *)malloc( sizeof(char) * 256 * 2);
+	
 	int length = strlen(hexstring);
 	int i;
 	char buf = 0;
@@ -212,7 +216,7 @@ char * hexTostr(char *hexstring){
 		}
 	}
 	
-	printf("[%s] str_out = [%s]\n",__FUNCTION__,str_out);
+	printf("[%s] str_out = [%s],length=[%d]\n",__FUNCTION__,str_out,(int)strlen(str_out));
 	
 	return str_out;
 
@@ -262,28 +266,29 @@ int des3_cbc_decryption(char * source_data, char * key, char *unencrypted_data){
 char * des3_ebc_encryption(char * source_data, char * key/*, char *encrypted_data*/){
 	printf("\033[31m[%s]\033[0m\n",__FUNCTION__);
 	
-	/*deal with the keys*/
-	char *subkey1 = (char *)malloc(8);/*the subkey length must be 8*/
-	char *subkey2 = (char *)malloc(8);
-	char *subkey3 = (char *)malloc(8);
-	
-	char * encrypted_data = (char *)malloc(64);/*it must be two times of the source_data*/
+
+	char * subkey1 = (char *)malloc(8);/*the subkey length must be 8*/
+	char * subkey2 = (char *)malloc(8);
+	char * subkey3 = (char *)malloc(8);	
+	char * encrypted_data = (char *)malloc( strlen(source_data) * 2 );/*it must be two times of the source_data*/
+	char * data_hex = (char *)malloc( 2 * strlen(source_data) );
+
 	unsigned char *ptr = NULL;
 	unsigned block[8] = {0};
-	int len  = 0;
-	int nlen = 0;
-	char *data_hex = (char *)malloc( 2 * strlen(source_data) );
 	unsigned char data_src[64] = {0};
 	unsigned char data_out[64] = {0};
+	int len  = 0;
+	int nlen = 0;
 	char ch = '\0';
-
 	
+	/*deal with the keys*/
 	getSubKeys(key,subkey1,subkey2,subkey3);
-	
+/*
+	//just for debug
 	printf("the subkey[0]=[%s]\n",subkey1);
 	printf("the subkey[1]=[%s]\n",subkey2);
 	printf("the subkey[2]=[%s]\n",subkey3);
-
+*/
 	char *key1 = (char *)malloc(sizeof(char)*16);
 	char *key2 = (char *)malloc(sizeof(char)*16);
 	char *key3 = (char *)malloc(sizeof(char)*16);
@@ -331,12 +336,26 @@ char * des3_ebc_encryption(char * source_data, char * key/*, char *encrypted_dat
 	ptr = hex2bin(data_hex, strlen(data_hex), &nlen);
 	memcpy(data_src, ptr, nlen);
 	free(ptr);
-
+	
+	/*数据补全操作存在问题*/
+	printf("\033[32mthe nlen = [%d],the data_len[%d]\033[0m\n",nlen,(int)strlen(source_data));
+	
 	/*数据补全操作*/
 	len = (nlen / 8 + ( nlen % 8 ? 1:0 )) * 8;
+
+	printf("the zhengchu = [%d]\n",nlen/8);
+	printf("the yu=[%d]\n",nlen % 8);
+	
 	ch = 8 - nlen % 8;
-	memset(data_src + nlen, ch, (8 - nlen % 8) % 8);
-		
+
+	printf("\033[32m the len=[%d] the ch=[%d],the lenght_add=[%d]\033[0m\n",len,ch,((8 - nlen % 8) % 8));
+	
+	//memset(data_src + nlen, ch, (8 - nlen % 8) % 8);
+	
+	/*为兼容前台js算法，将不足16位的位置全部填充为0*/
+	memset(data_src + nlen, 0, (8 - nlen % 8) % 8);	
+	
+
 	/*加密数据操作*/
 	int i  = 0;
 	printf("加密前的数据：");
@@ -357,8 +376,8 @@ char * des3_ebc_encryption(char * source_data, char * key/*, char *encrypted_dat
 	}
 	//encrypted_data = strTohex(data_out);
 	//strncpy(encrypted_data,data_out,sizeof(data_out));
-
 	printf("\n");
+	
 	free(key1);
 	free(key2);
 	free(key3);
@@ -387,13 +406,14 @@ char *des3_ebc_decryption(char * source_data, char * key){
 	char *key1 = (char *)malloc(sizeof(char)*16);
 	char *key2 = (char *)malloc(sizeof(char)*16);
 	char *key3 = (char *)malloc(sizeof(char)*16);
-	char * decrypted_data = (char *)malloc(64);/*这个长度是否都能满足需求？*/
+	char * decrypted_data = (char *)malloc( strlen(source_data) );/*this lenght 
+	is long enough*/
 
 	unsigned char *ptr = NULL;
 	unsigned block[8] = {0};
 	int len  = 0;
 	int nlen = 0;
-	char *data_hex = (char *)malloc( 2 * strlen(source_data) );
+	char *data_hex = (char *)malloc( strlen(source_data) );
 	unsigned char data_src[64] = {0};
 	unsigned char data_out[64] = {0};
 	char ch = '\0';

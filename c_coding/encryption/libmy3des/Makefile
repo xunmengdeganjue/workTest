@@ -1,11 +1,12 @@
-LDFLAGS+=-lcrypto
+LDFLAGS+=-lcrypto 
+CFLAGS+= -g -fno-stack-protector
 
 testmian:testmain.o lib3des.o
-	gcc -o testmain testmain.o lib3des.o ${LDFLAGS}
+	gcc ${CFLAGS} -o testmain testmain.o lib3des.o ${LDFLAGS}
 testmain.o:testmain.c lib3des.h
-	gcc -c testmain.c
+	gcc ${CFLAGS} -c testmain.c
 lib3des.o:lib3des.c lib3des.h
-	gcc -c lib3des.c
+	gcc ${CFLAGS} -c lib3des.c
 
 clean:
 	rm -rf *.o testmain
