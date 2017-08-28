@@ -166,24 +166,31 @@ int hex_to_int(char c){
  */
 int hex2int(char hex) {
     int val = 0;
- 
 	// get current character then increment
-	// char byte = *hex++;
 	char byte = hex;
 	// transform hex character to the 4bit equivalent number, using the ascii table indexes
-	if (byte >= '0' && byte <= '9') byte = byte - '0';
-	else if (byte >= 'a' && byte <='f') byte = byte - 'a' + 10;
-	else if (byte >= 'A' && byte <='F') byte = byte - 'A' + 10;    
+	if (byte >= '0' && byte <= '9'){
+		byte = byte - '0';
+	}else if (byte >= 'a' && byte <='f'){
+		byte = byte - 'a' + 10;
+	}else if (byte >= 'A' && byte <='F'){
+		byte = byte - 'A' + 10;    
+	}
 	// shift 4 to make space for new digit, and add the 4 bits of the new digit 
 	val = (val << 4) | (byte & 0xF);
-
+	
     return val;
 }
 
 
 int hex_to_ascii(char c, char d){
-        int high = hex_to_int(c) * 16;
-        int low = hex_to_int(d);
+		printf("[%s] hight [%c]\n",__FUNCTION__,c);
+		printf("[%s] low [%c]\n",__FUNCTION__,d);
+        //int high = hex_to_int(c) * 16;
+        //int low = hex_to_int(d);
+		int high = hex2int(c) * 16;
+		int low = hex2int(d);
+		printf("[%s] return [%d]\n",__FUNCTION__,high+low);
         return high+low;
 }
 /*
@@ -191,20 +198,21 @@ convert the hex strings to the normal strings(ASCII strings)
 
 */
 char * hexTostr(char *hexstring){
-	char* str_out = (char *)malloc(strlen(hexstring)/2);
-
+	//char* str_out = (char *)malloc(strlen(hexstring)/2);/*not enough?*/
+	char * str_out = (char *)malloc(64);/**/
 	int length = strlen(hexstring);
 	int i;
 	char buf = 0;
 	for(i = 0; i < length; i++){
 		if(i % 2 != 0){
-			printf("%c", hex_to_ascii(buf, hexstring[i]));
+			printf("%c\n", hex_to_ascii(buf, hexstring[i]));
 			sprintf(str_out,"%s%c",str_out,hex_to_ascii(buf, hexstring[i]));
 		}else{
 			buf = hexstring[i];
 		}
 	}
-
+	printf("[%s] str_out = [%s]\n",__FUNCTION__,str_out);
+	
 	return str_out;
 
 }

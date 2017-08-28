@@ -41,6 +41,9 @@ char * strTohex(char *string);
 char * hexTostr(char *hexstring);
 unsigned char *hex2bin(const char *data, int size, int *outlen);
 char *bin2hex(unsigned char *data, int size);
+int hex2int(char hex);
+int hex_to_ascii(char c, char d);
+
 
 
 int getSubKeys(char * keysrc, char *key1,char *key2,char *key3);
