@@ -23,7 +23,7 @@
  *  NO.     modify reason              modify date      modify person       *
  *<--1-->   optimize             	            *
  *<--2-->					        	        *
-/****************************************************************************/
+ ****************************************************************************/
 
 #include "lib3des.h"
 
@@ -74,13 +74,17 @@ int main(int argc, char **argv){
 		case 1:/*ecb mode*/
 			printf("ecb mode\n");
 			if(!strncmp(opt,"encode",3)){
-			#if 0
+#if 0
 				data_converted = des3_ebc_encryption(argv[2],argv[3]);
-				#endif 
+#endif 
 				printf("key = [%s],data[%s]\n",key,data);
 				dataEncryption(data, key, data_converted);
 			
 				printf("the data [%s] encoded to [%s]\n",data,data_converted);
+
+				//free(data_converted);
+				//free(key);
+				//free(data);
 			}else if(!strncmp(opt,"decode",3)){
 
 			#if 0

@@ -1,5 +1,5 @@
 LDFLAGS+=-lcrypto 
-CFLAGS+= -g -fno-stack-protector
+CFLAGS+= -Wall -g -fno-stack-protector
 
 testmian:testmain.o lib3des.o
 	gcc ${CFLAGS} -o testmain testmain.o lib3des.o ${LDFLAGS}
