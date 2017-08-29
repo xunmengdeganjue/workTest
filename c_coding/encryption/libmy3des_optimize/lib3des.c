@@ -262,18 +262,19 @@ int des3_cbc_decryption(char * source_data, char * key, char *unencrypted_data){
 char * des3_ebc_encryption(char * source_data, char * key/*, char *encrypted_data*/){
 	//printf("\033[31m[%s]\033[0m\n",__FUNCTION__);
 	
-
 	char * subkey1 = (char *)malloc(8);/*the subkey length must be 8*/
 	char * subkey2 = (char *)malloc(8);
 	char * subkey3 = (char *)malloc(8);	
-	char * encrypted_data = (char *)malloc( strlen(source_data) * 2 );/*it must be two times of the source_data*/
-	char * data_hex = (char *)malloc( 2 * strlen(source_data) );
+	char * encrypted_data = (char *)malloc( (2 * strlen(source_data) ) + 1 );/*it must be two times of the source_data*/
+	char * data_hex = (char *)malloc( (2 * strlen(source_data) ) + 1 );
 
 	unsigned char *ptr = NULL;
 	char *pts = NULL;
 	unsigned block[8] = {0};
-	unsigned char data_src[128] = {0};
-	unsigned char data_out[128] = {0};
+	//unsigned char data_src[128] = {0};
+	//unsigned char data_out[128] = {0};
+	unsigned char *data_src = (unsigned char *)malloc( strlen(source_data) + 1 );
+	unsigned char *data_out = (unsigned char *)malloc( strlen(source_data) + 1 );
 	int len  = 0;
 	int nlen = 0;
 	//char ch = '\0';
@@ -410,8 +411,11 @@ char *des3_ebc_decryption(char * source_data, char * key){
 	int len  = 0;
 	int nlen = 0;
 	char *data_hex = (char *)malloc( strlen(source_data) );
-	unsigned char data_src[128] = {0};
-	unsigned char data_out[128] = {0};
+	//unsigned char data_src[128] = {0};
+	//unsigned char data_out[128] = {0};
+	unsigned char *data_src = (unsigned char *)malloc( strlen(source_data) + 1 );
+	unsigned char *data_out = (unsigned char *)malloc( strlen(source_data) + 1 );
+	
 	char ch = '\0';
 
 	getSubKeys(key,subkey1,subkey2,subkey3);
@@ -459,7 +463,6 @@ char *des3_ebc_decryption(char * source_data, char * key){
 	free(ptr);
 	DES_set_key_unchecked( (C_Block *)block, &skey3 );
 
-	//data_hex = strTohex(source_data);/*在转化成二进制数据前，需要将普通字符串转化成16进制字符串*/
 	ptr = hex2bin(source_data, strlen(source_data), &nlen);
 	memcpy(data_src, ptr, nlen);
 	free(ptr);
