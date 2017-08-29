@@ -512,7 +512,9 @@ int dataEncryption(char *plaintext, char *key, char *data_encrypted){
 	
 	data_encoded = des3_ebc_encryption(plaintext,key);
 
-	strncpy(data_encrypted,data_encoded,strlen(data_encoded));
+	//strncpy(data_encrypted,data_encoded,strlen(data_encoded));
+	printf("data_encoded length = [%d]\n",(int)strlen(data_encoded));
+	strcpy(data_encrypted,data_encoded);
 	
 	return 0;
 }
@@ -532,6 +534,9 @@ int  dataDecryption(char *data_encrypted, char *key, char *plaintext){
 	return 0;
 
 }
+
+
+
 
 
 
