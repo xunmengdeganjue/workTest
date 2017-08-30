@@ -32,9 +32,8 @@
 #include <string.h>
 #include <openssl/des.h>
 
-
-
 #define SUBKEY_LEN 16
+#define ENCRYPTLEN(x) ( ( strlen(x) / 8 + ( strlen(x) % 8 ? 1:0 ) ) * 8 * 2 + 1 )
 
 
 char * strTohex(char *string);
