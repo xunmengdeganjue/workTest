@@ -43,9 +43,31 @@ operation=$2
 case $1 in
 	"v4")
 		ipv4Single $operation
+		if [ $operation = "start" ];then
+			echo "Starting DHCP service"
+			service isc-dhcp-server start
+			echo "Start the FreeRaidus server"
+			/etc/init.d/freeradius start
+		else
+		        echo "Stop DHCP service"
+                        service isc-dhcp-server stop
+                        echo "Stop the FreeRaidus server"
+                        /etc/init.d/freeradius stop
+		fi
 	;;
 	"4v6")
 		primary4_second6 $operation
+		if [ $operation = "start" ];then
+			echo "Starting DHCP service"
+			service isc-dhcp-server start
+			echo "Start the FreeRaidus server"
+			/etc/init.d/freeradius start
+		else
+		        echo "Stop DHCP service"
+                        service isc-dhcp-server stop
+                        echo "Stop the FreeRaidus server"
+                        /etc/init.d/freeradius stop
+		fi
 	;;
 	*)
 	echo "USAGE:"
