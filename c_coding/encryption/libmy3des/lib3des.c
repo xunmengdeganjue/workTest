@@ -202,6 +202,7 @@ char * hexTostr(char *hexstring){
 	
 	char * str_out = (char *)malloc( 2 * strlen(hexstring) );/*the length must be dynamic*/
 	//char * str_out = (char *)malloc( sizeof(char) * 256 * 2);
+	char *p = str_out;
 	
 	int length = strlen(hexstring);
 	int i;
@@ -210,7 +211,8 @@ char * hexTostr(char *hexstring){
 	for(i = 0; i < length; i++){
 		if(i % 2 != 0){
 			//printf("%c\n", hex_to_ascii(buf, hexstring[i]));
-			sprintf(str_out,"%s%c",str_out,hex_to_ascii(buf, hexstring[i]));
+			//sprintf(str_out,"%s%c",str_out,hex_to_ascii(buf, hexstring[i]));
+			p += sprintf(p,"%c",hex_to_ascii(buf, hexstring[i]));
 		}else{
 			buf = hexstring[i];
 		}
@@ -414,8 +416,8 @@ char *des3_ebc_decryption(char * source_data, char * key){
 	int len  = 0;
 	int nlen = 0;
 	char *data_hex = (char *)malloc( strlen(source_data) );
-	unsigned char data_src[64] = {0};
-	unsigned char data_out[64] = {0};
+	unsigned char data_src[128] = {0};
+	unsigned char data_out[128] = {0};
 	char ch = '\0';
 
 	getSubKeys(key,subkey1,subkey2,subkey3);
