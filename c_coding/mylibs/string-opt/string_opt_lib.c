@@ -105,3 +105,34 @@ void strtoupper(char *str){
 	
 	cgi_trace_exit();
 }
+
+/*
+*Func: 	randomstring
+*Dec :	Create a random string consisting of letters and Numbers	
+*Parm:	str_gain to contain the string created.
+*Ret:	void.
+*Need: #include<time.h>
+*/
+void randomstring(char *str_gain){
+	int len,c;
+	//len=rand() % 255 + 1;
+	len = 24;
+	srand((int)time(0));
+	printf("\n");
+	while(len--){
+		switch(rand()%3){
+			case 0:
+				c='A'+rand()%26;
+				break;
+			case 1:
+				c='a'+rand()%26;
+				break;
+			case 2:
+				c='0'+rand()%10;
+				break;
+		}
+		sprintf(str_gain,"%s%c",str_gain,c);
+	}
+}
+
+

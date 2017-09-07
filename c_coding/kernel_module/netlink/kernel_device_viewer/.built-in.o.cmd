@@ -1,0 +1,1 @@
+cmd_/home/nickli/working/workTest/c_coding/netlink/kernel_device_viewer/built-in.o :=  rm -f /home/nickli/working/workTest/c_coding/netlink/kernel_device_viewer/built-in.o; ar rcsD /home/nickli/working/workTest/c_coding/netlink/kernel_device_viewer/built-in.o

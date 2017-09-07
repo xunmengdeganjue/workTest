@@ -105,7 +105,6 @@ int init_libacl_module( void )
 		printk(KERN_INFO "libcsa: Module loaded %s.\n",PROCPID_NAME);
 	}
 	
-	
 	proc_csa = proc_create(PROCCSA_NAME, 0644, NULL,&proc_csa_fops);
 	if (proc_csa == NULL) {
 		printk(KERN_INFO "libcsa: Couldn't create proc entry %s\n",PROCCSA_NAME);
