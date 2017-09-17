@@ -1,0 +1,27 @@
+
+Example 
+
+To set up wag server
+
+1. Example showing Primary, Secondary both as IPv4 GRE Tunnels on WAG
+
+command: sudo ./for_wan_secure.sh -i eth0 -mp 4 -ms 4 -pe 10.42.0.2 -se 10.42.0.3 -re4 10.42.0.87 -vid 10 start
+
+2. Example showing Primary as IPv4 and  Secondary as IPv6 GRE Tunnels on WAG
+
+command  sudo ./for_wan_secure.sh -i eth0 -mp 4 -ms 6 -pe 10.42.0.2 -se 2001:db1::3 -re4 10.42.0.87 -re6 2001:db1::1 -vid 10 start
+
+
+To tear down last set up configurations on wag server
+
+1. Example of tear down of Primary, Secondary. Both were IPv4 GRE Tunnels on WAG
+
+cmmand: sudo ./for_wan_secure.sh -i eth0 -mp 4 -ms 4 -pe 10.42.0.2 -se 10.42.0.3 -re4 10.42.0.87 -vid 10 stop
+
+2. Example of tear down of Primary(IPv4) and Secondary(IPv6) GRE Tunnels on WAG
+
+command : sudo ./for_wan_secure.sh -i eth0 -mp 4 -ms 6 -pe 10.42.0.2 -se 2001:db1::3 -re4 10.42.0.87 -re6 2001:db1::1 -vid 10 stop
+
+
+Notes:-
+	1. Make sure you provide valid IP adrresses.
