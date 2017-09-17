@@ -47,10 +47,10 @@ int fill_default_list(devList *list){
 	}
 	
 	//list = (devList *)malloc(sizeof(devList));
-#ifdef DOUBLE_CIRCULAR_LINK /*Ñ­»·Á´±í*/
+#ifdef DOUBLE_CIRCULAR_LINK /*å¾ªç¯é“¾è¡¨*/
 	printf("fileName:%s--funcName:%s()--line:\033[32m%d\033[0m \
 \033[32m You have defined the DOUBLE_CIRCULAR_LINK_LIST macro\033[0m\n",__FILE__,__func__,__LINE__);
-#else/*·ÇÑ­»·Á´±í*/
+#else/*éå¾ªç¯é“¾è¡¨*/
 		printf("fileName:%s:--funcName:%s()--line:\033[32m%d\033[0m \
 \033[31m You have not defined the DOUBLE_CIRCULAR_LINK_LIST parameter!\033[0m\n",__FILE__,__func__,__LINE__);
 #endif
@@ -66,9 +66,9 @@ int fill_default_list(devList *list){
 		\033[32m You have defined the DOUBLE_CIRCULAR_LINK_LIST macro\033[0m\n",__FILE__,__func__,__LINE__);
 		*/
 			
-#ifdef BACK_INSERT   /*ºóÏò²åÈë*/
-		/*½«ÔªËØ´ÓListµÄºóÏò²åÈëÊ±£¬tailÖ¸ÕëµÄÇ°ÇıµÄnextÖ¸Õë = tailµÄÇ°Çı = ÒªÌí¼ÓµÄÔªËØ½Úµã£»·´Ö®Èç¹û´ÓÍ·²¿
-		²åÈë£¬ÔòÊÇheadµÄºóÇıµÄÇ°Çı=headµÄºóÇı=ÒªÌí¼ÓµÄÔªËØ½Úµã*/
+#ifdef BACK_INSERT    /*åå‘æ’å…¥*/
+		/*å°†å…ƒç´ ä»Listçš„åå‘æ’å…¥æ—¶ï¼ŒtailæŒ‡é’ˆçš„å‰é©±çš„nextæŒ‡é’ˆ = tailçš„å‰é©± = è¦æ·»åŠ çš„å…ƒç´ èŠ‚ç‚¹ï¼›åä¹‹å¦‚æœä»å¤´éƒ¨
+		æ’å…¥ï¼Œåˆ™æ˜¯headçš„åé©±çš„å‰é©±=headçš„åé©±=è¦æ·»åŠ çš„å…ƒç´ èŠ‚ç‚¹*/
 		/*inset the element into the tail of the list*/
 		sky_dbg("Insert the data into the tail of the link list!\n");	
 		tmp_node->next = list->tail;
@@ -76,7 +76,7 @@ int fill_default_list(devList *list){
 		list->tail->prev->next = tmp_node;
 		list->tail->prev = tmp_node;
 	
-#else   /*Ç°Ïò²åÈë*/
+#else    /*å‰å‘æ’å…¥*/
 		sky_dbg("Insert the data into the head of the link list!\n");
 	    /*insert the element into the head of the list*/
 		tmp_node->next = list->head->next;
@@ -86,7 +86,7 @@ int fill_default_list(devList *list){
 	
 #endif
 
-#else/*·ÇÑ­»·Á´±í²åÈëÊı¾İ*/
+#else/*éå¾ªç¯é“¾è¡¨æ’å…¥æ•°æ®*/
 		/*printf("fileName:%s:--funcName:%s()--line:\033[32m%d\033[0m \
 			\033[31m You have not defined the DOUBLE_CIRCULAR_LINK_LIST parameter!\033[0m\n",__FILE__,__func__,__LINE__);
 		*/
@@ -144,14 +144,14 @@ int list_show( devList *list){
 #ifdef BACK_INSERT
 	search = list->tail;
 	while((search != NULL)/* && (list->tail != list->tail->next)*/){
-			/*Í¨¹ılist->tail != NULL À´ÅĞ¶Ï£¬ÒòÎª´ËÊ±Ë«ÏòÁ´±í²¢·ÇÑ­»·µÄ*/
+			/*é€šè¿‡list->tail != NULL æ¥åˆ¤æ–­ï¼Œå› ä¸ºæ­¤æ—¶åŒå‘é“¾è¡¨å¹¶éå¾ªç¯çš„*/
 		printf("the device name is %s\n",search->data);
 		search = search->next;
 	}
-#else /*Ç°Ïò²åÈëÊı¾İºóµÄ¶Á·¨*/
+#else /*å‰å‘æ’å…¥æ•°æ®åçš„è¯»æ³•*//
 	search = list->head;
 	while((search->prev != NULL)/* && (list->tail != list->tail->next)*/){
-			/*Í¨¹ılist->tail != NULL À´ÅĞ¶Ï£¬ÒòÎª´ËÊ±Ë«ÏòÁ´±í²¢·ÇÑ­»·µÄ*/
+		/*é€šè¿‡list->tail != NULL æ¥åˆ¤æ–­ï¼Œå› ä¸ºæ­¤æ—¶åŒå‘é“¾è¡¨å¹¶éå¾ªç¯çš„*/
 		printf("the device name is %s\n",search->data);
 		search = search->prev;
 	}	

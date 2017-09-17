@@ -66,12 +66,12 @@ void list_init(devList *list,void (*destroy)(void *data)){
 	list->destroy = destroy;
 	
 #ifdef DOUBLE_CIRCULAR_LINK
-	/*×ö³ÉÑ­»·Ë«Á´±í*/
+		/*åšæˆå¾ªç¯åŒé“¾è¡¨*/
 	/*create a double circular link list*/
 	list->head->next = list->tail;
 	list->tail->prev = list->head;
 #else
-	/*×ö³É·ÇÑ­»·Ë«Á´±í*/
+	/*åšæˆéå¾ªç¯åŒé“¾è¡¨*/
 	/*create a double link list*/
 	list->head = NULL;
 	list->tail = NULL;
@@ -101,8 +101,8 @@ int list_remove_element(devList * list, devNode *element,void **data){
 	//*data = element->prev->data;
 	sky_dbg("the content of the deleted node is %s\n",element->data);
 #ifdef DOUBLE_CIRCULAR_LINK
-/*head tail½ÚµãÖĞ²¢Ã»ÓĞÊı¾İ*/
-	/*Ñ­»·Ë«ÏòÁ´±í*/
+/*head tailèŠ‚ç‚¹ä¸­å¹¶æ²¡æœ‰æ•°æ®*/
+	/*å¾ªç¯åŒå‘é“¾è¡¨*/
 	if( element == list->head){
 		*data = element->next->data;
 		//list->head = element->next;
@@ -124,7 +124,7 @@ int list_remove_element(devList * list, devNode *element,void **data){
 	}	
 
 #else
-	/*·ÇÑ­»·Ë«ÏòÁ´±í*/
+	/*éå¾ªç¯åŒå‘é“¾è¡¨*/
 	if( element == list->head)//the element is the head node
 	{
 		list->head = element->next;
@@ -176,22 +176,22 @@ void list_clear(devList *list){
 		return ;
 	}
 #ifdef ALLOW_RECURSION
-	/*Ê¹ÓÃµİ¹é·½Ê½É¾³ı½Úµã*/
+	/*ä½¿ç”¨é€’å½’æ–¹å¼åˆ é™¤èŠ‚ç‚¹*/
 	if(list->head->next != list->tail)
 		list_clear(list);
 #else
-	/*Ê¹ÓÃ·Çµİ¹éµÄ·½Ê½*/
+	/*ä½¿ç”¨éé€’å½’çš„æ–¹å¼*/
 	do{
 		scan = list->head->next;
 		list->head->next  = scan->next;
 		free(scan);
-	}while( list->head->next  !=  list->tail );//²»ÒªÉ¾³ıÎ²½Úµã
+	}while( list->head->next  !=  list->tail );//ä¸è¦åˆ é™¤å°¾èŠ‚ç‚¹
 #endif
 
 }
 
 #ifdef DOUBLE_CIRCULAR_LINK 
-/*Ïú»ÙÑ­»·Ë«Á´±í*/
+/*é”€æ¯å¾ªç¯åŒé“¾è¡¨*/
 void list_destroy(devList *list){
 	sky_trace_enter();
 	
@@ -214,7 +214,7 @@ void list_destroy(devList *list){
 }
 
 #else
-/*Ïú»Ù·ÇÑ­»·Ë«Á´±í*/	
+/*é”€æ¯éå¾ªç¯åŒé“¾è¡¨*/	
 /*list destory*/
 void list_destroy(devList *list){
 	sky_trace_enter();

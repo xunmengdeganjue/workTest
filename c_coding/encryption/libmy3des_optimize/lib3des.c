@@ -53,8 +53,8 @@ char *bin2hex(unsigned char *data, int size)
         v = data[i] & 0x0f;
         *p++ = v < 10 ? v + '0' : v - 10 + base_char;
     }
- 
     *p = '\0';
+	
     return buf;
 }
  
