@@ -10,6 +10,9 @@ int main(int argc ,char **argv){
 	
 	while(1){
 		switch(num){
+			case 0:
+				exit(0);
+				break;
 			case 1:
 				head=creat();
 				break;

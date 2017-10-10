@@ -16,8 +16,11 @@ typedef struct scorenode{
 
 #define LEN sizeof(struct scorenode)
 #define DEBUG 
-
+#define DATA_FILE "/tmp/studentscore.txt"
 int n,k;
+
+
+
 void menu();
 score *creat(void);
 score *load(score *head);

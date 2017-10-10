@@ -28,7 +28,10 @@ score *creat(void){
 	printf("\033[31mCreat the base information!\033[0m\n");
 	p1=p2=p3=(score *)malloc(LEN);
 	printf("please input student's information,input 0 exit!\n");
-	repeat1: printf("please input student's number(number>0):");/*输入学号，学号应大于0*/
+	
+repeat1:
+	
+	printf("please input student's number(number>0):");/*输入学号，学号应大于0*/
 	scanf("   %d",&p1->number);
 	
 	while(p1->number < 0){
@@ -75,7 +78,9 @@ score *creat(void){
 		p2 = p1;
 		p1 = (score *)malloc(LEN);
 		printf("please input student's information,input 0 exit!\n");
+		
 repeat2:
+	
 		printf("please input student's number(number>0):");
 		scanf("%d",&p1->number);/*输入学号，学号应大于0*/
 
@@ -149,6 +154,9 @@ end:
 score *load(score *head){
 	printf("\033[33mload the information!\033[0m\n");
 	
+
+	
+	
 }
 score *search(score *head){
 	printf("\033[34mload search information!\033[0m\n");
@@ -164,12 +172,41 @@ score *add(score *head,score *stu){
 }
 void print(score *head){
 	printf("\033[35mprint the information!\033[0m\n");
-	
+	printf("-----------------------------------------\n");/*打印表格域*/
+	score *p;
+	p = head;
+	if (head == NULL){
+		printf("there is no students\n");
+	}else{
+		do{
+			
+			printf("|%d\t|%s\t|%d\t\n",p->number,p->name,p->xiaofei);	
+			printf("-----------------------------------------\n");/*打印表格域*/
+			p=p->next;
+
+		}while(p != NULL);
+	}
+	printf("---------------------------------------------------------------\n");
+	getchar();
 }
-score *save (score *pl){
+score *save (score *head){
 	printf("\033[36msave the information!\033[0m\n");
-	
+	FILE *fp = NULL;
+	fp = fopen(DATA_FILE,"wb");
+	if(!fp){
+		printf("open the file [%s] failed !\n",DATA_FILE);
+		exit(1);
+	}else{
+		while(head != NULL){
+			fprintf(fp,"%d,%s,%d\t\t\t",head->number,head->name,head->xiaofei);
+			head = head->next;
+		}
+		printf("file save complete!please enter return!\n");
+		getchar();
+		fclose(fp);
+	}
 }
+
 
 
 

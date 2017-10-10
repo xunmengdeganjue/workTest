@@ -79,7 +79,7 @@ struct file_operations proc_pid_fops=
     .owner = THIS_MODULE,
 };
 
-ssize_t libcsa_read( struct file *file, char __user *buf,size_t count, loff_t *ppos )
+ssize_t libcsa_read(struct file *file, char __user *buf,size_t count, loff_t *ppos )
 {
 	char val[1016] = {0};
 	
