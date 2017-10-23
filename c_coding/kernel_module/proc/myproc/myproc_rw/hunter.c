@@ -39,7 +39,7 @@ int main(int argc,char **argv){
 	pid_write();	
 	while(1){
 	
-		printf("hello\n");
+		printf("hello i am looping for capture the message from the kernel-proc module!\n");
 		sleep(1);
 
 	}
@@ -65,8 +65,9 @@ static int pid_write(void){
 	if(pid_fp){
 		if(!fwrite(pidbuffer,sizeof(pidbuffer),1,pid_fp)){
 			printf("write the pid file failed!\n");
+		}else{
+			fclose(pid_fp);
 		}
-		fclose(pid_fp);
 	}
 	
 	return 0;

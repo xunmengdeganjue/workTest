@@ -94,36 +94,36 @@ struct file_operations proc_csa_fops=
     .owner = THIS_MODULE,
 };
 
-int init_libacl_module( void )
+int init_lib_module( void )
 {
 	int ret = 0;
 	
 	proc_pid = proc_create_data(PROCPID_NAME, 0644, NULL,&proc_pid_fops,NULL);
 	if (proc_pid == NULL) {
-		printk(KERN_INFO "libcsa: Couldn't create proc entry %s\n",PROCPID_NAME);
+		printk(KERN_INFO "proclib: Couldn't create proc entry %s\n",PROCPID_NAME);
 		ret = -1;
 	} else {
-		printk(KERN_INFO "libcsa: Module loaded %s.\n",PROCPID_NAME);
+		printk(KERN_INFO "proclib: Module loaded %s.\n",PROCPID_NAME);
 	}
 	
 	proc_csa = proc_create(PROCCSA_NAME, 0644, NULL,&proc_csa_fops);
 	if (proc_csa == NULL) {
-		printk(KERN_INFO "libcsa: Couldn't create proc entry %s\n",PROCCSA_NAME);
+		printk(KERN_INFO "proclib: Couldn't create proc entry %s\n",PROCCSA_NAME);
 		ret = -1;
 	} else {
-		printk(KERN_INFO "libcsa: Module loaded %s.\n",PROCCSA_NAME);
+		printk(KERN_INFO "proclib: Module loaded %s.\n",PROCCSA_NAME);
 	}
 	
 	return ret;
 
 }
 
-void cleanup_libacl_module( void )
+void cleanup_lib_module( void )
 {
   remove_proc_entry(PROCCSA_NAME,NULL);
   remove_proc_entry(PROCPID_NAME,NULL);
-  printk(KERN_INFO "Nick-libcsa: Module unloaded.\n");
+  printk(KERN_INFO "Nick-proclib: Module unloaded.\n");
   
 }
-module_init( init_libacl_module );
-module_exit( cleanup_libacl_module );
+module_init( init_lib_module );
+module_exit( cleanup_lib_module );
