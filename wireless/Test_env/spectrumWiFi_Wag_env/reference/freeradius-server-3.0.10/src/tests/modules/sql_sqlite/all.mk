@@ -1,3 +1,0 @@
-#
-#  Test the sqlite module
-#

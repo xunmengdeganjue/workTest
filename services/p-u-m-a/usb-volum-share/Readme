@@ -1,5 +1,0 @@
-proftpd.init:proftpd启动脚本，增加了对于磁盘分区名称共享的支持，认证账户访问及匿名访问都能正常设置。
-proftpd.init_1013:proftpd启动脚本，历史文件，半成品。
-samba.init：samba服务启动脚本。
-service.c：service模块的cgi控制接口。
-service.h：service模块cgi接口头文件。

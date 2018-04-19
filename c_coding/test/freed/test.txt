@@ -1,6 +1,0 @@
-|type	|number	|name	|class	|
-male	1	xiaoli	2
-male	2	xiaohua	2
-male	3	xiaohuan	2
-female	4	xiaoming	1
-	

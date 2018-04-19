@@ -1,3 +1,0 @@
-Salt script to build the test VM required for running the ldap, mysql & postgres tests.
-
-See http://docs.saltstack.com/en/latest/index.html

@@ -1,8 +1,0 @@
-USAGE:
-	./log
-	then there will be a daemon.log file in the /tmp/ directory which recored all of the log information.
-COMPIEL:
-	gcc -o log main.c daemon_log.c
-
-note:
-	the log.h and logopt.c is from a working project that provide a very good learning material.

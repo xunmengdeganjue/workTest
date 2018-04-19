@@ -1,1 +1,0 @@
-cmd_/home/nickli/test/workTest/c_coding/netlink/mynetlink/helloworld/built-in.o :=  rm -f /home/nickli/test/workTest/c_coding/netlink/mynetlink/helloworld/built-in.o; ar rcsD /home/nickli/test/workTest/c_coding/netlink/mynetlink/helloworld/built-in.o
