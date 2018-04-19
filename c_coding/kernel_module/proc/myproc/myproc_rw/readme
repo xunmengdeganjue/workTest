@@ -1,9 +1,9 @@
 本文件夹内含有以下源文件：
 .
-├── hunter.c        	#用户空间守护进程——获取内核写入用户空间的数据
+├── hunter.c        		#用户空间守护进程——获取内核写入用户空间的数据
 ├── hunter.h			#
 ├── Makefile			#编译规则：可以编译出内核模块以及用户空间程序
-├── proc_kernel_lib.c	#内核模块——实现了向用户空间写数据的接口
+├── proc_kernel_lib.c		#内核模块——实现了向用户空间写数据的接口
 ├── proc_lib_call.c		#内核模块——用以调用proc_kernel_lib内核模块中的接口向用户空间写数据
 └── readme				#本文件
 
@@ -24,7 +24,7 @@
 		$sudo insmod proc_kernel_lib.ko
 
 	(4)运行用户空间守护进程
-		$./message_hunter
+		$sudo ./message_hunter
 		此进程运行后在/proc目录下创建一份属于该进程的PID文件/proc/message_hunter
 		查看该PID文件：
 		$cat /proc/message_hunter 

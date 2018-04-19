@@ -15,6 +15,10 @@ space-via-netlink-in-c
 #include <linux/netlink.h>
 #include <linux/skbuff.h>
 
+//#include <linux/init.h>
+//#include <linux/ip.h>
+
+
 #ifndef NETLINK_EXAMPLE
 #define NETLINK_EXAMPLE 17
 #endif
@@ -22,22 +26,58 @@ space-via-netlink-in-c
 struct sock *nl_sk = NULL;
 #define MYMGRP 1
 
-void send_to_user(void) 
+
+#if 0
+static void nl_data_ready(struct sk_buff *__skb)
+{
+    struct sk_buff *skb;
+    struct nlmsghdr *nlh = NULL;
+	while((skb = skb_get(__skb)) != NULL) {
+		nlh = (struct nlmsghdr *)skb->data;
+		//nlh = nlmsg_hdr(skb);
+		printk("%s: received netlink message payload: %s \n", __FUNCTION__, (char*)NLMSG_DATA(nlh) );
+		kfree_skb(skb);
+		break;
+    }
+    printk("recvied finished!\n");
+}
+#endif
+
+
+void parse_message(struct sk_buff *__skb, char *message){
+
+	struct sk_buff *skb;
+	struct nlmsghdr *nlh = NULL;
+	while((skb = skb_get(__skb)) != NULL) {
+	   	nlh = (struct nlmsghdr *)skb->data;
+	   	//nlh = nlmsg_hdr(skb);
+	   	printk("%s: received netlink message payload: %s \n", __FUNCTION__, (char*)NLMSG_DATA(nlh) );
+		//strcpy(message, (char*)NLMSG_DATA(nlh));
+	   	kfree_skb(skb);
+	   	break;
+	}
+	printk("recvied finished!\n");
+}
+
+
+void send_to_user(struct sk_buff *__skb) 
 {
     struct sk_buff *skb = NULL;
     struct nlmsghdr *nlh;
 	int ret = 0;
 	char *message = "Hello from the kernel!";
+
 	int msg_size = strlen(message) + 1;
 
 	printk("Eneter the send_to_user!\n");
+
+	
 	
 	/*开辟一个新的套接字缓存*/
 	skb = nlmsg_new(NLMSG_ALIGN(msg_size + 1), GFP_KERNEL);	
 	//skb = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
 	if(!skb){
 		printk("Allocation failure!\n");
-		return -1;
 	}
 	/*填写数据报相关信息*/
 	nlh = nlmsg_put(skb, 0, 1, NLMSG_DONE, msg_size + 1, 0);/*must*/
@@ -56,15 +96,13 @@ void send_to_user(void)
 		printk("Send successfully! The data is:\033[32m[%s]\033[0m\n", NLMSG_DATA(nlh));
 		
 	}
-	//sock_release(nl_sk->sk_socket);  	
 }
 
 struct netlink_kernel_cfg cfg = {
     .input = send_to_user,
-		
 };
 
-static int __init testnetlink_init(void)
+static int __init  testnetlink_init(void)
 {
 
 	printk(KERN_INFO "insmod the kernel module netlink_kernel_module.ko !\n");
@@ -73,7 +111,7 @@ static int __init testnetlink_init(void)
 	
 	return 0;
 }
-static void __exit testnetlink_exit(void)
+static void __exit  testnetlink_exit(void)
 {
 	printk(KERN_INFO "remove the kernel module netlink_kernel_module.ko !\n");
 	netlink_kernel_release(nl_sk);
