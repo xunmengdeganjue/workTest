@@ -1,11 +1,35 @@
-（1）
-为学习ieee1905，获取了wlupton的实现代码，源库：git@github.com:xunmengdeganjue/WT-382.git
-Nick
-2018.4.19
 
-Build ENV:
+#为学习ieee1905，获取了wlupton的实现代码，源库：git@github.com:xunmengdeganjue/WT-382.git
+	Nick
+	2018.4.19
 
-(1)Ubuntu
+##Build ENV:
+
+###Ubuntu
 OS:Ubuntu 14.04.2 LTS
 sudo apt-get install libpcap-dev
 
+##使用方法：
+注意在要使用root权限执行以下命令。
+(1)运行al实体
+sudo ./al_entity -m 52:54:00:03:de:d5 -i eth0
+(2)运行hle实体
+ sudo ./hle_entity -a 10.8.2.58:8888 -m ALME-GET-INTF-LIST.request
+输出信息：
+interface_descriptors_nr: 1
+interface_descriptors[0]->interface_address: 0x52, 0x54, 0x00, 0x03, 0xde, 0xd5, 
+interface_descriptors[0]->media_type: 1
+interface_descriptors[0]->bridge_flag: 0
+interface_descriptors[0]->vendor_specific_info_nr: 0
+
+2018-04-20
+将本软件移植到Arm-Plartform中
+(1)修改依赖：
+
+DEPENDS:=+libpcap +libpthread +libopenssl +librt
+libopenssl 对应于libcrypto
+
+(2)为解决mq_open error=38，添加内核：
+POSIX_MQUEUE 
+
+结果：基本功能移植成功
