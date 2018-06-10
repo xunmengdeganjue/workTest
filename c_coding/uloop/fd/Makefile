@@ -12,6 +12,6 @@ $(TARGET): $(OBJS)
 %.o:%.c
 	$(CC) $(LDFLAGS) -c $< -o $@
 clean:
-	rm -rf *.o *.a
+	rm -rf *.o *.a $(TARGET)
 
 
