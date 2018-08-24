@@ -41,7 +41,8 @@ int main(){
 	struct sockaddr_in cli_addr;
 	socklen_t len = sizeof(struct sockaddr);
 	int type = USOCK_TCP |USOCK_SERVER |USOCK_NOCLOEXEC |USOCK_IPV4ONLY;
-	const char *host = "CarRadio";
+	//const char *host = "CarRadio";
+	const char *host = "eth0";
 	const char *service = "8000";
 	//char recv_buf[1024] = {0};
 	int connect_fd, u_fd = usock(type, host, service);
