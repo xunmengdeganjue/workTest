@@ -1,0 +1,16 @@
+
+
+Firstly, we must install the libubox to the ubuntu.
+###get the libubox source code.
+sudo mkdir -p /opt/git/libubox
+sudo git clone git://nbd.name/luci2/libubox.git /opt/git/libubox
+cd /opt/git/libubox/
+sudo apt-get install cmake
+sudo cmake CMakeLists.txt -DBUILD_LUA=OFF
+sudo make 
+sudo make install
+ldconfig
+
+
+
+

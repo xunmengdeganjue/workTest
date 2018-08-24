@@ -30,7 +30,6 @@ static void read_std(struct uloop_fd *u, unsigned int events){
 		if( read(u->fd,buf,1024) > 0){
 			printf("read_std:%s\n",buf);
 		}
-
 	}
 
 }
