@@ -5,6 +5,7 @@
 #include <netinet/if_ether.h>
 #include <net/if_arp.h>
 #include <arpa/inet.h>
+#include <net/if.h>
 
 //#include <netinet/in.h>
 //#include <net/if.h>
@@ -28,5 +29,7 @@ struct arpMsg {
 
 int arp_send(u_int32_t yiaddr, u_int32_t ip, unsigned char *mac, char *interface, int s);
 int arp_socket_create();
+void printf_macaddr(unsigned char *macaddr);
+int ether_atoe(const char *a, unsigned char *e);
 
 #endif

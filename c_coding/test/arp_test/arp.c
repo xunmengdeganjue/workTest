@@ -6,19 +6,17 @@
  * by Yoichi Hariguchi <yoichi@fore.com>
  */
 
-//#include <sys/types.h>
-//#include <sys/time.h>
-//#include <time.h>
-//#include <sys/types.h>
-#include <sys/socket.h>
 
+#include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-//#include <errno.h>
 
 #include "arp.h"
+#include "logopt.h"
+#include <errno.h>               /*for errno*/
+
 
 //#define ALIGN2 /* nothing, just to placate applet_tables.h */
 #define ALIGN2 __attribute__((aligned(2)))
@@ -33,15 +31,15 @@ int arp_socket_create()
 {
 	int	s;			/* socket */
 	int optval = 1;
-	//if ((s = socket (PF_PACKET, SOCK_PACKET, htons(ETH_P_ARP))) == -1) {
-	if ((s = socket (PF_PACKET, SOCK_RAW, htons(ETH_P_ARP))) == -1) {
+	//if ((s = socket (PF_PACKET, SOCK_RAW, htons(ETH_P_ARP))) == -1) {
+	if ((s = socket (PF_PACKET, SOCK_PACKET, htons(ETH_P_ARP))) == -1) {
 		//LOG(LOG_ERR, "Could not open raw socket");
-		printf("Could not open raw socket\n");
+		logopt_err("Could not open raw socket\n");
 		return -1;
 	}
 	if (setsockopt(s, SOL_SOCKET, SO_BROADCAST, &optval, sizeof(optval)) == -1) {
 		//LOG(LOG_ERR, "Could not setsocketopt on raw socket");
-		printf("Could not setsocketopt on raw socket\n");
+		logopt_err("Could not setsocketopt on raw socket\n");
 		close(s);
 		return -1;
 	}
@@ -114,7 +112,8 @@ void printf_macaddr(unsigned char *macaddr)
   
     printf("macaddr ::: %02x:%02x:%02x:%02x:%02x:%02x\n", 
         macaddr[0], macaddr[1], macaddr[2], macaddr[3], macaddr[4], macaddr[5]);
-    
+    logopt_info("macaddr ::: %02x:%02x:%02x:%02x:%02x:%02x\n", 
+        macaddr[0], macaddr[1], macaddr[2], macaddr[3], macaddr[4], macaddr[5]);
 }
 
 /*
@@ -130,7 +129,8 @@ int arp_send(u_int32_t yiaddr, u_int32_t ip, unsigned char *mac, char *interface
 	struct sockaddr addr;		/* for interface name */
 	struct arpMsg	arp;
 	unsigned char yimac[6];
-    
+	
+    errno = 0;
 	/* send arp request */
 	memset(&arp, 0, sizeof(arp));
     if (get_mac_by_ip(yimac, yiaddr, interface))
@@ -151,8 +151,15 @@ int arp_send(u_int32_t yiaddr, u_int32_t ip, unsigned char *mac, char *interface
 	
 	memset(&addr, 0, sizeof(addr));
 	strcpy(addr.sa_data, interface);
+	logopt_dbg("the interface is [%s]\n",addr.sa_data);
+
+	logopt_info("the socket id = %d\n",s);
 	if (sendto(s, &arp, sizeof(arp), 0, &addr, sizeof(addr)) < 0)
+	{
 		rv = 0;
+		logopt_dbg("errno =%d reason:\n",errno);
+		perror("sendto");
+	}
 	
 	return rv;
 	

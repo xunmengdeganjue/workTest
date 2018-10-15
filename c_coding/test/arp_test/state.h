@@ -35,7 +35,7 @@ typedef struct p_info{
 	int arp_fd;
 	unsigned int local_ip;
 	unsigned int gwip;
-	unsigned char brmac[MAC_LENGTH];
+	unsigned char ifmac[MAC_LENGTH];
 	struct uloop_fd arp_uloopfd;
 	struct uloop_timeout arp_tmot;
 	int arp_check_interval;

@@ -1,5 +1,5 @@
 TARGET=arp_test
-OBJS+=main.o arp.o tools.o
+OBJS+=main.o arp.o tools.o logopt.o
 CFLAGS+=-g -Wall 
 CFLAGS+=-D_RE_DEBUG
 LDFLAGS+= -I. -lubox
