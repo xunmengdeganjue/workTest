@@ -1,5 +1,5 @@
 TARGET=arp_test
-OBJS+=main.o 
+OBJS+=main.o arp.o tools.o
 CFLAGS+=-g -Wall 
 CFLAGS+=-D_RE_DEBUG
 LDFLAGS+= -I. -lubox
@@ -10,7 +10,7 @@ cc=gcc
 
 
 all:$(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	$(CC) $(CFLAGS) -g -o $(TARGET) $(OBJS) $(LDFLAGS)
 
 #install:
 #    sudo cp reagent /usr/sbin/reagent

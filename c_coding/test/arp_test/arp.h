@@ -1,6 +1,15 @@
 #ifndef __ARP_H__
 #define __ARP_H__
 
+#include <stdlib.h> //for strtoul
+#include <netinet/if_ether.h>
+#include <net/if_arp.h>
+#include <arpa/inet.h>
+
+//#include <netinet/in.h>
+//#include <net/if.h>
+
+#define MAC_BCAST_ADDR		((unsigned char *) "\xff\xff\xff\xff\xff\xff")
 
 struct arpMsg {
 	struct ethhdr ethhdr;	 		/* Ethernet header */
@@ -17,6 +26,7 @@ struct arpMsg {
 };
 
 
-
+int arp_send(u_int32_t yiaddr, u_int32_t ip, unsigned char *mac, char *interface, int s);
+int arp_socket_create();
 
 #endif

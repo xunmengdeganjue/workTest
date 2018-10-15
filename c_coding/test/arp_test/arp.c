@@ -6,22 +6,19 @@
  * by Yoichi Hariguchi <yoichi@fore.com>
  */
 
-#include <sys/types.h>
-#include <sys/time.h>
-#include <time.h>
-#include <sys/types.h>
+//#include <sys/types.h>
+//#include <sys/time.h>
+//#include <time.h>
+//#include <sys/types.h>
 #include <sys/socket.h>
-#include <netinet/if_ether.h>
-#include <net/if_arp.h>
+
 #include <netinet/in.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <errno.h>
+//#include <errno.h>
 
-#include "arpping.h"
-#include "dhcp.h"
-#include "logopt.h"
+#include "arp.h"
 
 //#define ALIGN2 /* nothing, just to placate applet_tables.h */
 #define ALIGN2 __attribute__((aligned(2)))
@@ -35,15 +32,16 @@ const uint8_t MAC_BCAST_ADDR[6] ALIGN2 = {
 int arp_socket_create()
 {
 	int	s;			/* socket */
-	int 	optval = 1;
-	if ((s = socket (PF_PACKET, SOCK_PACKET, htons(ETH_P_ARP))) == -1) {
+	int optval = 1;
+	//if ((s = socket (PF_PACKET, SOCK_PACKET, htons(ETH_P_ARP))) == -1) {
+	if ((s = socket (PF_PACKET, SOCK_RAW, htons(ETH_P_ARP))) == -1) {
 		//LOG(LOG_ERR, "Could not open raw socket");
-		cprintf("Could not open raw socket");
+		printf("Could not open raw socket\n");
 		return -1;
 	}
 	if (setsockopt(s, SOL_SOCKET, SO_BROADCAST, &optval, sizeof(optval)) == -1) {
 		//LOG(LOG_ERR, "Could not setsocketopt on raw socket");
-		cprintf("Could not setsocketopt on raw socket");
+		printf("Could not setsocketopt on raw socket\n");
 		close(s);
 		return -1;
 	}
@@ -114,10 +112,18 @@ int get_mac_by_ip(unsigned char *xmac, unsigned int xip, const char *ifname)
 void printf_macaddr(unsigned char *macaddr)
 {
   
-    logopt_info("macaddr ::: %02x:%02x:%02x:%02x:%02x:%02x\n", 
+    printf("macaddr ::: %02x:%02x:%02x:%02x:%02x:%02x\n", 
         macaddr[0], macaddr[1], macaddr[2], macaddr[3], macaddr[4], macaddr[5]);
     
 }
+
+/*
+yiaddr:the dest ip.
+ip:source IP address.
+mac:source hardware address.
+interface:the package pass through.
+s: the socket fd.
+*/
 int arp_send(u_int32_t yiaddr, u_int32_t ip, unsigned char *mac, char *interface, int s)
 {
 	int	rv = 1;			/* return value */
