@@ -21,5 +21,5 @@
  #include <stdio.h>
  #include <string.h>
  
- 
+void binary_to_ascii(unsigned int value); 
  
