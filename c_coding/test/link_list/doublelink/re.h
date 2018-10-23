@@ -1,6 +1,7 @@
 #ifndef __RE_H_
 #define __RE_H_
 
+#include "dlist.h"
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
@@ -11,8 +12,6 @@ typedef enum
    CMSRET_MALLOC_FAILED        = 7000,  /** malloc memory failed */
    CMSRET_RE_NOT_EXISTED       = 7001,  /** don't find RE */
    CMSRET_INVALID_RE_MAC       = 7002,  /** invalid re mac */
-
-   
    CMSRET_INVALID_PARAMETER    = 9060, 
 }CmsRet;
 
