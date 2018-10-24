@@ -11,6 +11,9 @@ typedef struct re_node{
 
 RE_NODE *renode = NULL;
 
+/*
+*create a linklist with special number node,and set the default value.
+*/
 void re_node_init(){
 
 //init 3 node information
@@ -36,7 +39,7 @@ void re_node_init(){
 			//cutnode = node;
 		}else{
 			printf("renode is NULL\n");
-			renode = node;
+			renode = node;/*at first the renode is NULL,so just make the renode point to the node as the head.*/
 			//cutnode = renode;
 		}
 		cutnode = node;//the current node always point to the last node.
@@ -46,7 +49,9 @@ void re_node_init(){
 
 
 }
-
+/*
+*show all node of the linklist.
+*/
 void re_node_display(){
 
 	RE_NODE *node;
@@ -61,6 +66,9 @@ void re_node_display(){
 
 }
 
+/*
+*free the memery of the linklist,and destroy it.
+*/
 void re_node_destroy(){
 	RE_NODE *node, *m;
 	for(node = renode; node; node = node->next){
@@ -68,9 +76,10 @@ void re_node_destroy(){
 		free(m);
 
 	}
-	//free(renode);
-	//renode = NULL;
+	renode = NULL;
 }
+
+
 int main(int argc,char**argv){
 
 	
