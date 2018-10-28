@@ -1,7 +1,7 @@
 #TOPDIR=$(shell cd ../../../../../; pwd)
 #include $(TOPDIR)/Profile.mak
 
-TARGET=dlinktest
+TARGET=test
 OBJS+=main.o re.o
 CFLAGS+=-g -Wall 
 CFLAGS+=-D_RE_DEBUG -D_GNU_SOURCE
