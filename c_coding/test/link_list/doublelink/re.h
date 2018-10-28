@@ -46,14 +46,14 @@ typedef struct re_node {
 #endif
 
 typedef struct sta_node {
-    DlistNode stalist;
     char mac[20];
     char ip[20];
     char hostname[64];
-    u8 conntype;
-    u8 re_flag;
-    u32 signal;
-    DlistNode nextre;
+    //u8 conntype;
+    //u8 re_flag;
+    //u32 signal;
+    //DlistNode nextre;
+	DlistNode stalist;
 }STA_NODE;
 
 #ifndef STA_NODE_SIZE
@@ -67,6 +67,9 @@ typedef struct sta_node {
 		fclose(fp); \
 	} \
 } while (0)
+
+CmsRet sta_node_add(DlistNode staHeader, const STA_NODE *newsta);
+STA_NODE *lookup_sta_node(DlistNode staHeader, char *stamac);
 
 
 #endif
