@@ -111,6 +111,7 @@ int main(int argc,char **argv)
 	 printf("%d\n", dlist_entry(iterator, struct num, node)->number);
 	}
 #endif
+	sta_node_clear(&sta_header);
 
 	return 0;
 	

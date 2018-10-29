@@ -109,7 +109,6 @@ CmsRet sta_node_replace(STA_NODE *old, STA_NODE *new){
 	dlist_replace(&old->stalist,&new->stalist);
 }
 
-
 void display_sta_table(DlistNode *staHeader){
 	STA_NODE *sta;
 	int i = 0;
@@ -121,6 +120,36 @@ void display_sta_table(DlistNode *staHeader){
 		i++;
 	}
 	
+}
+
+void sta_node_clear(DlistNode *staHeader){
+	STA_NODE *sta;
+	int i = 0;
+#if 0	
+
+
+	dlist_for_each_entry(sta,staHeader,stalist)
+	{
+		if(sta){
+			printf("free the sta[%d]\n",i);
+			dlist_unlink(&sta->stalist);
+			//sta_node_free(sta);
+			i++;
+		}
+	}
+#endif
+
+	struct dlist_node *pos,*next;
+    list_for_each_safe(pos, next,staHeader)
+    {
+    	printf("free the sta[%d]\n",i);
+        sta = dlist_entry(pos, struct sta_node, stalist); 
+        dlist_unlink(pos); 
+        free(sta); 
+    }
+
+	
+	//free(staHeader);
 }
 
 
