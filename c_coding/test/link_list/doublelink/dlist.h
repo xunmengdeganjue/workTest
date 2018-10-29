@@ -53,10 +53,8 @@ static inline int dlist_empty(const struct dlist_node *head)
 static inline void dlist_append(struct dlist_node *new_node, struct dlist_node *existing)
 {
    existing->next->prev = new_node;
-
    new_node->next = existing->next;
    new_node->prev = existing;
-
    existing->next = new_node;
 }
 
@@ -71,10 +69,8 @@ static inline void dlist_append(struct dlist_node *new_node, struct dlist_node *
 static inline void dlist_prepend(struct dlist_node *new_node, struct dlist_node *existing)
 {
    existing->prev->next = new_node;
-
    new_node->next = existing;
    new_node->prev = existing->prev;
-
    existing->prev = new_node;
 }
 
@@ -150,6 +146,14 @@ static inline void dlist_unlink(struct dlist_node *entry)
 	     &pos->member != (head); 					\
 	     pos = dlist_entry(pos->member.next, typeof(*pos), member))
 
+
+//遍历双向链表
+#define list_for_each(pos, head) \
+		for (pos = (head)->next; pos != (head); pos = pos->next)
+
+#define list_for_each_safe(pos, n, head) \
+				for (pos = (head)->next, n = pos->next; pos != (head); \
+					pos = n, n = pos->next)
 
 
 #endif  /*__CMS_DLIST_H__ */

@@ -15,45 +15,28 @@ typedef enum
    CMSRET_INVALID_PARAMETER    = 9060, 
 }CmsRet;
 
-
-typedef enum {
-    BH_ETH_TYPE = 0,
-    BH_24G_TYPE = 1,
-    BH_5G_TYPE = 2
-}BH_TYPE;
-
 typedef enum {
     STA_NORMAL = 0,
     STA_RE = 1
 }STA_TYPE;
 
-typedef enum {
-    STA_CONN_ETH = 0,
-    STA_CONN_24G = 1,
-    STA_CONN_5G = 2
-}STA_CONN_TYPE;
-
-typedef struct re_node {
-    char re_mac[20];
-    char re_ip[16];
-    u8 bh_type;
-    char sw_version[32];
-    char hostname[32];
-}RE_NODE;
+typedef enum HostConnectType_e {
+  HOST_CONN_ETH_WAN = 0,
+  HOST_CONN_ETH_LAN = 1,
+  HOST_CONN_WIFI_24G = 2,
+  HOST_CONN_WIFI_5G = 3
+}HostConnectType;
+  
 
 #ifndef RE_NODE_SIZE
 #define RE_NODE_SIZE sizeof(RE_NODE)
 #endif
 
 typedef struct sta_node {
-    char mac[20];
-    char ip[20];
-    char hostname[64];
-    //u8 conntype;
-    //u8 re_flag;
-    //u32 signal;
-    //DlistNode nextre;
 	DlistNode stalist;
+    char stamac[20];
+	char remac[20];
+	u8 con_type;
 }STA_NODE;
 
 #ifndef STA_NODE_SIZE
@@ -68,8 +51,8 @@ typedef struct sta_node {
 	} \
 } while (0)
 
-CmsRet sta_node_add(DlistNode staHeader, const STA_NODE *newsta);
-STA_NODE *lookup_sta_node(DlistNode staHeader, char *stamac);
+CmsRet sta_node_add(DlistNode* staHeader, const STA_NODE *newsta);
+STA_NODE *lookup_sta_node(DlistNode *staHeader, char *stamac);
 
 
 #endif
