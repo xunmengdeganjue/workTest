@@ -18,7 +18,6 @@ typedef struct dlist_node {
 	struct dlist_node *prev;   /**< previous pointer */
 } DlistNode;
 
-
 /** Initialize a field in a structure that is used as the head of a dlist */
 #define DLIST_HEAD_IN_STRUCT_INIT(field) do {\
       (field).next = &(field);               \
@@ -31,7 +30,6 @@ typedef struct dlist_node {
 /** Declare a standalone variable that is the head of the dlist */
 #define DLIST_HEAD(name) \
 	struct dlist_node name = DLIST_HEAD_INIT(name)
-
 
 /** Return true if the dlist is empty.
  *
@@ -57,7 +55,6 @@ static inline void dlist_append(struct dlist_node *new_node, struct dlist_node *
    new_node->prev = existing;
    existing->next = new_node;
 }
-
 
 /** add a new entry in front of an existing list element
  *
@@ -89,7 +86,6 @@ static inline void dlist_replace(struct dlist_node *old,
 	new->prev = old->prev;
 	new->prev->next = new;
 }
-
 
 /** Unlink the specified entry from the list.
  *  This function does not free the entry.  Caller is responsible for
@@ -131,7 +127,6 @@ static inline void dlist_unlink(struct dlist_node *entry)
 #define dlist_entry(ptr, type, member) \
 	container_of(ptr, type, member)
 
-
 /** Create a for loop over all entries in the dlist.
  *
  * @param pos A variable that is the type of the structure which
@@ -146,7 +141,6 @@ static inline void dlist_unlink(struct dlist_node *entry)
 	     &pos->member != (head); 					\
 	     pos = dlist_entry(pos->member.next, typeof(*pos), member))
 
-
 //遍历双向链表
 #define list_for_each(pos, head) \
 		for (pos = (head)->next; pos != (head); pos = pos->next)
@@ -154,7 +148,6 @@ static inline void dlist_unlink(struct dlist_node *entry)
 #define list_for_each_safe(pos, n, head) \
 				for (pos = (head)->next, n = pos->next; pos != (head); \
 					pos = n, n = pos->next)
-
 
 #endif  /*__CMS_DLIST_H__ */
 
