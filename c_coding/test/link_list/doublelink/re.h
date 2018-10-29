@@ -51,8 +51,17 @@ typedef struct sta_node {
 	} \
 } while (0)
 
-CmsRet sta_node_add(DlistNode* staHeader, const STA_NODE *newsta);
+
+STA_NODE *sta_node_alloc(void);
+void sta_node_free(STA_NODE *sta);	
+CmsRet sta_node_add(DlistNode* staHeader, STA_NODE *newsta);
+CmsRet sta_node_replace(STA_NODE *old, STA_NODE *new);
+CmsRet sta_node_del(DlistNode *staHeader, char *stamac);
+CmsRet re_node_del(DlistNode *staHeader, char *stamac);
 STA_NODE *lookup_sta_node(DlistNode *staHeader, char *stamac);
+STA_NODE *lookup_re_node(DlistNode *staHeader, char *remac);
+void display_sta_table(DlistNode *staHeader);
+void sta_node_clear(DlistNode *staHeader);
 
 
 #endif

@@ -13,11 +13,10 @@ int main(int argc,char **argv)
 #ifndef _RE_DEBUG	
  	STA_NODE *sta1 = NULL;
 	STA_NODE *sta2,*sta3 = NULL;
-	int i = 0;
+	//int i = 0;
 
 	struct dlist_node *sta;
 	
-
 	//DLIST_HEAD(sta_header);
 	
 	printf("prepare the data for station node\n");

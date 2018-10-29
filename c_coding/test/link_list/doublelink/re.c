@@ -1,5 +1,6 @@
 #include <stdio.h>
-
+#include <stdlib.h>
+#include <string.h>
 #include "dlist.h"
 #include "re.h"
 
@@ -8,7 +9,7 @@
 STA_NODE *sta_node_alloc()
 {
     STA_NODE *sta;
-    sta  = malloc(STA_NODE_SIZE);
+    sta  = (STA_NODE *)malloc(STA_NODE_SIZE);
     if (sta == NULL)
         return NULL;
     DLIST_HEAD_IN_STRUCT_INIT(sta->stalist);
@@ -25,7 +26,7 @@ void sta_node_free(STA_NODE *sta)
 STA_NODE *lookup_sta_node(DlistNode *staHeader, char *stamac)
 {
     STA_NODE *sta;
-    int ret;
+    //int ret;
 
     if (stamac == NULL)
         return NULL;
@@ -43,7 +44,7 @@ STA_NODE *lookup_re_node(DlistNode *staHeader, char *remac)
 {
 
     STA_NODE *sta;
-    int ret;
+    //int ret;
 
     if (remac == NULL)
         return NULL;
@@ -57,7 +58,7 @@ STA_NODE *lookup_re_node(DlistNode *staHeader, char *remac)
     return NULL;     
 }
 
-CmsRet sta_node_add(DlistNode *staHeader, const STA_NODE *newsta)
+CmsRet sta_node_add(DlistNode *staHeader, STA_NODE *newsta)
 {
     STA_NODE *sta;
 
@@ -75,7 +76,7 @@ CmsRet sta_node_add(DlistNode *staHeader, const STA_NODE *newsta)
     return CMSRET_SUCCESS;
 }
 
-CmsRet node_del(DlistNode *staHeader, const char *stamac, int node_type)
+CmsRet node_del(DlistNode *staHeader, char *stamac, int node_type)
 {
     CmsRet ret = CMSRET_SUCCESS;
     STA_NODE *sta;
@@ -94,19 +95,24 @@ CmsRet node_del(DlistNode *staHeader, const char *stamac, int node_type)
     return ret;
 }
 
-CmsRet sta_node_del(DlistNode *staHeader, const char *stamac){
+CmsRet sta_node_del(DlistNode *staHeader, char *stamac){
 
 	return node_del(staHeader, stamac, STA_NORMAL);
 
 }
 
-CmsRet re_node_del(DlistNode *staHeader, const char *stamac){
+CmsRet re_node_del(DlistNode *staHeader, char *stamac){
 
 	return node_del(staHeader, stamac, STA_RE);
 
 }
 CmsRet sta_node_replace(STA_NODE *old, STA_NODE *new){
+	CmsRet ret = CMSRET_SUCCESS;
+
 	dlist_replace(&old->stalist,&new->stalist);
+
+	return ret;
+	
 }
 
 void display_sta_table(DlistNode *staHeader){
