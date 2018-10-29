@@ -4,8 +4,8 @@
 TARGET=test
 OBJS+=main.o re.o
 CFLAGS+=-g -Wall 
-CFLAGS+=-D_RE_DEBUG -D_GNU_SOURCE
-LDFLAGS+= -I.
+CFLAGS+=-D_GNU_SOURCE
+#CFLAGS+=-D_RE_DEBUG 
 
 #CFLAGS+=-isystem $(MODEL_APP_DIR)/libstatus/include -isystem $(APPSDIR)/libstatus/include
 #CFLAGS+=-DSAMP_DBUG
