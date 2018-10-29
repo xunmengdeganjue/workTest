@@ -46,14 +46,10 @@ typedef struct re_node {
 #endif
 
 typedef struct sta_node {
-    char mac[20];
-    char ip[20];
-    char hostname[64];
-    //u8 conntype;
-    //u8 re_flag;
-    //u32 signal;
-    //DlistNode nextre;
 	DlistNode stalist;
+    char stamac[20];
+	char remac[20];
+	u8 con_type;
 }STA_NODE;
 
 #ifndef STA_NODE_SIZE
