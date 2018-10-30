@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "re.h"
+#include "statableopt.h"
 #include "dlist.h"
 
 DLIST_HEAD(sta_header);
@@ -21,26 +21,34 @@ int main(int argc,char **argv)
 	
 	printf("prepare the data for station node\n");
 	sta1=sta_node_alloc();
-	//memcpy(sta1->mac,"\0xaa\0xbb\0xcc\0xdd\0xee\0xf1");
-	memcpy(sta1->stamac,"aa:bb:cc:dd:ee:f0",18);
-	memcpy(sta1->remac,"aa:bb:cc:dd:ee:f1",18);
+	memcpy(sta1->stamac,"\xaa\xbb\xcc\xdd\xee\xf1",6);
+	memcpy(sta1->remac,"\xaa\xbb\xcc\xdd\xee\xf2",6);
+	//memcpy(sta1->stamac,"aa:bb:cc:dd:ee:f0",18);
+	//memcpy(sta1->remac,"aa:bb:cc:dd:ee:f1",18);
 	sta1->con_type = HOST_CONN_WIFI_24G;
 	
 	printf("prepare the data for station node 2\n");
 	sta2=sta_node_alloc();
-	memcpy(sta2->stamac,"aa:bb:cc:dd:ee:f2",18);
-	memcpy(sta2->remac,"aa:bb:cc:dd:ee:f3",18);
+	//memcpy(sta2->stamac,"aa:bb:cc:dd:ee:f2",18);
+	//memcpy(sta2->remac,"aa:bb:cc:dd:ee:f3",18);
+	memcpy(sta2->stamac,"\xaa\xbb\xcc\xdd\xee\xf3",6);
+	memcpy(sta2->remac,"\xaa\xbb\xcc\xdd\xee\xf4",6);
 	sta2->con_type = HOST_CONN_WIFI_5G;
+	
 	sta3=sta_node_alloc();
-	memcpy(sta3->stamac,"aa:bb:cc:dd:ee:f2",18);
-	memcpy(sta3->remac,"aa:bb:cc:dd:ee:f3",18);
+	//memcpy(sta3->stamac,"aa:bb:cc:dd:ee:f2",18);
+	//memcpy(sta3->remac,"aa:bb:cc:dd:ee:f3",18);
+	memcpy(sta3->stamac,"\xaa\xbb\xcc\xdd\xee\xf5",6);
+	memcpy(sta3->remac,"\xaa\xbb\xcc\xdd\xee\xf6",6);
 	sta3->con_type = HOST_CONN_WIFI_5G;
+	
 	printf("=============Add the node to the double linklist sta_header==========\n");
 	//dlist_append(&sta1->stalist, &sta_header);
 	sta_node_add(&sta_header, sta1);
 	//dlist_append(&sta2->stalist, &sta_header);
 	sta_node_add(&sta_header, sta2);
 	sta_node_add(&sta_header, sta2);
+	sta_node_add(&sta_header, sta3);
 
 	printf("\033[35mShow the orginal content of the sta table:\033[0m\n");
 	display_sta_table(&sta_header);
@@ -49,19 +57,24 @@ int main(int argc,char **argv)
 	list_for_each(sta, &sta_header) /*Test for the 'list_for_each' Macro*/
 	{
 		STA_NODE *tmp_sta;
-		printf("%s\n", dlist_entry(sta, struct sta_node, stalist)->remac);
+		printf("remac=[%x]\n", dlist_entry(sta, struct sta_node, stalist)->remac);
 		/*check the stamac to get the remac*/
 		tmp_sta = dlist_entry(sta, struct sta_node, stalist);
-		if(strcmp(tmp_sta->stamac,"aa:bb:cc:dd:ee:f2")==0){
-			printf("find the dest station node!\n");
-		}
+		//if(strcmp(tmp_sta->stamac,"aa:bb:cc:dd:ee:f2")==0){
+		//	printf("find the dest station node!\n");
+		//}
 	}
+
+	//return 0;
 	
 	STA_NODE *dest_sta = NULL;
- 	dest_sta = lookup_sta_node(&sta_header,"aa:bb:cc:dd:ee:f2");	/*find the dest station node*/
+	STA_NODE *tmp_sta = sta_node_alloc();
+	memcpy(tmp_sta->stamac,"\xaa\xbb\xcc\xdd\xee\xf5",6);
+ 	dest_sta = lookup_sta_node(&sta_header,tmp_sta->stamac);	/*find the dest station node*/
 	if(dest_sta){
 		printf("find dest_sta:\n");
-		printf("remac=[%s]\n", dest_sta->remac);
+		printf("remac=[%02x:%02x:%02x:%02x:%02x:%02x]\n", 
+		dest_sta->remac[0],dest_sta->remac[1],dest_sta->remac[2],dest_sta->remac[3],dest_sta->remac[4],dest_sta->remac[5]);
 		printf("Connect type is [%d]\n", dest_sta->con_type);
 		
 #if 0

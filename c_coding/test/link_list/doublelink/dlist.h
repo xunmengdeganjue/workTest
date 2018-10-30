@@ -119,10 +119,11 @@ static inline void dlist_unlink(struct dlist_node *entry)
  * @member:	the name of the member within the struct.
  *
  */
+ #ifndef container_of
 #define container_of(ptr, type, member) ({			\
         const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
         (type *)( (char *)__mptr - offsetof(type,member) );})
-
+#endif
 
 #define dlist_entry(ptr, type, member) \
 	container_of(ptr, type, member)
@@ -141,13 +142,15 @@ static inline void dlist_unlink(struct dlist_node *entry)
 	     &pos->member != (head); 					\
 	     pos = dlist_entry(pos->member.next, typeof(*pos), member))
 
-//遍历双向链表
+#ifndef list_for_each
 #define list_for_each(pos, head) \
 		for (pos = (head)->next; pos != (head); pos = pos->next)
+#endif
 
+#ifndef list_for_each_safe
 #define list_for_each_safe(pos, n, head) \
 				for (pos = (head)->next, n = pos->next; pos != (head); \
 					pos = n, n = pos->next)
-
+#endif
 #endif  /*__CMS_DLIST_H__ */
 

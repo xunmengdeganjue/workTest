@@ -27,41 +27,31 @@ typedef enum HostConnectType_e {
   HOST_CONN_WIFI_5G = 3
 }HostConnectType;
   
-
 #ifndef RE_NODE_SIZE
 #define RE_NODE_SIZE sizeof(RE_NODE)
 #endif
 
 typedef struct sta_node {
 	DlistNode stalist;
-    char stamac[20];
-	char remac[20];
+    u8 stamac[6];
+	u8 remac[6];
 	u8 con_type;
+	/*DlistNode nextre; //make it more efficacious*/
 }STA_NODE;
 
 #ifndef STA_NODE_SIZE
 #define STA_NODE_SIZE  sizeof(STA_NODE)
 #endif
 
-#define cprintf(fmt, args...) do { \
-	FILE *fp = fopen("/dev/console", "w"); \
-	if (fp) { \
-		fprintf(fp, fmt, ## args); \
-		fclose(fp); \
-	} \
-} while (0)
-
-
 STA_NODE *sta_node_alloc(void);
-void sta_node_free(STA_NODE *sta);	
+void sta_node_free(STA_NODE *sta);
 CmsRet sta_node_add(DlistNode* staHeader, STA_NODE *newsta);
 CmsRet sta_node_replace(STA_NODE *old, STA_NODE *new);
-CmsRet sta_node_del(DlistNode *staHeader, char *stamac);
-CmsRet re_node_del(DlistNode *staHeader, char *stamac);
-STA_NODE *lookup_sta_node(DlistNode *staHeader, char *stamac);
-STA_NODE *lookup_re_node(DlistNode *staHeader, char *remac);
+CmsRet sta_node_del(DlistNode *staHeader, unsigned char *stamac);
+CmsRet re_node_del(DlistNode *staHeader, unsigned char *stamac);
+STA_NODE *lookup_sta_node(DlistNode *staHeader, unsigned char *stamac);
+STA_NODE *lookup_re_node(DlistNode *staHeader, unsigned char *remac);
 void display_sta_table(DlistNode *staHeader);
 void sta_node_clear(DlistNode *staHeader);
-
 
 #endif
