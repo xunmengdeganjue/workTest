@@ -4,7 +4,7 @@
 #include "dlist.h"
 #include "statableopt.h"
 
-//DLIST_HEAD(sta_header); /*define and initialize a double linked-list named 'sta_header' */
+DLIST_HEAD(sta_header); /*define and initialize a double linked-list named 'sta_header' */
 
 /*
 *    Function Name    : sta_node_alloc
@@ -12,7 +12,7 @@
 *    Param  Input     : void.
 *    Return Code      : the pointer point to a new station node.
 */
-STA_NODE *sta_node_alloc()
+static STA_NODE *sta_node_alloc()
 {
     STA_NODE *sta;
     sta  = (STA_NODE *)malloc(STA_NODE_SIZE);
@@ -22,7 +22,7 @@ STA_NODE *sta_node_alloc()
     return sta;
 }
 
-void sta_node_free(STA_NODE *sta)
+static void sta_node_free(STA_NODE *sta)
 {
     if (sta)
         free(sta);
@@ -36,7 +36,7 @@ void sta_node_free(STA_NODE *sta)
 *    Return     success : return the pointer point to a new station node.
 *				  failed: NULL.
 */
-STA_NODE *lookup_sta_node(DlistNode *staHeader, unsigned char *stamac)
+static STA_NODE *_lookup_sta_node(DlistNode *staHeader, unsigned char *stamac)
 {
     STA_NODE *sta;
     //int ret;
@@ -45,8 +45,8 @@ STA_NODE *lookup_sta_node(DlistNode *staHeader, unsigned char *stamac)
         return NULL;
     dlist_for_each_entry(sta, staHeader, stalist)
     {
-    	printf("trace:function:%s,line:%d\n",__FUNCTION__,__LINE__);
-        if (strncmp(sta->stamac, stamac, strlen(stamac)) == 0)
+    	printf("trace:function:%s,line:%d,stamac[%x]\n",__FUNCTION__,__LINE__,stamac);
+        if (strncmp(sta->stamac, stamac, MAC_SIZE) == 0)
             return sta;
     }
     return NULL;
@@ -60,7 +60,7 @@ STA_NODE *lookup_sta_node(DlistNode *staHeader, unsigned char *stamac)
 *    Return     success : return the pointer point to a new station node.
 *				  failed: NULL.
 */
-STA_NODE *lookup_re_node(DlistNode *staHeader, unsigned char *remac)
+static STA_NODE *_lookup_re_node(DlistNode *staHeader, unsigned char *remac)
 {
 
     STA_NODE *sta;
@@ -70,12 +70,12 @@ STA_NODE *lookup_re_node(DlistNode *staHeader, unsigned char *remac)
     dlist_for_each_entry(sta, staHeader, stalist)
     {
     	printf("trace:function:%s,line:%d\n",__FUNCTION__,__LINE__);
-        if (strncmp(sta->remac, remac, strlen(remac)) == 0)
+        if (strncmp(sta->remac, remac, MAC_SIZE) == 0)
             return sta;
     }
-	printf("exit:function:%s,line:%d\n",__FUNCTION__,__LINE__);
-    return NULL;     
+    return NULL;
 }
+
 /*
 *    Function Name    : sta_node_add
 *    Description      : Add a new station node to the station table.
@@ -84,8 +84,7 @@ STA_NODE *lookup_re_node(DlistNode *staHeader, unsigned char *remac)
 *    Return Code     0: success
 *				  9060: parameter invalid.
 */
-
-CmsRet sta_node_add(DlistNode *staHeader, STA_NODE *newsta)
+static CmsRet _sta_node_add(DlistNode *staHeader, STA_NODE *newsta)
 {
     STA_NODE *sta;
 
@@ -103,18 +102,19 @@ CmsRet sta_node_add(DlistNode *staHeader, STA_NODE *newsta)
     return CMSRET_SUCCESS;
 }
 
-CmsRet node_del(DlistNode *staHeader, unsigned char *stamac, int node_type)
+static CmsRet _node_del(DlistNode *staHeader, unsigned char *stamac, int node_type)
 {
     CmsRet ret = CMSRET_SUCCESS;
     STA_NODE *sta;
 	if(node_type == 0)
-	    sta = lookup_sta_node(staHeader, stamac);
+	    sta = _lookup_sta_node(staHeader, stamac);
 	else
-		sta = lookup_re_node(staHeader, stamac);
+		sta = _lookup_re_node(staHeader, stamac);
 	if(sta){
 		
 		dlist_unlink(&sta->stalist);
 		sta_node_free(sta);
+		_node_del(staHeader,stamac,node_type);
 	
 	}else{
 		ret = CMSRET_RE_NOT_EXISTED ;
@@ -131,9 +131,9 @@ CmsRet node_del(DlistNode *staHeader, unsigned char *stamac, int node_type)
 *				  9060:parameter invalid.
 */
 
-CmsRet sta_node_del(DlistNode *staHeader, unsigned char *stamac){
+static CmsRet _sta_node_del(DlistNode *staHeader, unsigned char *stamac){
 
-	return node_del(staHeader, stamac, STA_NORMAL);
+	return _node_del(staHeader, stamac, STA_NORMAL);
 
 }
 /*
@@ -144,9 +144,9 @@ CmsRet sta_node_del(DlistNode *staHeader, unsigned char *stamac){
 *    Return Code     0:success
 *				  9060:parameter invalid.
 */
-CmsRet re_node_del(DlistNode *staHeader, unsigned char *stamac){
+static CmsRet _re_node_del(DlistNode *staHeader, unsigned char *stamac){
 
-	return node_del(staHeader, stamac, STA_RE);
+	return _node_del(staHeader, stamac, STA_RE);
 
 }
 
@@ -158,7 +158,7 @@ CmsRet re_node_del(DlistNode *staHeader, unsigned char *stamac){
 *    Return Code     0:success
 *				  9060:parameter invalid.
 */
-CmsRet sta_node_replace(STA_NODE *old, STA_NODE *new){
+static CmsRet sta_node_replace(STA_NODE *old, STA_NODE *new){
 
 	CmsRet ret = CMSRET_SUCCESS;
 	if(new)
@@ -176,12 +176,12 @@ CmsRet sta_node_replace(STA_NODE *old, STA_NODE *new){
 *    Return Code      : void
 */
 
-void sta_node_clear(DlistNode *staHeader){
+void sta_node_clear(){
 	STA_NODE *sta;
 	DlistNode *pos,*next;
 	int i = 0;
 	
-    list_for_each_safe(pos, next,staHeader)
+    list_for_each_safe(pos, next,&sta_header)
     {
     	printf("free the sta[%d]\n",i);
         sta = dlist_entry(pos, struct sta_node, stalist); 
@@ -191,20 +191,128 @@ void sta_node_clear(DlistNode *staHeader){
 
 }
 
-void display_sta_table(DlistNode *staHeader){
+void display_sta_table(){
 
 	STA_NODE *sta;
 	int i = 0;
-	dlist_for_each_entry(sta, staHeader, stalist)
+	dlist_for_each_entry(sta, &sta_header, stalist)
 	{
-		printf("table [%d]STAMAC:%02x:%02x:%0x2:%02x:%02x:%02x\n", i, 
+		printf("table [%d]STAMAC:%02x:%02x:%02x:%02x:%02x:%02x\n", i, 
 		sta->stamac[0],sta->stamac[1],sta->stamac[2],sta->stamac[3],sta->stamac[4],sta->stamac[5]);
-		printf("table [%d]REMAC:%02x:%02x:%0x2:%02x:%02x:%02x\n", i, sta->remac[0],sta->remac[1],sta->remac[2],sta->remac[3],sta->remac[4],sta->remac[5]);
+		printf("table [%d]REMAC:%02x:%02x:%02x:%02x:%02x:%02x\n", i, sta->remac[0],sta->remac[1],sta->remac[2],sta->remac[3],sta->remac[4],sta->remac[5]);
 		printf("table [%d]ConType:%d\n", i, sta->con_type);
 		i++;
 	}
 	
 }
+
+/*
+*    Function Name    : lookup_sta_node
+*    Description      : Delete a node from the station table reffer to the 'remac' of the station node.
+*    Param  Input    1: struct dlist_node pointer, point to the head of the station table.
+*					 2: a char pointer, point to the station's remac.
+*    Return Code     0: success
+*				  9060: parameter invalid.
+*/
+#if 0
+CmsRet sta_node_add(char *stamac, char*remac, unsigned char contype)
+{
+	CmsRet ret = 0;
+	STA_NODE *sta = sta_node_alloc();
+	
+	memcpy(sta->stamac, stamac, strlen(stamac));
+	memcpy(sta->remac, remac, strlen(remac));
+	sta->con_type = contype;
+	
+	ret = _sta_node_add(&sta_header, sta);
+	
+	return ret;
+}
+#endif
+
+CmsRet sta_node_add(unsigned char *stamac, unsigned char*remac, unsigned char contype)
+{
+	CmsRet ret = 0;
+ 	STA_NODE *sta;
+	STA_NODE *newsta;
+ 	
+    if (stamac == NULL ||remac == NULL )
+        return CMSRET_INVALID_PARAMETER;
+
+    sta = _lookup_sta_node(&sta_header, stamac);
+    if (sta)
+    {
+        printf("\033[31mThis MAC[%x] had been existed,stamac=[%x]\033[0m\n", newsta->stamac,sta->stamac);
+        return CMSRET_SUCCESS;
+    } 
+
+	newsta = sta_node_alloc();
+	memcpy(newsta->stamac, stamac, MAC_SIZE);
+	memcpy(newsta->remac, remac, MAC_SIZE);
+	newsta->con_type = contype;
+    dlist_append(&newsta->stalist, &sta_header);
+	
+    return CMSRET_SUCCESS;
+
+	
+	return ret;
+}
+
+
+/*
+*    Function Name    : lookup_sta_node
+*    Description      : Delete a node from the station table reffer to the 'remac' of the station node.
+*    Param  Input    1: struct dlist_node pointer, point to the head of the station table.
+*					 2: a char pointer, point to the station's remac.
+*    Return Code     0:success
+*				  9060:parameter invalid.
+*/
+int lookup_sta_node(unsigned char *stamac, unsigned char *remac)
+{
+	STA_NODE *sta;
+
+    if (stamac == NULL || remac == NULL)
+        return 0;
+    dlist_for_each_entry(sta, &sta_header, stalist)
+    {
+        if ( (!strncmp(sta->stamac, stamac, MAC_SIZE) ) && (!strncmp(sta->remac, remac, MAC_SIZE) ))
+            return 1;
+    }
+	
+    return 0;
+
+}
+
+/*
+*    Function Name    : sta_node_del
+*    Description      : Delete a node from the station table reffer to the 'stamac' of the station node.
+*    Param  Input    1: a char pointer, point to the station's stamac.
+*    Return Code     0:success
+*				  9060:parameter invalid.
+*/
+CmsRet sta_node_del(unsigned char *stamac)
+{
+
+	return _sta_node_del(&sta_header, stamac);
+
+}
+
+/*
+*    Function Name    : sta_node_del
+*    Description      : Delete a node from the station table reffer to the 'stamac' of the station node.
+*    Param  Input    1: a char pointer, point to the RangeExtender's stamac.
+*    Return Code     0:success
+*				  9060:parameter invalid.
+*/
+CmsRet re_node_del(unsigned char *remac)
+{
+
+	return _re_node_del(&sta_header, remac);
+
+}
+
+
+
 
 
 

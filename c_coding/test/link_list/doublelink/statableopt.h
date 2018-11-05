@@ -1,5 +1,5 @@
-#ifndef __RE_H_
-#define __RE_H_
+#ifndef __STA_TABLE_OPT_H__
+#define __STA_TABLE_OPT_H__
 
 #include "dlist.h"
 typedef unsigned char u8;
@@ -42,16 +42,24 @@ typedef struct sta_node {
 #ifndef STA_NODE_SIZE
 #define STA_NODE_SIZE  sizeof(STA_NODE)
 #endif
+#define MACSIZE 6
 
+/*
 STA_NODE *sta_node_alloc(void);
 void sta_node_free(STA_NODE *sta);
-CmsRet sta_node_add(DlistNode* staHeader, STA_NODE *newsta);
+CmsRet _sta_node_add(DlistNode* staHeader, STA_NODE *newsta);
 CmsRet sta_node_replace(STA_NODE *old, STA_NODE *new);
-CmsRet sta_node_del(DlistNode *staHeader, unsigned char *stamac);
-CmsRet re_node_del(DlistNode *staHeader, unsigned char *stamac);
-STA_NODE *lookup_sta_node(DlistNode *staHeader, unsigned char *stamac);
-STA_NODE *lookup_re_node(DlistNode *staHeader, unsigned char *remac);
-void display_sta_table(DlistNode *staHeader);
-void sta_node_clear(DlistNode *staHeader);
+CmsRet _sta_node_del(DlistNode *staHeader, unsigned char *stamac);
+CmsRet _re_node_del(DlistNode *staHeader, unsigned char *stamac);
+STA_NODE *_lookup_sta_node(DlistNode *staHeader, unsigned char *stamac);
+STA_NODE *_lookup_re_node(DlistNode *staHeader, unsigned char *remac);
+*/
+
+CmsRet sta_node_add(unsigned char *stamac,unsigned char*remac, unsigned char contype);
+CmsRet sta_node_del(unsigned char *stamac);
+CmsRet re_node_del(unsigned char *remac);
+int lookup_sta_node(unsigned char *stamac, unsigned char *remac);
+void display_sta_table(void);
+void sta_node_clear(void);
 
 #endif

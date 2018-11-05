@@ -5,18 +5,70 @@
 #include "statableopt.h"
 #include "dlist.h"
 
-DLIST_HEAD(sta_header);
+//DLIST_HEAD(sta_header);
 
 int main(int argc,char **argv)
 {
 
-#ifndef _RE_DEBUG	
- 	STA_NODE *sta1 = NULL;
-	STA_NODE *sta2,*sta3 = NULL;
+#ifndef _RE_DEBUG
+ 	//STA_NODE *sta1 = NULL;
+	//STA_NODE *sta2,*sta3 = NULL;
 	//int i = 0;
+	//struct dlist_node *sta;
 
-	struct dlist_node *sta;
+	u8 sta1_remac[6] = {0};
+	u8 sta1_stamac[6] = {0};
+	u8 sta1_contype = 0;
+	printf("add node 1\n");
+	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf0",MACSIZE);
+	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf1",MACSIZE);
+	sta1_contype = 1;
+	sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
+
+	printf("add node 2\n");
+	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
+	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
+	sta1_contype = 1;
+	sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
+	printf("add node 3\n");
+	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
+	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf3",MACSIZE);
+	sta1_contype = 2;
+	sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
+	//sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
 	
+
+	printf("add node 4\n");
+	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
+	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf4",MACSIZE);
+	sta1_contype = 2;
+	sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
+
+	display_sta_table();
+
+	printf("=============Test the station delete operation of the the double linklist=============\n");
+	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf3",MACSIZE);
+	sta_node_del(sta1_stamac);
+	display_sta_table();
+
+	printf("=============Test the RE delete operation of the the double linklist=============\n");
+	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
+	re_node_del(sta1_remac);
+	display_sta_table();
+
+	int ret = 0;
+	
+	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf0",MACSIZE);
+	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf1",MACSIZE);
+
+	ret = lookup_sta_node(sta1_stamac, sta1_remac);
+	if(ret){
+		printf("\033[32mFound the dest station\033[0m\n");
+	}else{
+		printf("\033[31mCan't finde the dest station\033[0m\n");
+	}
+	
+#if 0	
 	//DLIST_HEAD(sta_header);
 	
 	printf("prepare the data for station node\n");
@@ -99,7 +151,8 @@ int main(int argc,char **argv)
 	/*Display all content of the list*/
 	printf("\033[33m=============Show the content of the sta table:=============\033[0m\n");
 	display_sta_table(&sta_header);
-	
+#endif 
+
 #else
 	/*The simplest test of the linx kernel double linklist.*/
 	struct num {
@@ -123,7 +176,7 @@ int main(int argc,char **argv)
 	 printf("%d\n", dlist_entry(iterator, struct num, node)->number);
 	}
 #endif
-	sta_node_clear(&sta_header);
+	//sta_node_clear(&sta_header);
 
 	return 0;
 	
