@@ -5,7 +5,7 @@ OBJS+=main.o statableopt.o
 CFLAGS+=-g -Wall 
 CFLAGS+=-D_GNU_SOURCE
 #CFLAGS+=-D_RE_DEBUG 
-CC=colorgcc
+#CC=colorgcc
 
 all:$(OBJS)
 	$(CC) $(LDFLAGS) $(CFLAGS) -o $(TARGET) $(OBJS) 

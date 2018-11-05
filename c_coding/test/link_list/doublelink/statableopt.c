@@ -45,8 +45,8 @@ static STA_NODE *_lookup_sta_node(DlistNode *staHeader, unsigned char *stamac)
         return NULL;
     dlist_for_each_entry(sta, staHeader, stalist)
     {
-    	printf("trace:function:%s,line:%d,stamac[%x]\n",__FUNCTION__,__LINE__,stamac);
-        if (strncmp(sta->stamac, stamac, MAC_SIZE) == 0)
+    	printf("trace:function:%s,line:%d,stamac[%x]\n",__FUNCTION__,__LINE__,*stamac);
+        if (memcmp(sta->stamac, stamac, MAC_SIZE) == 0)
             return sta;
     }
     return NULL;
@@ -70,7 +70,7 @@ static STA_NODE *_lookup_re_node(DlistNode *staHeader, unsigned char *remac)
     dlist_for_each_entry(sta, staHeader, stalist)
     {
     	printf("trace:function:%s,line:%d\n",__FUNCTION__,__LINE__);
-        if (strncmp(sta->remac, remac, MAC_SIZE) == 0)
+        if (memcmp(sta->remac, remac, MAC_SIZE) == 0)
             return sta;
     }
     return NULL;
@@ -91,10 +91,10 @@ static CmsRet _sta_node_add(DlistNode *staHeader, STA_NODE *newsta)
     if (newsta == NULL)
         return CMSRET_INVALID_PARAMETER;
     printf("\033[32mtrace:function:%s,line:%d\033[0m\n",__FUNCTION__,__LINE__);
-    sta = lookup_sta_node(staHeader, newsta->stamac);
+    sta = _lookup_sta_node(staHeader, newsta->stamac);
     if (sta)
     {
-        printf("\033[31mThis MAC[%x] had been existed,stamac=[%x]\033[0m\n", newsta->stamac,sta->stamac);
+        printf("\033[31mThis MAC[%x] had been existed,stamac=[%x]\033[0m\n", *newsta->stamac,*sta->stamac);
         return CMSRET_SUCCESS;
     }
 
@@ -242,7 +242,8 @@ CmsRet sta_node_add(unsigned char *stamac, unsigned char*remac, unsigned char co
     sta = _lookup_sta_node(&sta_header, stamac);
     if (sta)
     {
-        printf("\033[31mThis MAC[%x] had been existed,stamac=[%x]\033[0m\n", newsta->stamac,sta->stamac);
+        printf("\033[31mThis MAC[%2x:%2x:%2x:%2x:%2x:%2x] had been existed\033[0m\n",
+			stamac[0],stamac[1],stamac[2],stamac[3],stamac[4],stamac[5]);
         return CMSRET_SUCCESS;
     } 
 
@@ -275,7 +276,7 @@ int lookup_sta_node(unsigned char *stamac, unsigned char *remac)
         return 0;
     dlist_for_each_entry(sta, &sta_header, stalist)
     {
-        if ( (!strncmp(sta->stamac, stamac, MAC_SIZE) ) && (!strncmp(sta->remac, remac, MAC_SIZE) ))
+        if ( (!memcmp(sta->stamac, stamac, MAC_SIZE) ) && (!memcmp(sta->remac, remac, MAC_SIZE) ))
             return 1;
     }
 	

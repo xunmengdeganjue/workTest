@@ -20,46 +20,46 @@ int main(int argc,char **argv)
 	u8 sta1_stamac[6] = {0};
 	u8 sta1_contype = 0;
 	printf("add node 1\n");
-	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf0",MACSIZE);
-	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf1",MACSIZE);
+	memcpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf0",MAC_SIZE);
+	memcpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf1",MAC_SIZE);
 	sta1_contype = 1;
 	sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
 
 	printf("add node 2\n");
-	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
-	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
+	memcpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MAC_SIZE);
+	memcpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf2",MAC_SIZE);
 	sta1_contype = 1;
 	sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
 	printf("add node 3\n");
-	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
-	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf3",MACSIZE);
+	memcpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MAC_SIZE);
+	memcpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf3",MAC_SIZE);
 	sta1_contype = 2;
 	sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
 	//sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
 	
 
 	printf("add node 4\n");
-	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
-	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf4",MACSIZE);
+	memcpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MAC_SIZE);
+	memcpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf4",MAC_SIZE);
 	sta1_contype = 2;
 	sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
 
 	display_sta_table();
 
 	printf("=============Test the station delete operation of the the double linklist=============\n");
-	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf3",MACSIZE);
+	memcpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf3",MAC_SIZE);
 	sta_node_del(sta1_stamac);
 	display_sta_table();
 
 	printf("=============Test the RE delete operation of the the double linklist=============\n");
-	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MACSIZE);
+	memcpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf2",MAC_SIZE);
 	re_node_del(sta1_remac);
 	display_sta_table();
 
 	int ret = 0;
 	
-	strncpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf0",MACSIZE);
-	strncpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf1",MACSIZE);
+	memcpy(sta1_remac,"\xaa\xbb\xcc\xdd\xee\xf0",MAC_SIZE);
+	memcpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf1",MAC_SIZE);
 
 	ret = lookup_sta_node(sta1_stamac, sta1_remac);
 	if(ret){

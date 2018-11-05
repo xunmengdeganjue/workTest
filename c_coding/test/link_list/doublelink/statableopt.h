@@ -42,7 +42,7 @@ typedef struct sta_node {
 #ifndef STA_NODE_SIZE
 #define STA_NODE_SIZE  sizeof(STA_NODE)
 #endif
-#define MACSIZE 6
+#define MAC_SIZE 6
 
 /*
 STA_NODE *sta_node_alloc(void);
