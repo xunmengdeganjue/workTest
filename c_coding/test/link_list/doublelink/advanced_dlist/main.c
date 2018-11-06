@@ -45,7 +45,7 @@ int main(int argc,char **argv)
 	sta_node_add(sta1_stamac,sta1_remac,sta1_contype);
 
 	display_sta_table();
-
+#if 0
 	printf("=============Test the station delete operation of the the double linklist=============\n");
 	memcpy(sta1_stamac,"\xaa\xbb\xcc\xdd\xee\xf3",MAC_SIZE);
 	sta_node_del(sta1_stamac);
@@ -67,7 +67,8 @@ int main(int argc,char **argv)
 	}else{
 		printf("\033[31mCan't finde the dest station\033[0m\n");
 	}
-	
+#endif
+
 #if 0	
 	//DLIST_HEAD(sta_header);
 	

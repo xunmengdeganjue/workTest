@@ -3,6 +3,17 @@
 *delete node by mac addr;
 *find the dest node reffer to the mac addr of the sta;
 
+node struct:
+typedef struct sta_node {
+	DlistNode stalist;
+    u8 stamac[6];
+	u8 remac[6];
+	u8 con_type;
+	/*DlistNode nextre; //make it more efficacious*/
+}STA_NODE;
+
+
+
 ##compile:
 	make
 ##run:

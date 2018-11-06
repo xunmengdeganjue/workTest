@@ -32,16 +32,20 @@ typedef enum HostConnectType_e {
 #endif
 
 typedef struct sta_node {
-	DlistNode stalist;
     u8 stamac[6];
-	u8 remac[6];
 	u8 con_type;
-	DlistNode nextre; //make it more efficacious*/
+	DlistNode stalist;
 }STA_NODE;
+
+typedef struct re_node{
+	u8 remac[6];
+	DlistNode relist;
+}RE_NODE;
 
 #ifndef STA_NODE_SIZE
 #define STA_NODE_SIZE  sizeof(STA_NODE)
 #endif
+#define RE_NODE_SIZE sizeof(RE_NODE	)
 #define MAC_SIZE 6
 
 /*
