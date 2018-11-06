@@ -29,6 +29,7 @@ static RE_NODE *re_node_alloc()
     if (re == NULL)
         return NULL;
     DLIST_HEAD_IN_STRUCT_INIT(re->relist);
+	DLIST_HEAD_IN_STRUCT_INIT(re->sta_sublist);
     return re;
 }
 
@@ -283,15 +284,13 @@ void display_sta_table(){
 		if(re){
 			printf("table [%d]REMAC:%02x:%02x:%02x:%02x:%02x:%02x\n", i, 
 				re->remac[0],re->remac[1],re->remac[2],re->remac[3],re->remac[4],re->remac[5]);
-			dlist_for_each_entry(sta,&re->relist,stalist){
+			dlist_for_each_entry(sta,&re->sta_sublist,stalist){
 				if(sta)
 					printf("table [%d]STAMAC:%02x:%02x:%02x:%02x:%02x:%02x\n", i, 
 							sta->stamac[0],sta->stamac[1],sta->stamac[2],sta->stamac[3],sta->stamac[4],sta->stamac[5]);
 
 			}
 			i++;
-			//if(i>=10)
-			//	return;
 		}
 	}
 	
@@ -318,32 +317,28 @@ CmsRet sta_node_add(unsigned char *stamac, unsigned char*remac, unsigned char co
     re= _lookup_re_node(&re_header, remac);
     if (re)
     {
-    	printf("\033[31mThis MAC[%2x:%2x:%2x:%2x:%2x:%2x] had been existed\033[0m\n",
+    	printf("\033[32mThis MAC[%2x:%2x:%2x:%2x:%2x:%2x] had been existed\033[0m\n",
 		remac[0],remac[1],remac[2],remac[3],remac[4],remac[5]);
 		
-		DLIST_HEAD_IN_STRUCT_INIT(re->relist);
+		//DLIST_HEAD_IN_STRUCT_INIT(re->sta_sublist);
 		
 		newsta = sta_node_alloc();
 		memcpy(newsta->stamac, stamac, MAC_SIZE);
-		//memcpy(newsta->remac, remac, MAC_SIZE);
 		newsta->con_type = contype;
-	    // dlist_append(&newsta->stalist, &sta_header);
-	    dlist_append(&newsta->stalist, &re->relist);	
+	    dlist_append(&newsta->stalist, &re->sta_sublist);	
         return CMSRET_SUCCESS;
     }else{
+		printf("\033[31mThis MAC[%2x:%2x:%2x:%2x:%2x:%2x] doesn't exist\033[0m\n",
+			remac[0],remac[1],remac[2],remac[3],remac[4],remac[5]);
 		RE_NODE *newre;
 		newre = re_node_alloc();
-
-
-		
-		//memcpy(newsta->stamac, stamac, MAC_SIZE);
 		memcpy(newre->remac, remac, MAC_SIZE);
 	    dlist_append(&newre->relist, &re_header);
 
 		newsta = sta_node_alloc();
 		memcpy(newsta->stamac, stamac, MAC_SIZE);
-		dlist_append(&newsta->stalist, &newre->relist);
-		//DLIST_HEAD_IN_STRUCT_INIT(newre->relist);
+		//DLIST_HEAD_IN_STRUCT_INIT(newre->sta_sublist);
+		dlist_append(&newsta->stalist, &newre->sta_sublist);
 	
     }
 	

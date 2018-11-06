@@ -32,12 +32,13 @@ typedef enum HostConnectType_e {
 #endif
 
 typedef struct sta_node {
+	DlistNode stalist;
     u8 stamac[6];
 	u8 con_type;
-	DlistNode stalist;
 }STA_NODE;
 
 typedef struct re_node{
+	DlistNode sta_sublist;
 	u8 remac[6];
 	DlistNode relist;
 }RE_NODE;
