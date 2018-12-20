@@ -19,6 +19,10 @@
 		sudo ./receiver &
 	执行信息发送（sender）
 		./sender
+		
+	结束测试；
+	sudo killall receiver
+	sudo rmmod netlink_kernel.ko
 预期结果：
 	内核监测信息：
 		[ 9785.290802] insmod the kernel module netlink_kernel_module.ko !

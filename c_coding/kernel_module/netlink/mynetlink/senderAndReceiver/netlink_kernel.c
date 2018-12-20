@@ -73,13 +73,13 @@ void send_to_user(struct sk_buff *__skb)
 
 	
 	
-	/*¿ª±ÙÒ»¸öĞÂµÄÌ×½Ó×Ö»º´æ*/
+	/*å¼€è¾Ÿä¸€ä¸ªæ–°çš„å¥—æ¥å­—ç¼“å­˜*/
 	skb = nlmsg_new(NLMSG_ALIGN(msg_size + 1), GFP_KERNEL);	
 	//skb = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
 	if(!skb){
 		printk("Allocation failure!\n");
 	}
-	/*ÌîĞ´Êı¾İ±¨Ïà¹ØĞÅÏ¢*/
+	/*å¡«å†™æ•°æ®æŠ¥ç›¸å…³ä¿¡æ¯*/
 	nlh = nlmsg_put(skb, 0, 1, NLMSG_DONE, msg_size + 1, 0);/*must*/
 	
 	strcpy(NLMSG_DATA(nlh), message);
@@ -93,7 +93,7 @@ void send_to_user(struct sk_buff *__skb)
 	if(ret < 0){
 		printk("message send error! [%d]\n",ret);
 	}else{
-		printk("Send successfully! The data is:\033[32m[%s]\033[0m\n", NLMSG_DATA(nlh));
+		printk("Send successfully! The data is:[%s]\n", NLMSG_DATA(nlh));
 		
 	}
 }
