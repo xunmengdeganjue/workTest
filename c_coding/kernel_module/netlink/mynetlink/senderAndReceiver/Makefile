@@ -1,4 +1,5 @@
 obj-m := netlink_kernel.o
+obj-m += netlink_kernel_caller.o
 KERNELBUILD :=/lib/modules/$(shell uname -r)/build
 default:  
 	make -C $(KERNELBUILD) M=$(shell pwd) modules  
