@@ -119,7 +119,7 @@ static CmsRet _node_del(DlistNode *staHeader, unsigned char *stamac, int node_ty
     CmsRet ret = CMSRET_SUCCESS;
     STA_NODE *sta;
 	RE_NODE *re;
-	if(node_type == 0){
+	if(node_type == STA_NORMAL){
 	    sta = _lookup_sta_node(staHeader, stamac);
 		if(sta){
 		

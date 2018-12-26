@@ -1,6 +1,5 @@
 usage:
 
-
 #include "logopt.h"
 
 main{
