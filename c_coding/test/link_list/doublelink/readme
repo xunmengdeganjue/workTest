@@ -1,0 +1,45 @@
+
+##compile:
+	make
+##run:
+	./test
+##result:
+prepare the data for station node
+prepare the data for station node 2
+=============Add the node to the double linklist sta_header==========
+trace:function:sta_node_add,line:67
+trace:function:sta_node_add,line:67
+trace:function:lookup_sta_node,line:35
+trace:function:sta_node_add,line:67
+trace:function:lookup_sta_node,line:35
+This MAC[aa:bb:cc:dd:ee:f2] had been existed,remac=[aa:bb:cc:dd:ee:f3]
+Show the orginal content of the sta table:
+table [0]STAMAC:aa:bb:cc:dd:ee:f2
+table [0]REMAC:aa:bb:cc:dd:ee:f3
+table [0]ConType:3
+table [1]STAMAC:aa:bb:cc:dd:ee:f0
+table [1]REMAC:aa:bb:cc:dd:ee:f1
+table [1]ConType:2
+=============Test for the 'list_for_each' Macro=================
+aa:bb:cc:dd:ee:f3
+find the dest station node!
+aa:bb:cc:dd:ee:f1
+trace:function:lookup_sta_node,line:35
+find dest_sta:
+remac=[aa:bb:cc:dd:ee:f3]
+Connect type is [3]
+=============Test the node replace operation of the double linklist !=============
+Replace the old node stamac[aa:bb:cc:dd:ee:f2] by new node stamac[aa:bb:cc:dd:ee:ff]
+=============Show the content of the sta table:=============
+table [0]STAMAC:aa:bb:cc:dd:ee:ff
+table [0]REMAC:A0:b0:c0:d0:e0:f0
+table [0]ConType:0
+table [1]STAMAC:aa:bb:cc:dd:ee:f0
+table [1]REMAC:aa:bb:cc:dd:ee:f1
+table [1]ConType:2
+free the sta[0]
+free the sta[0]
+
+2018-10-29
+
+	

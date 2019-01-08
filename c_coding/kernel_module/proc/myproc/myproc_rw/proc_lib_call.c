@@ -14,9 +14,9 @@ int my_module_init( void )
 {
   printk(KERN_INFO "Nick(skysoft):my_module_init called.  Module is now loaded.\n");
   char buffer[512] = {0};
-	sprintf(buffer,"aaaaaaaaaaaaaaaaaasddddddddddddddddddffdfdf\n\
-	                  dfdf              dfdfdf            dfdfdfdf\n\
-					  123               123                4444\n");
+	sprintf(buffer,"my proc test procedure line 1\n\
+	                     my proc test procedure line 2\n\
+				 my proc test procedure line 3 my proc test procedure line 3\n");
   if(!send_data_to_user(buffer,sizeof(buffer))){
 	  printk(KERN_INFO "Nick :call the send_data_to_user successfully!\n");
   }else{

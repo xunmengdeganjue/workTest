@@ -6,7 +6,6 @@ space-via-netlink-in-c
 	http://www.linuxjournal.com/node/7356/print
 	
 */
-
 #include <linux/kernel.h>  /**/
 #include <linux/module.h>
 #include <linux/types.h>
@@ -19,8 +18,6 @@ space-via-netlink-in-c
 //#include <net/netlink.h>
 
 //#include <net/net_namespace.h>
-
-
 
 #ifndef NETLINK_EXAMPLE
 #define NETLINK_EXAMPLE 17
@@ -73,7 +70,6 @@ void send_to_user(void)
 
 #else
 	/*开辟一个新的套接字缓存*/
-	//skb = alloc_skb(NLMSG_SPACE(MAX_PAYLOAD),GFP_KERNEL);
 	skb = nlmsg_new(NLMSG_ALIGN(msg_size + 1), GFP_KERNEL);	
 	//skb = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
 	if(!skb){
@@ -122,8 +118,6 @@ static int __init testnetlink_init(void)
 
 	nl_sk = netlink_kernel_create(&init_net, NETLINK_EXAMPLE, &cfg);
 
-	
-	//printk("released the nl_sk!\n");
 	
 	return 0;
 }

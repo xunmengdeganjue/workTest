@@ -22,7 +22,7 @@ int open_netlink(void){
 	struct sockaddr_nl src_addr;
 	int group = MYMGRP;
 	
-	sock_fd=socket(PF_NETLINK, SOCK_RAW, NETLINK_EXAMPLE);
+	sock_fd=socket(AF_NETLINK, SOCK_RAW, NETLINK_EXAMPLE);/*看起来AF_NETLINK和PF_NETLINK都能正常工作*/
 	if(sock_fd < 0){
 		printf("socket created failed!\n");
 		return sock_fd;

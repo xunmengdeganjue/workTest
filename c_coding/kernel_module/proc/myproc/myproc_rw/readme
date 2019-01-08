@@ -1,53 +1,46 @@
-本文件夹内包三个子目录,这几个目录中各个模块独立或者相互作用演示了以下功能：
-（1）内核与用户空间使用proc文件系统通信；
-（2）内核中不同模块间接口的调用；
-（3）内核与用户空间程序间使用信号通信；
-
-具体内容如下：
+本文件夹内含有以下源文件：
 .
-├── module_test         #内核模块：用以测试接口调用功能
-│   ├── Makefile
-│   └── proc_call_test.c
-├── my_csa_hunter	#用户空间程序
-│   ├── hunter.c
-│   ├── hunter.h
-│   ├── Makefile
-│   └── pid_write_test.c
-└── my_lib-csa		#内核模块：提供proc文件读写接口及向用户空间发送数据的接口
-    ├── Makefile
-    └── mylibcsa.c
+├── hunter.c        		#用户空间守护进程——获取内核写入用户空间的数据
+├── hunter.h			#
+├── Makefile			#编译规则：可以编译出内核模块以及用户空间程序
+├── proc_kernel_lib.c		#内核模块——实现了向用户空间写数据的接口
+├── proc_lib_call.c		#内核模块——用以调用proc_kernel_lib内核模块中的接口向用户空间写数据
+└── readme				#本文件
 
-功能：
-	加载了mylibcsa模块后，运行用户空间程序csa_hunter，当再加载模块proc_call_test时会调用
-mylibcsa模块内的接口向用户空间写数据，并同时向csa_hunter发送信号提示csa_hunter执行数据的存储
-操作，最终数据会存于/tmp/csacca.log文件中。
+编译出的模块、程序：
+	proc_kernel_lib.ko	#内核模块：实现向用户空间写数据的接口
+	proc_lib_call.ko	#内核模块：用来模拟内核中对向用户空间写数据的接口的调用，以向用户空间发送数据
+	message_hunter		#应用程序：在用户空间捕获内核信息，并将数据进行存储。
 	
 
 操作步骤：
-	(1)编译并加载mylibcsa模块
-		$cd my_lib-csa
-		$make
-		$sudo insmod mylibcsa.ko
+	(1)编译内核模块以及用户空间程序
+		$make 
+		
+	(2)监视内核信息
+		$while true;do sudo dmesg -c ;sleep 1;done
+	
+	(3)加载写数据函数——内核模块
+		$sudo insmod proc_kernel_lib.ko
 
-	(2)编译并运行用户空间程序
-		$cd my_csa_hunter
-		$make
-		$sudo ./csa_hunter
-
-	(3)编译并加载测试模块
-		$cd module_test
-		$make
-		$sudo insmod proc_call_test.ko
-
-	(4)查看结果
-		查看模块加载记录
-		$dmesg
-		查看pid信息
-		$cat /proc/csahunter
+	(4)运行用户空间守护进程
+		$sudo ./message_hunter
+		此进程运行后在/proc目录下创建一份属于该进程的PID文件/proc/message_hunter
+		查看该PID文件：
+		$cat /proc/message_hunter 
+		
+	(5)加载、卸载内核模块——调用写数据接口向用户空间写数据
+		$sudo insmod proc_lib_call.ko
+		$sudo rmmod proc_lib_call.ko
+		此内核模块是用来模仿内核程序调用第（3）步加载的内核接口的，通过加载和卸载此模块来模仿
+	内核事件。
+	
+	(6)查看结果
 		查看内核发送到用户空间的数据
-		$cat /proc/mycsainfo
+		$cat /proc/myproc_message
+		
 		查看由用户程序存储下来的来自内核的数据
-		$cat /tmp/csacca.log
+		$cat /tmp/proc_test.log
 
 
 

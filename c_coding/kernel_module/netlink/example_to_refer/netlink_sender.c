@@ -78,8 +78,8 @@ int send_infomation( int sock_fd){
 	dest_addr.nl_pid = 0;				/*0表示目标针对内核*/
 	
 	//printf("test %d time; %s\n",i,(msg->sub_event == LOOP_UNICAST) ? "UNICAST" : "BROADCAST");  
-	iov.iov_base = (void *)nlh; //这边管理netlink头，也是关联msg，在70行，netlink和msg的关系就确定了。  
-	iov.iov_len = nlh->nlmsg_len;  
+	iov.iov_base = (void *)nlh; //实际载荷首地址，这边管理netlink头，也是关联msg，在70行，netlink和msg的关系就确定了。  
+	iov.iov_len = nlh->nlmsg_len;  //消息实际载荷长度
 	message.msg_name = (void *)&dest_addr;  
 	message.msg_namelen = sizeof(dest_addr);  
 	message.msg_iov = &iov;  
