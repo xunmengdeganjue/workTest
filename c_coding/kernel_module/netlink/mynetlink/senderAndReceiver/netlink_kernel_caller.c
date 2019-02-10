@@ -39,8 +39,8 @@ extern void send_data_to_user(char *msg,int len);
 static int __init  testnetlink_init(void)
 {
 
-	printk(KERN_INFO "insmod the kernel module netlink_kernel_module.ko !\n");
 	char buffer[128] = {0};
+	printk(KERN_INFO "insmod the kernel module netlink_kernel_module.ko !\n");
 	snprintf(buffer,sizeof(buffer),"%s","I'm call the sender to send data to user space!");
 	//nl_sk = netlink_kernel_create(&init_net, NETLINK_EXAMPLE, &cfg);
 	send_data_to_user(buffer,strlen(buffer));
