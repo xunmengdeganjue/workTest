@@ -51,6 +51,20 @@ do {\
 	(b) = __temp;	\
 }while(0)
 
+void print_num(int count, ...){
+	int *args ;
+	args = &count + 1;
+
+	for(int i = 0;i <count ;i++){
+		printf("*args =  %d\n",*args);
+		args++;
+	
+	}
+
+
+}
+
+
 int main(int argc, char ** argv){
 	
 	test();
@@ -59,6 +73,13 @@ int main(int argc, char ** argv){
 	printf("%d %d\n",a,b);
 	SWAP(a,b);
 	printf("swap result :%d %d\n",a,b);
+
+	printf("test the parametric unknown function\n");
+	print_num(5,1,2,3,4,5);
+	
+	
+
+
 	return 0;
 
 }
