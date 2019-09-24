@@ -37,7 +37,7 @@ void parse_message(struct sk_buff *__skb){
 
 	struct sk_buff *skb;
 	struct nlmsghdr *nlh = NULL;
-	char string[128] = {0};
+	//char string[128] = {0};
 	
 	while((skb = skb_get(__skb)) != NULL) {/*skb_get对套接字缓冲区再引用一次，返回指向缓冲区的指针*/
 	   	nlh = (struct nlmsghdr *)skb->data;
@@ -92,7 +92,7 @@ int nl_msg_send(char *message, int send_type){
 	if(ret < 0){
 		printk("message send error! [%d]\n",ret);
 	}else{
-		printk("Send successfully! The data is:[%s]\n", NLMSG_DATA(nlh));
+		printk("Send successfully! The data is:[%s]\n", (char *)NLMSG_DATA(nlh));
 	}
 	return ret;
 

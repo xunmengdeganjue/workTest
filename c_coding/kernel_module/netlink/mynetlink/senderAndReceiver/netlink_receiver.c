@@ -83,7 +83,7 @@ int read_infomation( int sock_fd){
 	if(ret <0 ){	
 		 printf("ret < 0.\n");
 	}else{
-		printf("Received message payload:\033[31m[ %s ]\033[0m\n", NLMSG_DATA((struct nlmsghdr *) &buffer));
+		printf("Received message payload:\033[31m[ %s ]\033[0m\n", (char *)NLMSG_DATA((struct nlmsghdr *) &buffer));
 	}
 	
 }

@@ -1,0 +1,19 @@
+#!/bin/sh /etc/rc.common
+
+
+start(){
+ echo "start" >/dev/console
+
+}
+
+stop(){
+echo "stop" >/dev/console
+
+
+}
+restart(){
+	stop
+	start
+
+}
+
