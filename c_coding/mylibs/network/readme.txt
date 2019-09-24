@@ -1,5 +1,26 @@
 
 --------------------------------
+2019-09-24:add the maskConvert.c
+Description:
+    Convert the NetMask between the normal string format and the CIDR value. 
+
+Compile:
+    gcc -o maskConvert maskConvert.c
+    
+
+Usage:
+./maskConvert
+    Please enter the NetMask:
+    255.255.255.128
+    the netmask = 255.255.255.128
+    netmask = 255.255.255.128
+    cidr of the mask=25
+    Please enter a cidr number:
+    25
+    the mask = [-2130706433]
+    the mask [.] = [255.255.255.128]
+
+--------------------------------
 2019-09-23:add the ipcheck.c
 
 Description：
