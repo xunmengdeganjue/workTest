@@ -19,7 +19,91 @@
  */ 
  
 #include "string_opt_lib.h"
- 
+
+/*
+*    Function Name    : get_profile_str
+*    Create Date      : 2019.08.20
+*    Author           : Nick Li
+*    Description      : get the parameter from the profile
+		profile content:
+		-----------------------------------------------------------
+			Manufacturer=AAAAAA
+			CustomerHWVersion=xxxxxx
+			......
+			option125Code=01020304
+			FirmwareBuildDate=2019-08-20 09:29:54 +0800 e83f8a8
+		-----------------------------------------------------------
+*    Param  Input     1 :string---the key word that need to search.
+					  2 :string---the container that for the result.
+					  3 :interger---the size of the container.
+					  4 :string---the path of the file.
+*    Return Code      : int---0:succeed,-1:failed.
+*    revised History  :
+*/
+int get_profile_str(char *keyname,char *str_return, int size,char *path)
+{
+	FILE *fp;
+	char *str_key= NULL;//,*str_enter= NULL;
+	//int buffersize=100;
+	char stream[MAXGET_PROFILE_SIZE]={0};
+	int totalLength=0;
+	char *p = NULL;
+	int ret = 0;
+	
+	fp=fopen(path,"r");
+	if(fp==NULL){
+		fprintf(stderr,"Can't open %s\n",path);
+		return -1;
+	}
+
+	memset(str_return, 0, size);
+	fseek(fp, 0, SEEK_SET);
+
+	while(fgets(stream, MAXGET_PROFILE_SIZE, fp) != NULL)
+	{
+		str_key = strstr(stream,keyname);
+		if(str_key == NULL || str_key != stream)
+		{
+			continue;
+		}	
+
+		p = strtok(stream,"\r");
+		while(p)
+		{
+			p = strtok(NULL,"\r");
+		}
+
+		p = strtok(stream,"\n");
+		while(p)
+		{
+			p = strtok(NULL,"\n");
+		}
+
+		totalLength=strlen(stream)-strlen(keyname);
+		if(size<totalLength+1){/*total length + '\0' should not less than buffer*/
+			fprintf(stderr, "Too small buffer to catch the %s frome get_profile_str_new\n", keyname);
+			fclose(fp);
+			return -1;
+		}
+		else if(totalLength<0) {/*can't get a negative length string*/
+			fprintf(stderr, "No profile string can get\n");
+			fclose(fp);
+			return -1;
+		}
+		else{
+			strncpy(str_return, stream+strlen(keyname), totalLength);
+			str_return[totalLength]= '\0';
+			fclose(fp);
+			return strlen(str_return);
+		}
+		memset(stream, 0, MAXGET_PROFILE_SIZE);
+	}
+	fclose(fp);
+	fprintf(stderr,"File %s content %s is worng\n",path,keyname);
+	return -1;
+}
+
+
 /*
 *    Function Name    : delstrfromstrs
 *    Create Date      : 2015.07.16
