@@ -11,7 +11,6 @@ bool do_cmd_and_get_result( char *cmd, char *out, size_t out_sz )
     }
 
     fcmd = popen( cmd, "r" );
-
     if ( NULL == fcmd )
     {
         goto error;
@@ -24,7 +23,6 @@ bool do_cmd_and_get_result( char *cmd, char *out, size_t out_sz )
 
     /* Trim new lines */
     size_t sz = strlen( out );
-
     do
     {
         if ( NULL == strchr( "\r\n", out[sz] ) )
@@ -33,12 +31,10 @@ bool do_cmd_and_get_result( char *cmd, char *out, size_t out_sz )
         }
 
         out[sz--] = '\0';
-    }
-    while ( sz > 0 );
+    }while ( sz > 0 );
 
     retval = true;
 error:
-
     if ( NULL != fcmd )
     {
         pclose( fcmd );

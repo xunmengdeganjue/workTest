@@ -1,5 +1,4 @@
 TARGET=test
-
 OBJ+=main.o toolkit.o
 
 .PHONY: all
