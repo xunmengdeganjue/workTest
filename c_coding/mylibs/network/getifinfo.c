@@ -23,14 +23,14 @@ int main(){
 	char got_ip[128] = {0};
 	char *interface = "eth0";
 	int ret = 0;
-	struct sockaddr_in sin;
+	
 	int sock = -1;
 	
-	sock = socket(AF_INET, SOCK_STREAM, 0);
+	
 
-	ret = get_if_addr(sock,interface,&sin);
+	ret = get_if_addr(got_ip,interface);
 	if(!ret){
-		sprintf(got_ip,"%s",inet_ntoa(sin.sin_addr));
+		
 		printf("The ip of the %s is %s\n",interface,got_ip);
 		
 	}
@@ -46,35 +46,33 @@ int main(){
 	@retval 0 success 
 	@retval -1 failed
 */
-int get_if_addr(int sock,char *name,struct sockaddr_in *sin)
+int get_if_addr(char *ipaddr, char *name)
 {
+  int sock = -1;
   struct ifreq ifr;
- 
+  struct sockaddr_in sin;
+  //char got_ip[128] = {0};
+
+  sock = socket(AF_INET, SOCK_STREAM, 0);
+  
   memset(&ifr, 0, sizeof(ifr));
   strcpy(ifr.ifr_name, name);
   
-  if(ioctl(sock, SIOCGIFADDR, &ifr) < 0) 
-  { 
-	memset(sin, 0, sizeof(struct sockaddr_in));
-    return -1;
-  }
   if(ioctl(sock, SIOCGIFADDR, &ifr) < 0)
   { 
-    memset(sin, 0, sizeof(struct sockaddr_in));
+    memset(&sin, 0, sizeof(struct sockaddr_in));
     return -1;
   }
 
   if(ifr.ifr_addr.sa_family == AF_INET)
   {
-	memcpy(sin, &(ifr.ifr_addr), sizeof(struct sockaddr_in));
-   	if ( (strcmp(name, "ppp0") == 0) && (strcmp(inet_ntoa(sin->sin_addr),"10.64.64.64") == 0) ){
-		return -1;
-	}
+	memcpy(&sin, &(ifr.ifr_addr), sizeof(struct sockaddr_in));
+	sprintf(ipaddr,"%s",inet_ntoa(sin.sin_addr));
     return 0;
   }
   else
   {
-    memset(sin, 0, sizeof(struct sockaddr_in));
+    memset(&sin, 0, sizeof(struct sockaddr_in));
     return -1;
   }
   
