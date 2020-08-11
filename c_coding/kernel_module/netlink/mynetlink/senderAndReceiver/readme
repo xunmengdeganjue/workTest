@@ -1,24 +1,32 @@
 相关文件：
-.
-├── Makefile
-├── netlink_kernel.c
-├── netlink_receiver.c
-├── netlink_sender.c
-└── readme
+./
+├── clean.sh				#清除测试用的内核模块及程序
+├── Makefile				#完整程序编译规则
+├── netlink_kernel.c		#内核模块实现利用netlink通用户空间通信
+├── netlink_kernel_caller.c	#内核模块以测试内核向用户空间发送数据的接口
+├── netlink_receiver.c		#用户空间中监听内和空间信息的进程
+├── netlink_sender.c		#用户空间向内和空间发送数据的进程
+└── readme					#本文
 
 编译：
 	make
+	make clean
 测试：
-	监测内核信息：
+	1.监测内核信息：
 		while true;do sudo dmesg -c ;sleep 1;done
 	最好是启用新的窗口来专门查看系统信息。
 
-	加载模块：
+	2.加载模块：
 		sudo insmod netlink_kernel.ko
-	启动监听程序（receiver）
+	3.启动监听程序（receiver）
 		sudo ./receiver &
+	4.加载	
 	执行信息发送（sender）
 		./sender
+		
+	结束测试；
+	sudo killall receiver
+	sudo rmmod netlink_kernel.ko
 预期结果：
 	内核监测信息：
 		[ 9785.290802] insmod the kernel module netlink_kernel_module.ko !
@@ -55,7 +63,11 @@
 Nick
 2017-08-10
 
-
-
+更新历史：
+####2018-12-20
+	（1）内核代码中添加了解析用户空间发送来的数据的操作;
+	（2）增加了内核空间中供其他模块调用的接口sent_to_user(char *msg, int len);
+	（3）增加了内核空间模块netlink_kernel_caller.c以测试sent_to_user()接口;
+	
 	
 
