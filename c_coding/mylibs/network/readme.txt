@@ -1,5 +1,15 @@
 
 --------------------------------
+2020-08-12:add the getip6addr.c
+Description:
+Compile:
+    gcc -o getip6addr getip6addr.c
+Usage:
+./getip6addr eth0
+    ip6_list_count=1
+    [eth0][0][fe80::5054:ff:fe03:ded5]
+
+--------------------------------
 2019-09-24:add the maskConvert.c
 Description:
     Convert the NetMask between the normal string format and the CIDR value. 
