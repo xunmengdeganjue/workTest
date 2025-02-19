@@ -27,8 +27,14 @@ void help(void)
 
     printf("Usage: tyShow <name> [args...]\n");
     printf("support name:\n");
+    printf("__TY_DEFINE_CMD_ST_start=[%p]\n",&__TY_DEFINE_CMD_ST_start);
+    printf("__TY_DEFINE_CMD_ST_end=[%p]\n",&__TY_DEFINE_CMD_ST_end);
+    printf("sizeof struct print_struct_t = %d\n", sizeof(print_struct_t));
+    printf("sizeof int = %d\n", sizeof(int));
+    printf("sizeof char * = %d\n", sizeof(char *));//“chart *”指针是存的地址，对于32位系统而言就是8字节
     for(p = &__TY_DEFINE_CMD_ST_start; p < &__TY_DEFINE_CMD_ST_end; p++)
     {
+        printf("p_address[%p]\n", p);
         printf("%s ", p->name);
         if(p->help && strlen(p->help) > 0)
         {

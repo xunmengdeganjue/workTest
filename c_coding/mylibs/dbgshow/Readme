@@ -1,4 +1,35 @@
 编译方法:
 	make
 使用方法：
-	./dbgshow xxxx
+
+$ ./dbgshow 
+Usage: tyShow <name> [args...]
+support name:
+IGD_WLAN_ASSOCIATE_SSID_CONF_TAB 
+IGD_WLAN_EASYMESH_ATTR_CFG_TAB 
+
+编译说明：
+    -T选项用以指定自己的链接脚本, 它将代替默认的连接脚本。
+    每一个链接过程都由链接脚本(linker script, 一般以lds作为文件的后缀名)控制. 链接脚本主要用于规定如何把输入文件内的section放入输出文件内, 并控制输出文件内各部分在程序地址空间内的布局.
+    连接器有个默认的内置连接脚本, 可用ld –verbose查看. 
+
+基本概念：
+    链接器把一个或多个输入文件合成一个输出文件.
+    输入文件: 目标文件或链接脚本文件.
+    输出文件: 目标文件或可执行文件.
+
+链接脚本文件说明：
+#------------------------------------------------------------------------------#
+/*tysrv.lds*/
+  
+SECTIONS {
+    . = ALIGN(4);
+    __TY_DEFINE_CMD_ST_start = .;
+    .ty_print_struct : {*(.ty_define_cmd_struct)}
+    __TY_DEFINE_CMD_ST_end = .;
+}
+
+INSERT AFTER .data
+
+#------------------------------------------------------------------------------#
+

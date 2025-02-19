@@ -3,7 +3,7 @@
 //#pragma once
 #include <stdio.h>
 
-#define __TY_DEFINE_CMD_ST   __attribute((section(".ty_define_cmd_struct"),used,aligned(4)))
+#define __TY_DEFINE_CMD_ST __attribute((section(".my_cmd_struct"),unused,aligned(4)))
 
 typedef struct {
     char *name;
@@ -31,8 +31,5 @@ enum cm_tab_id {
 
 	IGD_TAB_ID_MAX,
 };
-
-//void print_IGD_WLAN_ASSOCIATE_SSID_CONF_TAB(int argc, char **argv);
-//void print_IGD_WLAN_EASYMESH_ATTR_CFG_TAB(int argc, char **argv);
 
 #endif
