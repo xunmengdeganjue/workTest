@@ -1,0 +1,4 @@
+编译方法:
+	make
+使用方法：
+	./dbgshow xxxx
