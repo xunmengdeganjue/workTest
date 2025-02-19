@@ -18,10 +18,11 @@ IGD_WLAN_EASYMESH_ATTR_CFG_TAB
     输入文件: 目标文件或链接脚本文件.
     输出文件: 目标文件或可执行文件.
 
-链接脚本文件说明：
+
+链接脚本文件dbgshow.lds说明：
 #------------------------------------------------------------------------------#
-/*tysrv.lds*/
-  
+/*dbgshow.lds*/
+
 SECTIONS {
     . = ALIGN(4);
     __TY_DEFINE_CMD_ST_start = .;

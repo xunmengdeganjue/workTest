@@ -1,4 +1,4 @@
-/*tysrv.lds*/
+/*dbgshow.lds*/
   
 SECTIONS {
     . = ALIGN(4);
